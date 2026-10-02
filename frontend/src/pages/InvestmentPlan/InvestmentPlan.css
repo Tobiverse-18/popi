@@ -1,0 +1,530 @@
+.baloz-plan-page {
+  min-height: 100vh;
+  background: #080d13;
+  color: #f4f7fb;
+}
+
+.baloz-plan-header {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #18212c;
+}
+
+.baloz-plan-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #f4f7fb;
+  text-decoration: none;
+
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.baloz-plan-brand-mark {
+  width: 30px;
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #344150;
+  border-radius: 8px;
+
+  background: #101720;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.baloz-plan-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #8d99a8;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.baloz-plan-back:hover {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+.baloz-plan-content {
+  width: min(1080px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 64px 0 40px;
+}
+
+.baloz-plan-hero {
+  margin-bottom: 42px;
+}
+
+.baloz-plan-overline {
+  display: block;
+
+  margin-bottom: 13px;
+
+  color: #778494;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.baloz-plan-hero h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.baloz-plan-hero p {
+  max-width: 680px;
+
+  margin: 18px 0 0;
+
+  color: #8e9aa8;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.baloz-plan-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(360px, 430px);
+
+  gap: 18px;
+
+  align-items: start;
+}
+
+.baloz-plan-information,
+.baloz-plan-calculator {
+  border: 1px solid #1d2834;
+  background:
+    linear-gradient(
+      145deg,
+      #0e151d 0%,
+      #0b1118 100%
+    );
+}
+
+.baloz-plan-information {
+  padding: 26px;
+}
+
+.baloz-plan-info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #1b2631;
+
+  color: #667484;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.baloz-plan-info-header svg {
+  color: #9ba7b4;
+}
+
+.baloz-plan-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 19px 0;
+
+  border-bottom: 1px solid #18232e;
+}
+
+.baloz-plan-info-row span {
+  color: #74808e;
+
+  font-size: 13px;
+}
+
+.baloz-plan-info-row strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #dce3ea;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-align: right;
+}
+
+.baloz-plan-security {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  margin-top: 22px;
+  padding: 15px;
+
+  border: 1px solid #202d39;
+
+  background: #0c141c;
+}
+
+.baloz-plan-security svg {
+  flex-shrink: 0;
+
+  margin-top: 2px;
+
+  color: #8e9ba9;
+}
+
+.baloz-plan-security p {
+  margin: 0;
+
+  color: #758291;
+
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.baloz-plan-calculator {
+  padding: 26px;
+}
+
+.baloz-plan-calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+
+  color: #667484;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.baloz-plan-calculator-header span:last-child {
+  color: #8c98a6;
+}
+
+.baloz-plan-input-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #b5bec8;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.baloz-plan-input-wrap {
+  display: flex;
+  align-items: center;
+
+  height: 56px;
+
+  border: 1px solid #2a3744;
+
+  background: #080e14;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.baloz-plan-input-wrap:focus-within {
+  border-color: #556371;
+  background: #0a1118;
+}
+
+.baloz-plan-input-wrap > span {
+  padding-left: 17px;
+
+  color: #6f7c8a;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.baloz-plan-input-wrap input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 15px 0 9px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: #f4f7fb;
+
+  font: inherit;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.baloz-plan-input-wrap input::placeholder {
+  color: #465260;
+}
+
+.baloz-plan-input-wrap input::-webkit-outer-spin-button,
+.baloz-plan-input-wrap input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.baloz-plan-input-wrap input[type="number"] {
+  appearance: textfield;
+}
+
+.baloz-plan-input-error {
+  margin: 9px 0 0;
+
+  color: #d9aeb2;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.baloz-plan-results {
+  margin-top: 22px;
+
+  border-top: 1px solid #1b2631;
+}
+
+.baloz-plan-results > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 15px 0;
+
+  border-bottom: 1px solid #18232e;
+}
+
+.baloz-plan-results span {
+  color: #74808e;
+
+  font-size: 12px;
+}
+
+.baloz-plan-results strong {
+  color: #e1e7ed;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  text-align: right;
+}
+
+.baloz-plan-continue {
+  width: 100%;
+  min-height: 50px;
+
+  margin-top: 23px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid #4a5867;
+
+  background: #e8edf2;
+  color: #0a0f14;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.baloz-plan-continue:hover:not(:disabled) {
+  background: #ffffff;
+  border-color: #ffffff;
+
+  transform: translateY(-1px);
+}
+
+.baloz-plan-continue:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.baloz-plan-disclaimer {
+  margin: 14px 0 0;
+
+  color: #5f6c7a;
+
+  font-size: 10px;
+  line-height: 1.6;
+
+  text-align: center;
+}
+
+.baloz-plan-state {
+  min-height: 360px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #1b2631;
+
+  background: #0b1219;
+
+  text-align: center;
+}
+
+.baloz-plan-state strong {
+  color: #dce2e8;
+
+  font-size: 15px;
+}
+
+.baloz-plan-state-link {
+  margin-top: 18px;
+
+  color: #cbd3db;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.baloz-plan-state-link:hover {
+  color: #ffffff;
+}
+
+.baloz-plan-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  margin-top: 90px;
+  padding-top: 24px;
+
+  border-top: 1px solid #18212c;
+
+  color: #596675;
+
+  font-size: 11px;
+}
+
+.baloz-plan-footer span:first-child {
+  color: #9aa5b2;
+  font-weight: 700;
+}
+
+@media (max-width: 850px) {
+  .baloz-plan-header,
+  .baloz-plan-content {
+    width: min(100% - 32px, 1080px);
+  }
+
+  .baloz-plan-content {
+    padding-top: 46px;
+  }
+
+  .baloz-plan-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-plan-calculator {
+    order: -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .baloz-plan-header {
+    min-height: 68px;
+  }
+
+  .baloz-plan-content {
+    padding-top: 36px;
+  }
+
+  .baloz-plan-hero h1 {
+    font-size: 36px;
+  }
+
+  .baloz-plan-information,
+  .baloz-plan-calculator {
+    padding: 20px;
+  }
+
+  .baloz-plan-info-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .baloz-plan-info-row strong {
+    text-align: left;
+  }
+
+  .baloz-plan-footer {
+    justify-content: flex-start;
+    gap: 9px 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .baloz-plan-header,
+  .baloz-plan-content {
+    width: min(100% - 24px, 1080px);
+  }
+
+  .baloz-plan-hero h1 {
+    font-size: 32px;
+  }
+
+  .baloz-plan-information,
+  .baloz-plan-calculator {
+    padding: 18px;
+  }
+}

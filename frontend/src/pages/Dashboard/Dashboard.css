@@ -1,0 +1,1591 @@
+/* =========================================================
+   BALOZ DASHBOARD
+   Professional financial / exchange interface
+========================================================= */
+
+:root {
+  --baloz-bg: #090b0e;
+  --baloz-surface: #0d1014;
+  --baloz-surface-2: #11151a;
+  --baloz-border: #1d2229;
+  --baloz-text: #f4f6f8;
+  --baloz-text-soft: #a8afb8;
+  --baloz-text-muted: #68717c;
+  --baloz-green: #19c37d;
+  --baloz-red: #ef5b6b;
+  --baloz-sidebar-width: 226px;
+  --baloz-topbar-height: 68px;
+  --baloz-transition: 160ms ease;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.baloz-dashboard,
+.baloz-dashboard * {
+  box-sizing: border-box;
+}
+
+.baloz-dashboard {
+  min-height: 100vh;
+  background: var(--baloz-bg);
+  color: var(--baloz-text);
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.baloz-dashboard button,
+.baloz-dashboard input {
+  font: inherit;
+}
+
+.baloz-dashboard button {
+  border: 0;
+}
+
+.baloz-dashboard a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.baloz-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--baloz-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  background: #080a0d;
+  border-right: 1px solid var(--baloz-border);
+  z-index: 100;
+}
+
+.baloz-sidebar-brand {
+  height: var(--baloz-topbar-height);
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  border-bottom: 1px solid var(--baloz-border);
+}
+
+.baloz-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.baloz-brand-mark {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  background: var(--baloz-text);
+  color: #080a0d;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 7px;
+}
+
+.baloz-brand-name {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.baloz-mobile-close {
+  display: none;
+}
+
+.baloz-sidebar-section {
+  padding: 27px 12px 0;
+}
+
+.baloz-sidebar-title {
+  display: block;
+  margin: 0 10px 10px;
+  color: var(--baloz-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.baloz-sidebar-link {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 11px;
+  color: #8d96a0;
+  font-size: 13px;
+  font-weight: 500;
+  border-left: 2px solid transparent;
+  transition:
+    background var(--baloz-transition),
+    color var(--baloz-transition),
+    border-color var(--baloz-transition);
+}
+
+.baloz-sidebar-link:hover {
+  color: var(--baloz-text);
+  background: #0d1014;
+}
+
+.baloz-sidebar-link-active {
+  color: var(--baloz-text);
+  background: #11151a;
+  border-left-color: var(--baloz-text);
+}
+
+.baloz-sidebar-bottom {
+  margin-top: auto;
+  padding: 18px 18px 20px;
+  border-top: 1px solid var(--baloz-border);
+}
+
+.baloz-sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.baloz-status-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  background: var(--baloz-green);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px rgba(25, 195, 125, 0.08);
+}
+
+.baloz-sidebar-status div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.baloz-sidebar-status strong {
+  color: #dfe3e7;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.baloz-sidebar-status span {
+  color: var(--baloz-text-muted);
+  font-size: 10px;
+}
+
+.baloz-sidebar-version {
+  display: block;
+  margin-top: 17px;
+  color: #414952;
+  font-size: 9px;
+}
+
+.baloz-sidebar-logout {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 15px;
+  margin-top: 6px;
+  background: transparent;
+  color: #8d949c;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.baloz-sidebar-logout:hover {
+  color: #ffffff;
+  background: #11151a;
+}
+
+.baloz-sidebar-logout svg {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.baloz-dashboard-main {
+  min-height: 100vh;
+  margin-left: var(--baloz-sidebar-width);
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.baloz-topbar {
+  height: var(--baloz-topbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  background: rgba(9, 11, 14, 0.96);
+  border-bottom: 1px solid var(--baloz-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.baloz-topbar-left,
+.baloz-topbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.baloz-top-navigation {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
+
+.baloz-top-link {
+  position: relative;
+  color: var(--baloz-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color var(--baloz-transition);
+}
+
+.baloz-top-link:hover {
+  color: var(--baloz-text);
+}
+
+.baloz-top-link-active {
+  color: var(--baloz-text);
+}
+
+.baloz-top-link-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -25px;
+  height: 2px;
+  background: var(--baloz-text);
+}
+
+.baloz-topbar-right {
+  gap: 18px;
+}
+
+.baloz-search {
+  width: 190px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  color: var(--baloz-text-muted);
+  background: #0d1014;
+  border: 1px solid #1a2027;
+}
+
+.baloz-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--baloz-text);
+  font-size: 12px;
+}
+
+.baloz-search input::placeholder {
+  color: #555e68;
+}
+
+.baloz-search span {
+  min-width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  color: #656d77;
+  font-size: 11px;
+  border: 1px solid #252b32;
+}
+
+.baloz-top-icon,
+.baloz-top-profile {
+  background: transparent;
+  color: var(--baloz-text-soft);
+  cursor: pointer;
+}
+
+.baloz-top-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.baloz-top-icon:hover {
+  color: var(--baloz-text);
+}
+
+.baloz-top-icon i {
+  position: absolute;
+  top: 5px;
+  right: 4px;
+  width: 5px;
+  height: 5px;
+  background: var(--baloz-green);
+  border-radius: 50%;
+}
+
+.baloz-top-profile {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.baloz-top-profile > span {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  color: #d8dce1;
+  background: #1a2027;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.baloz-mobile-menu {
+  display: none;
+  background: transparent;
+  color: var(--baloz-text);
+  cursor: pointer;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.baloz-content {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  padding: 42px 40px 35px;
+}
+
+/* =========================================================
+   SMALL LABELS
+========================================================= */
+
+.baloz-overline {
+  display: block;
+  color: var(--baloz-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+/* =========================================================
+   WELCOME HEADER
+========================================================= */
+
+.baloz-portfolio-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 37px;
+  border-bottom: 1px solid var(--baloz-border);
+}
+
+.baloz-portfolio-heading {
+  min-width: 0;
+}
+
+.baloz-welcome-heading {
+  margin: 8px 0 0;
+  color: #ffffff;
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.baloz-balance-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.baloz-balance-row h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(37px, 4vw, 52px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.baloz-balance-eye {
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  background: transparent;
+  color: #68717c;
+  cursor: pointer;
+  transition: color var(--baloz-transition);
+}
+
+.baloz-balance-eye:hover {
+  color: var(--baloz-text);
+}
+
+.baloz-balance-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  color: var(--baloz-text-muted);
+  font-size: 11px;
+}
+
+.baloz-neutral-change {
+  color: var(--baloz-text-muted);
+}
+
+.baloz-portfolio-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.baloz-primary-action,
+.baloz-secondary-action {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--baloz-transition),
+    color var(--baloz-transition),
+    border-color var(--baloz-transition);
+}
+
+.baloz-primary-action {
+  background: #f1f3f5;
+  color: #090b0e !important;
+  border: 1px solid #f1f3f5;
+  text-decoration: none !important;
+}
+
+.baloz-primary-action:hover {
+  background: #dfe3e5;
+  border-color: #dfe3e5;
+  color: #090b0e !important;
+}
+
+.baloz-primary-action:visited,
+.baloz-primary-action:active {
+  color: #090b0e !important;
+}
+
+.baloz-primary-action:active {
+  transform: translateY(1px);
+}
+
+.baloz-primary-action svg {
+  color: #090b0e;
+  flex-shrink: 0;
+}
+
+.baloz-secondary-action {
+  background: #101419;
+  color: #c6cbd1;
+  border: 1px solid #20262d;
+}
+
+.baloz-secondary-action:hover {
+  background: #151a20;
+  color: #ffffff;
+  border-color: #2b323a;
+}
+
+/* =========================================================
+   WALLET REFRESH
+========================================================= */
+
+.baloz-wallet-refresh-button {
+  width: 31px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #8e969f;
+  background: transparent;
+  border: 1px solid #292f36;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.baloz-wallet-refresh-button:hover {
+  color: #ffffff;
+  border-color: #46505a;
+  background: #11151a;
+}
+
+.baloz-wallet-refresh-button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+
+.baloz-wallet-refreshing svg {
+  animation: baloz-wallet-refresh-spin 0.8s linear infinite;
+}
+
+@keyframes baloz-wallet-refresh-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   MARKET TICKER
+========================================================= */
+
+.baloz-market-ticker {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  border-bottom: 1px solid var(--baloz-border);
+  overflow: hidden;
+}
+
+.baloz-ticker-label {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8e97a1;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.baloz-live-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--baloz-green);
+  border-radius: 50%;
+}
+
+.baloz-ticker-items {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  overflow: hidden;
+}
+
+.baloz-ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.baloz-ticker-symbol {
+  color: #cdd2d8;
+  font-weight: 700;
+}
+
+.baloz-ticker-price {
+  color: #8f98a2;
+}
+
+.baloz-ticker-positive,
+.baloz-change-positive {
+  color: var(--baloz-green);
+  font-size: 11px;
+}
+
+.baloz-ticker-negative,
+.baloz-change-negative {
+  color: var(--baloz-red);
+  font-size: 11px;
+}
+
+.baloz-ticker-loading {
+  color: var(--baloz-text-muted);
+  font-size: 11px;
+}
+
+/* =========================================================
+   PRIMARY GRID
+========================================================= */
+
+.baloz-primary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  margin-top: 34px;
+  border: 1px solid var(--baloz-border);
+}
+
+.baloz-dashboard-investments,
+.baloz-summary-panel {
+  min-width: 0;
+}
+
+.baloz-dashboard-investments {
+  border-right: 1px solid var(--baloz-border);
+}
+
+.baloz-panel-header {
+  min-height: 77px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 21px;
+  border-bottom: 1px solid var(--baloz-border);
+}
+
+.baloz-panel-header h2,
+.baloz-section-header h2 {
+  margin: 5px 0 0;
+  color: #e9edf0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.baloz-section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #7d8791;
+  font-size: 11px;
+  font-weight: 500;
+  transition: color var(--baloz-transition);
+}
+
+.baloz-section-link:hover {
+  color: #e5e9ed;
+}
+
+/* =========================================================
+   ACTIVE INVESTMENTS
+========================================================= */
+
+.baloz-dashboard-investment-list {
+  width: 100%;
+}
+
+.baloz-dashboard-investment-row {
+  min-height: 86px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1.5fr) minmax(110px, 0.8fr) minmax(100px, 0.8fr) 20px;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 21px;
+  border-bottom: 1px solid #151a20;
+  transition:
+    background var(--baloz-transition),
+    border-color var(--baloz-transition);
+}
+
+.baloz-dashboard-investment-row:last-child {
+  border-bottom: 0;
+}
+
+.baloz-dashboard-investment-row:hover {
+  background: #0d1014;
+}
+
+.baloz-dashboard-investment-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: #cdd2d8;
+  background: #151a20;
+  border: 1px solid #222830;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.baloz-dashboard-investment-name {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.baloz-dashboard-investment-name strong {
+  overflow: hidden;
+  color: #dfe3e7;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-dashboard-investment-name span {
+  overflow: hidden;
+  color: #5e6771;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-dashboard-investment-amount,
+.baloz-dashboard-investment-profit,
+.baloz-dashboard-investment-maturity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.baloz-dashboard-investment-amount span,
+.baloz-dashboard-investment-profit span,
+.baloz-dashboard-investment-maturity span {
+  color: #525b65;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.baloz-dashboard-investment-amount strong {
+  color: #cfd4d9;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.baloz-dashboard-investment-profit strong {
+  color: var(--baloz-green);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.baloz-dashboard-investment-maturity strong {
+  color: #aab1b8;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.baloz-dashboard-investment-arrow {
+  display: grid;
+  place-items: center;
+  color: #4f5862;
+  transition:
+    color var(--baloz-transition),
+    transform var(--baloz-transition);
+}
+
+.baloz-dashboard-investment-row:hover .baloz-dashboard-investment-arrow {
+  color: #d8dde2;
+  transform: translateX(2px);
+}
+
+/* =========================================================
+   INVESTMENT STATES
+========================================================= */
+
+.baloz-dashboard-investment-state {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 22px;
+  text-align: center;
+}
+
+.baloz-dashboard-investment-state strong {
+  color: #858e98;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.baloz-dashboard-investment-state p {
+  max-width: 280px;
+  margin: 7px 0 0;
+  color: #505964;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.baloz-dashboard-investment-empty {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 22px;
+  text-align: center;
+}
+
+.baloz-dashboard-investment-empty strong {
+  color: #858e98;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.baloz-dashboard-investment-empty p {
+  max-width: 270px;
+  margin: 7px 0 17px;
+  color: #505964;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.baloz-dashboard-investment-button {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0px 13px;
+  margin-top: 10px;
+  
+
+  background: #f1f3f5;
+  color: #090b0e !important;
+
+  border: 1px solid #f1f3f5;
+
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background var(--baloz-transition),
+    border-color var(--baloz-transition),
+    color var(--baloz-transition);
+}
+
+.baloz-dashboard-investment-button:hover {
+  background: #e5e7eb;
+  border-color: #e5e7eb;
+  color: #090b0e !important;
+}
+
+.baloz-dashboard-investment-button:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+/* =========================================================
+   ACCOUNT SUMMARY
+========================================================= */
+
+.baloz-summary-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.baloz-more-button {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  background: transparent;
+  color: #626b75;
+  cursor: pointer;
+}
+
+.baloz-more-button:hover {
+  color: #dce1e5;
+}
+
+.baloz-summary-list {
+  padding: 9px 21px;
+}
+
+.baloz-summary-row {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  color: #68717c;
+  font-size: 11px;
+}
+
+.baloz-summary-row strong {
+  color: #cdd2d7;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.baloz-summary-row .baloz-summary-profit,
+.baloz-summary-profit {
+  color: var(--baloz-green);
+}
+
+.baloz-neutral-value {
+  color: #68717c !important;
+}
+
+.baloz-summary-divider {
+  height: 1px;
+  margin: 5px 0;
+  background: var(--baloz-border);
+}
+
+.baloz-summary-footer {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding: 0 21px;
+  color: #707984;
+  font-size: 11px;
+  border-top: 1px solid var(--baloz-border);
+  cursor: pointer;
+}
+
+.baloz-summary-footer span {
+  flex: 1;
+}
+
+.baloz-summary-footer:hover {
+  color: #cdd2d8;
+}
+
+/* =========================================================
+   MARKETS SECTION
+========================================================= */
+
+.baloz-markets-section {
+  margin-top: 38px;
+}
+
+.baloz-section-header {
+  min-height: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.baloz-market-tabs {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  height: 40px;
+  border-bottom: 1px solid var(--baloz-border);
+}
+
+.baloz-market-tabs button {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: transparent;
+  color: #606974;
+  font-size: 11px;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.baloz-market-tabs button:hover {
+  color: #c9ced4;
+}
+
+.baloz-market-tabs .baloz-market-tab-active {
+  color: #e8ebee;
+  border-bottom-color: #e8ebee;
+}
+
+/* =========================================================
+   MARKET TABLE
+========================================================= */
+
+.baloz-market-table {
+  width: 100%;
+}
+
+.baloz-market-table-head,
+.baloz-market-row {
+  display: grid;
+  grid-template-columns:
+    minmax(220px, 2fr)
+    minmax(110px, 1fr)
+    minmax(110px, 1fr)
+    minmax(110px, 1fr)
+    minmax(110px, 1fr)
+    70px;
+  align-items: center;
+}
+
+.baloz-market-table-head {
+  min-height: 40px;
+  padding: 0 12px;
+  color: #505963;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.baloz-market-row {
+  min-height: 66px;
+  padding: 0 12px;
+  border-top: 1px solid #151a20;
+  transition: background var(--baloz-transition);
+}
+
+.baloz-market-row:hover {
+  background: #0d1014;
+}
+
+.baloz-asset-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.baloz-star-button {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  background: transparent;
+  color: #3d454e;
+  cursor: pointer;
+  transition: color var(--baloz-transition);
+}
+
+.baloz-star-button:hover {
+  color: #b9c0c7;
+}
+
+.baloz-asset-icon {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: #151a20;
+  color: #cbd0d5;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.baloz-asset-cell > div:last-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.baloz-asset-cell strong {
+  color: #dce1e5;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.baloz-asset-cell small {
+  color: #5e6771;
+  font-size: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-price,
+.baloz-market-muted,
+.baloz-change-neutral {
+  color: #7d8791;
+  font-size: 11px;
+}
+
+.baloz-change-neutral {
+  color: #68717c;
+}
+
+.baloz-market-muted {
+  color: #4e5761;
+}
+
+.baloz-trade-button {
+  justify-self: end;
+  height: 28px;
+  padding: 0 10px;
+  background: transparent;
+  color: #929aa3;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid #242b32;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity var(--baloz-transition),
+    color var(--baloz-transition),
+    border-color var(--baloz-transition);
+}
+
+.baloz-market-row:hover .baloz-trade-button {
+  opacity: 1;
+}
+
+.baloz-trade-button:hover {
+  color: #ffffff;
+  border-color: #4a535d;
+}
+
+.baloz-no-watchlist {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #59626c;
+  font-size: 11px;
+}
+
+.baloz-market-state {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--baloz-text-muted);
+  font-size: 11px;
+}
+
+.baloz-market-state button {
+  height: 29px;
+  padding: 0 11px;
+  background: transparent;
+  color: #c7ccd2;
+  font-size: 10px;
+  font-weight: 600;
+  border: 1px solid #272e36;
+  cursor: pointer;
+}
+
+.baloz-market-state button:hover {
+  color: #ffffff;
+  border-color: #46505a;
+}
+
+/* =========================================================
+   SPARKLINE
+========================================================= */
+
+.baloz-sparkline {
+  width: 90px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.baloz-sparkline svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.baloz-sparkline-empty {
+  width: 90px;
+  color: var(--baloz-text-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* =========================================================
+   LOWER GRID
+========================================================= */
+
+.baloz-lower-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 38px;
+  border-top: 1px solid var(--baloz-border);
+}
+
+.baloz-lower-panel {
+  min-height: 255px;
+  padding-right: 28px;
+}
+
+.baloz-lower-panel + .baloz-lower-panel {
+  padding-right: 0;
+  padding-left: 28px;
+  border-left: 1px solid var(--baloz-border);
+}
+
+.baloz-holdings-empty {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.baloz-empty-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+  color: #555e68;
+  background: #101419;
+  border: 1px solid #1d232a;
+}
+
+.baloz-holdings-empty strong {
+  color: #858e98;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.baloz-holdings-empty > span {
+  max-width: 260px;
+  margin-top: 6px;
+  color: #4f5862;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.baloz-dashboard-footer {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  color: #3f4750;
+  font-size: 9px;
+  border-top: 1px solid var(--baloz-border);
+}
+
+/* =========================================================
+   MOBILE OVERLAY
+========================================================= */
+
+.baloz-mobile-overlay {
+  display: none;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .baloz-content {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .baloz-primary-grid {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+
+  .baloz-dashboard-investment-row {
+    grid-template-columns:
+      36px
+      minmax(0, 1.4fr)
+      minmax(95px, 0.8fr)
+      minmax(90px, 0.8fr)
+      18px;
+    gap: 12px;
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .baloz-market-table-head,
+  .baloz-market-row {
+    grid-template-columns:
+      minmax(190px, 2fr)
+      minmax(95px, 1fr)
+      minmax(100px, 1fr)
+      minmax(95px, 1fr)
+      minmax(95px, 1fr)
+      60px;
+  }
+
+  .baloz-search {
+    width: 155px;
+  }
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+@media (max-width: 850px) {
+  .baloz-sidebar {
+    transform: translateX(-100%);
+    transition: transform 220ms ease;
+  }
+
+  .baloz-sidebar-open {
+    transform: translateX(0);
+  }
+
+  .baloz-mobile-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    z-index: 90;
+  }
+
+  .baloz-mobile-close {
+    display: block;
+    margin-left: auto;
+    background: transparent;
+    color: #7d8791;
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  .baloz-dashboard-main {
+    margin-left: 0;
+  }
+
+  .baloz-mobile-menu {
+    display: grid;
+    place-items: center;
+    margin-right: 17px;
+  }
+
+  .baloz-top-navigation {
+    display: none;
+  }
+
+  .baloz-topbar {
+    padding: 0 20px;
+  }
+
+  .baloz-search {
+    display: none;
+  }
+
+  .baloz-content {
+    padding: 30px 20px;
+  }
+
+  .baloz-portfolio-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .baloz-portfolio-actions {
+    width: 100%;
+  }
+
+  .baloz-primary-action,
+  .baloz-secondary-action {
+    flex: 1;
+  }
+
+  .baloz-primary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-dashboard-investments {
+    border-right: 0;
+    border-bottom: 1px solid var(--baloz-border);
+  }
+
+  .baloz-summary-panel {
+    min-height: 240px;
+  }
+
+  .baloz-dashboard-investment-row {
+    grid-template-columns:
+      38px
+      minmax(0, 1fr)
+      minmax(95px, auto)
+      18px;
+  }
+
+  .baloz-dashboard-investment-maturity {
+    display: none;
+  }
+
+  .baloz-market-table {
+    overflow-x: auto;
+  }
+
+  .baloz-market-table-head,
+  .baloz-market-row {
+    min-width: 780px;
+  }
+
+  .baloz-lower-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-lower-panel {
+    padding-right: 0;
+  }
+
+  .baloz-lower-panel + .baloz-lower-panel {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--baloz-border);
+  }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 520px) {
+  .baloz-topbar {
+    height: 60px;
+  }
+
+  .baloz-content {
+    padding: 25px 14px 25px;
+  }
+
+  .baloz-portfolio-header {
+    padding-bottom: 28px;
+  }
+
+  .baloz-welcome-heading {
+    font-size: 34px;
+  }
+
+  .baloz-balance-row {
+    margin-top: 16px;
+  }
+
+  .baloz-balance-row h1 {
+    font-size: 38px;
+  }
+
+  .baloz-portfolio-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .baloz-primary-action {
+    grid-column: 1 / -1;
+  }
+
+  .baloz-market-ticker {
+    gap: 17px;
+  }
+
+  .baloz-ticker-items {
+    gap: 22px;
+  }
+
+  .baloz-ticker-item:nth-child(n + 3) {
+    display: none;
+  }
+
+  .baloz-panel-header {
+    min-height: 70px;
+    padding: 16px;
+  }
+
+  .baloz-dashboard-investment-row {
+    min-height: 78px;
+    grid-template-columns:
+      34px
+      minmax(0, 1fr)
+      18px;
+    gap: 11px;
+    padding: 13px 16px;
+  }
+
+  .baloz-dashboard-investment-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .baloz-dashboard-investment-amount {
+    display: none;
+  }
+
+  .baloz-dashboard-investment-name strong {
+    font-size: 11px;
+  }
+
+  .baloz-dashboard-investment-name span {
+    font-size: 9px;
+  }
+
+  .baloz-dashboard-investment-profit {
+    display: none;
+  }
+
+  .baloz-dashboard-investment-state,
+  .baloz-dashboard-investment-empty {
+    min-height: 190px;
+    padding: 25px 18px;
+  }
+
+  .baloz-summary-list {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .baloz-summary-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .baloz-section-header {
+    min-height: 60px;
+  }
+
+  .baloz-lower-panel {
+    min-height: 230px;
+  }
+
+  .baloz-dashboard-footer {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 18px 0;
+  }
+}

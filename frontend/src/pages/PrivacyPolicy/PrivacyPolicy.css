@@ -1,0 +1,316 @@
+.baloz-privacy-page {
+  min-height: 100vh;
+  background: #080b0f;
+  color: #f4f6f8;
+  padding: 0 24px;
+}
+
+.baloz-privacy-container {
+  width: min(100%, 920px);
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.baloz-privacy-header {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #171b21;
+}
+
+.baloz-privacy-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #9299a3;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: color 0.2s ease;
+}
+
+.baloz-privacy-back:hover {
+  color: #ffffff;
+}
+
+.baloz-privacy-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.baloz-privacy-brand-mark {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  color: #080b0f;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  border-radius: 7px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.baloz-privacy-hero {
+  padding: 72px 0 58px;
+  border-bottom: 1px solid #171b21;
+}
+
+.baloz-privacy-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 24px;
+
+  background: #11161c;
+  border: 1px solid #242a32;
+  border-radius: 12px;
+
+  color: #ffffff;
+}
+
+.baloz-privacy-eyebrow {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #777f8a;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.baloz-privacy-hero h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1;
+  letter-spacing: -2.8px;
+  font-weight: 700;
+}
+
+.baloz-privacy-hero p {
+  max-width: 690px;
+
+  margin: 24px 0 20px;
+
+  color: #9ca3ad;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.baloz-privacy-updated {
+  color: #69717c;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.baloz-privacy-content {
+  padding: 56px 0 70px;
+}
+
+.baloz-privacy-content section {
+  margin-bottom: 52px;
+}
+
+.baloz-privacy-content section:last-child {
+  margin-bottom: 0;
+}
+
+.baloz-privacy-content h2 {
+  margin: 0 0 16px;
+
+  color: #ffffff;
+
+  font-size: 19px;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+}
+
+.baloz-privacy-content p {
+  max-width: 780px;
+
+  margin: 0 0 16px;
+
+  color: #9aa2ad;
+
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.baloz-privacy-content p:last-child {
+  margin-bottom: 0;
+}
+
+.baloz-privacy-content ul {
+  max-width: 780px;
+
+  margin: 16px 0 0;
+  padding-left: 21px;
+
+  color: #9aa2ad;
+}
+
+.baloz-privacy-content li {
+  margin-bottom: 10px;
+
+  padding-left: 4px;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.baloz-privacy-content li::marker {
+  color: #626a75;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.baloz-privacy-footer {
+  min-height: 86px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  border-top: 1px solid #171b21;
+
+  color: #626a75;
+
+  font-size: 12px;
+}
+
+.baloz-privacy-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.baloz-privacy-footer-links a {
+  color: #858d98;
+  text-decoration: none;
+
+  transition: color 0.2s ease;
+}
+
+.baloz-privacy-footer-links a:hover {
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .baloz-privacy-page {
+    padding: 0 18px;
+  }
+
+  .baloz-privacy-header {
+    min-height: 68px;
+  }
+
+  .baloz-privacy-brand {
+    font-size: 16px;
+  }
+
+  .baloz-privacy-brand-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .baloz-privacy-back span {
+    display: none;
+  }
+
+  .baloz-privacy-hero {
+    padding: 52px 0 44px;
+  }
+
+  .baloz-privacy-hero h1 {
+    font-size: 42px;
+    letter-spacing: -1.8px;
+  }
+
+  .baloz-privacy-hero p {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .baloz-privacy-content {
+    padding: 44px 0 54px;
+  }
+
+  .baloz-privacy-content section {
+    margin-bottom: 42px;
+  }
+
+  .baloz-privacy-content h2 {
+    font-size: 17px;
+  }
+
+  .baloz-privacy-content p,
+  .baloz-privacy-content li {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .baloz-privacy-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 25px 0;
+
+    gap: 15px;
+  }
+
+  .baloz-privacy-footer-links {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}

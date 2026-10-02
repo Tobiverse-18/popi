@@ -1,0 +1,626 @@
+.admin-investment-plans {
+  width: 100%;
+  min-width: 0;
+  color: #f4f7fb;
+}
+
+.admin-investment-plans-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.admin-investment-plans-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #8792a4;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.admin-investment-plans-header h1 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.admin-investment-plans-header p {
+  margin: 10px 0 0;
+  max-width: 620px;
+  color: #8d98aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.admin-investment-plans-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-investment-plans-refresh,
+.admin-investment-plans-create {
+  min-height: 42px;
+  border-radius: 9px;
+  padding: 0 15px;
+  border: 1px solid #242c39;
+  background: #121821;
+  color: #dce3ed;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-investment-plans-refresh:hover {
+  background: #171f2a;
+}
+
+.admin-investment-plans-create {
+  border-color: #dce5f0;
+  background: #eef3f8;
+  color: #10151c;
+}
+
+.admin-investment-plans-create:hover {
+  background: #ffffff;
+}
+
+.admin-investment-plans-refresh:disabled,
+.admin-investment-plans-create:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-investment-plans-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-investment-plan-stat {
+  min-height: 92px;
+  padding: 18px;
+  border: 1px solid #202835;
+  border-radius: 12px;
+  background: #10161e;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.admin-investment-plan-stat-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border: 1px solid #283241;
+  border-radius: 9px;
+  background: #151c26;
+  color: #aeb8c7;
+  display: grid;
+  place-items: center;
+}
+
+.admin-investment-plan-stat span {
+  display: block;
+  margin-bottom: 5px;
+  color: #788496;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.admin-investment-plan-stat strong {
+  color: #f3f6fa;
+  font-size: 24px;
+  letter-spacing: -0.03em;
+}
+
+.admin-investment-plans-toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 170px 210px;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admin-investment-plans-search {
+  min-height: 43px;
+  padding: 0 13px;
+  border: 1px solid #242c39;
+  border-radius: 9px;
+  background: #0f151d;
+  color: #6f7b8d;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.admin-investment-plans-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #eef2f7;
+  font: inherit;
+  font-size: 13px;
+}
+
+.admin-investment-plans-search input::placeholder {
+  color: #596576;
+}
+
+.admin-investment-plans-toolbar select {
+  min-height: 43px;
+  border: 1px solid #242c39;
+  border-radius: 9px;
+  padding: 0 12px;
+  outline: none;
+  background: #0f151d;
+  color: #cdd5e0;
+  font-size: 13px;
+}
+
+.admin-investment-plans-toolbar select:focus,
+.admin-investment-plans-search:focus-within {
+  border-color: #445267;
+}
+
+.admin-investment-plans-alert {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+.admin-investment-plans-alert.error {
+  border: 1px solid #543238;
+  background: #211519;
+  color: #e7a8b0;
+}
+
+.admin-investment-plans-table-wrap {
+  overflow: hidden;
+  border: 1px solid #202835;
+  border-radius: 12px;
+  background: #10161e;
+}
+
+.admin-investment-plans-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-investment-plans-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.admin-investment-plans-table th {
+  padding: 13px 16px;
+  border-bottom: 1px solid #202835;
+  background: #111821;
+  color: #697588;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.admin-investment-plans-table td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #1b222d;
+  color: #b7c0ce;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.admin-investment-plans-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin-investment-plans-table tbody tr:hover {
+  background: #121a23;
+}
+
+.admin-investment-plan-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-investment-plan-name-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border: 1px solid #293342;
+  border-radius: 8px;
+  background: #161e28;
+  color: #aeb8c6;
+  display: grid;
+  place-items: center;
+}
+
+.admin-investment-plan-name strong {
+  display: block;
+  color: #eef2f7;
+  font-size: 13px;
+}
+
+.admin-investment-plan-name span {
+  display: block;
+  margin-top: 3px;
+  color: #667286;
+  font-size: 11px;
+}
+
+.admin-investment-plan-category {
+  color: #c7cfda;
+}
+
+.admin-investment-plan-range strong {
+  display: block;
+  color: #e7ebf1;
+  font-size: 13px;
+}
+
+.admin-investment-plan-range span {
+  display: block;
+  margin-top: 3px;
+  color: #697588;
+  font-size: 11px;
+}
+
+.admin-investment-plan-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #aeb7c5;
+}
+
+.admin-investment-plan-return {
+  color: #dce3ec;
+}
+
+.admin-investment-plan-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-investment-plan-status > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.admin-investment-plan-status.active {
+  border: 1px solid #294338;
+  background: #14231c;
+  color: #8bc7a3;
+}
+
+.admin-investment-plan-status.active > span {
+  background: #65b984;
+}
+
+.admin-investment-plan-status.draft {
+  border: 1px solid #3b3940;
+  background: #1b1a1f;
+  color: #b7afbd;
+}
+
+.admin-investment-plan-status.draft > span {
+  background: #9c91a4;
+}
+
+.admin-investment-plan-status.inactive {
+  border: 1px solid #4a3236;
+  background: #211719;
+  color: #d49ba3;
+}
+
+.admin-investment-plan-status.inactive > span {
+  background: #c97984;
+}
+
+.admin-investment-plan-edit {
+  min-height: 34px;
+  border: 1px solid #293342;
+  border-radius: 7px;
+  padding: 0 10px;
+  background: #141b24;
+  color: #b9c2cf;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-investment-plan-edit:hover {
+  background: #1a232e;
+  color: #eef2f7;
+}
+
+.admin-investment-plans-state {
+  min-height: 330px;
+  padding: 40px 20px;
+  color: #6f7b8d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.admin-investment-plans-state strong {
+  margin-top: 12px;
+  color: #cbd3de;
+  font-size: 15px;
+}
+
+.admin-investment-plans-state p {
+  max-width: 420px;
+  margin: 7px 0 0;
+  color: #667286;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.admin-investment-plan-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 24px;
+  background: rgba(4, 7, 11, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-investment-plan-modal {
+  width: min(620px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid #2a3340;
+  border-radius: 14px;
+  background: #10161e;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.admin-investment-plan-modal-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid #222b37;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.admin-investment-plan-modal-header span {
+  color: #778396;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.admin-investment-plan-modal-header h2 {
+  margin: 6px 0 0;
+  color: #f1f4f8;
+  font-size: 20px;
+  letter-spacing: -0.025em;
+}
+
+.admin-investment-plan-modal-header button {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #293341;
+  border-radius: 8px;
+  background: #141b24;
+  color: #9da8b8;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.admin-investment-plan-modal-header button:hover {
+  color: #f0f3f7;
+}
+
+.admin-investment-plan-form {
+  padding: 22px;
+}
+
+.admin-investment-plan-form label {
+  display: block;
+  margin-bottom: 16px;
+  color: #aeb8c7;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-investment-plan-form input,
+.admin-investment-plan-form select,
+.admin-investment-plan-form textarea {
+  width: 100%;
+  margin-top: 7px;
+  box-sizing: border-box;
+  border: 1px solid #283240;
+  border-radius: 8px;
+  outline: none;
+  padding: 11px 12px;
+  background: #0c1219;
+  color: #edf1f6;
+  font: inherit;
+  font-size: 13px;
+}
+
+.admin-investment-plan-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.55;
+}
+
+.admin-investment-plan-form input:focus,
+.admin-investment-plan-form select:focus,
+.admin-investment-plan-form textarea:focus {
+  border-color: #536174;
+}
+
+.admin-investment-plan-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 12px;
+}
+
+.admin-investment-plan-form-error,
+.admin-investment-plan-form-success {
+  margin: 2px 0 15px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.admin-investment-plan-form-error {
+  border: 1px solid #543238;
+  background: #211519;
+  color: #e3a5ad;
+}
+
+.admin-investment-plan-form-success {
+  border: 1px solid #294338;
+  background: #14231c;
+  color: #8fc9a5;
+}
+
+.admin-investment-plan-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+  padding-top: 5px;
+}
+
+.admin-investment-plan-cancel,
+.admin-investment-plan-save {
+  min-height: 41px;
+  border-radius: 8px;
+  padding: 0 15px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-investment-plan-cancel {
+  border: 1px solid #293341;
+  background: #141b24;
+  color: #b3bdcb;
+}
+
+.admin-investment-plan-save {
+  border: 1px solid #e1e7ee;
+  background: #edf2f7;
+  color: #10151c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.admin-investment-plan-cancel:disabled,
+.admin-investment-plan-save:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-investment-plans-spin {
+  animation: adminInvestmentPlansSpin 0.9s linear infinite;
+}
+
+@keyframes adminInvestmentPlansSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .admin-investment-plans-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-investment-plans-toolbar {
+    grid-template-columns: 1fr 160px 190px;
+  }
+}
+
+@media (max-width: 800px) {
+  .admin-investment-plans-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-investment-plans-header-actions {
+    width: 100%;
+  }
+
+  .admin-investment-plans-refresh,
+  .admin-investment-plans-create {
+    flex: 1;
+  }
+
+  .admin-investment-plans-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-investment-plans-search {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .admin-investment-plans-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-investment-plans-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-investment-plan-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-investment-plan-modal-backdrop {
+    padding: 12px;
+  }
+
+  .admin-investment-plan-modal {
+    max-height: calc(100vh - 24px);
+  }
+
+  .admin-investment-plan-form {
+    padding: 17px;
+  }
+
+  .admin-investment-plan-modal-header {
+    padding: 17px;
+  }
+}

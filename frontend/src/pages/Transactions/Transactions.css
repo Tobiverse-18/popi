@@ -1,0 +1,577 @@
+.baloz-transactions-page {
+  min-height: 100vh;
+  background: #080d13;
+  color: #f4f7fa;
+}
+
+.baloz-transactions-header {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #18212b;
+}
+
+.baloz-transactions-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.baloz-transactions-brand-mark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #34414d;
+  background: #101821;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.baloz-transactions-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #aab5c0;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.baloz-transactions-back:hover {
+  color: #ffffff;
+}
+
+.baloz-transactions-content {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 58px 0 0;
+}
+
+.baloz-transactions-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 38px;
+}
+
+.baloz-transactions-overline {
+  display: block;
+  margin-bottom: 11px;
+  color: #7f8c98;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.baloz-transactions-intro h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.baloz-transactions-intro p {
+  max-width: 590px;
+  margin: 14px 0 0;
+  color: #8f9ba7;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.baloz-transactions-refresh {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px;
+  border: 1px solid #26323e;
+  background: #0d141c;
+  color: #c5cdd5;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.baloz-transactions-refresh:hover:not(:disabled) {
+  background: #121b24;
+  border-color: #3a4754;
+  color: #ffffff;
+}
+
+.baloz-transactions-refresh:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.baloz-transactions-refreshing {
+  animation: balozTransactionsRotate 0.8s linear infinite;
+}
+
+.baloz-transactions-toolbar {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 14px;
+  border-top: 1px solid #18212b;
+  border-bottom: 1px solid #18212b;
+}
+
+.baloz-transactions-filters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.baloz-transactions-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.baloz-transactions-filters button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #7f8c98;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.baloz-transactions-filters button:hover {
+  color: #dbe2e8;
+}
+
+.baloz-transactions-filters button.active {
+  border-color: #293642;
+  background: #111a23;
+  color: #ffffff;
+}
+
+.baloz-transactions-search {
+  width: min(280px, 100%);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  border: 1px solid #222e39;
+  background: #0c131b;
+}
+
+.baloz-transactions-search svg {
+  flex: 0 0 auto;
+  color: #687581;
+}
+
+.baloz-transactions-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 12px;
+}
+
+.baloz-transactions-search input::placeholder {
+  color: #5e6a76;
+}
+
+.baloz-transactions-error {
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid #573237;
+  background: #211417;
+  color: #e6aeb4;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.baloz-transactions-list {
+  margin-top: 22px;
+  border-top: 1px solid #1c2731;
+  border-bottom: 1px solid #1c2731;
+}
+
+.baloz-transactions-list-header,
+.baloz-transaction-row {
+  display: grid;
+  grid-template-columns: minmax(250px, 1.7fr) minmax(120px, 0.8fr) minmax(120px, 0.7fr) minmax(180px, 0.9fr);
+  align-items: center;
+  column-gap: 20px;
+}
+
+.baloz-transactions-list-header {
+  min-height: 52px;
+  padding: 0 20px;
+  border-bottom: 1px solid #1c2731;
+  color: #687581;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.baloz-transaction-row {
+  min-height: 82px;
+  padding: 0 20px;
+  border-bottom: 1px solid #141e27;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.baloz-transaction-row:last-child {
+  border-bottom: 0;
+}
+
+.baloz-transaction-row:hover {
+  background: #0d151d;
+}
+
+.baloz-transaction-main {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.baloz-transaction-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #293541;
+  background: #111a23;
+  color: #aeb9c3;
+}
+
+.baloz-transaction-icon.credit {
+  color: #a8d8bd;
+  border-color: #294136;
+  background: #101b16;
+}
+
+.baloz-transaction-icon.debit {
+  color: #d7b2b2;
+  border-color: #463034;
+  background: #1b1315;
+}
+
+.baloz-transaction-main > div:last-child {
+  min-width: 0;
+}
+
+.baloz-transaction-main strong {
+  display: block;
+  overflow: hidden;
+  color: #e9edf1;
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-transaction-main span {
+  display: block;
+  margin-top: 5px;
+  overflow: hidden;
+  color: #66737f;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-transaction-amount {
+  color: #e8edf1;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.baloz-transaction-amount.credit {
+  color: #a8d8bd;
+}
+
+.baloz-transaction-amount.debit {
+  color: #d5b0b0;
+}
+
+.baloz-transaction-status {
+  width: fit-content;
+  padding: 5px 8px;
+  border: 1px solid #303b45;
+  background: #10171f;
+  color: #9ca8b3;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.baloz-transaction-status.success {
+  border-color: #294136;
+  background: #101b16;
+  color: #a8d8bd;
+}
+
+.baloz-transaction-status.processing {
+  border-color: #48402a;
+  background: #1b1911;
+  color: #d2c38c;
+}
+
+.baloz-transaction-status.pending {
+  border-color: #3e3a29;
+  background: #18170f;
+  color: #c8bd8d;
+}
+
+.baloz-transaction-status.failed,
+.baloz-transaction-status.cancelled {
+  border-color: #4b3035;
+  background: #1b1315;
+  color: #d6a7ae;
+}
+
+.baloz-transaction-date {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.baloz-transaction-date span {
+  color: #7d8994;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.baloz-transaction-date svg {
+  flex: 0 0 auto;
+  color: #596672;
+}
+
+.baloz-transactions-state {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #596672;
+  text-align: center;
+}
+
+.baloz-transactions-state strong {
+  color: #aeb8c1;
+  font-size: 13px;
+}
+
+.baloz-transactions-state p {
+  margin: 0;
+  color: #65727e;
+  font-size: 11px;
+}
+
+.baloz-transactions-spinner {
+  animation: balozTransactionsRotate 0.9s linear infinite;
+}
+
+.baloz-transactions-footer {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 55px;
+  border-top: 1px solid #18212b;
+  color: #586572;
+  font-size: 10px;
+}
+
+.baloz-transactions-footer span:first-child {
+  color: #87939e;
+  font-weight: 700;
+}
+
+@keyframes balozTransactionsRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .baloz-transactions-list-header {
+    display: none;
+  }
+
+  .baloz-transaction-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 9px;
+    padding: 18px 16px;
+  }
+
+  .baloz-transaction-main {
+    grid-column: 1;
+  }
+
+  .baloz-transaction-amount {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .baloz-transaction-status {
+    grid-column: 1;
+    grid-row: 2;
+    margin-left: 51px;
+  }
+
+  .baloz-transaction-date {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .baloz-transaction-date svg {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .baloz-transactions-header,
+  .baloz-transactions-content {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .baloz-transactions-content {
+    padding-top: 40px;
+  }
+
+  .baloz-transactions-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 28px;
+  }
+
+  .baloz-transactions-refresh {
+    width: 100%;
+  }
+
+  .baloz-transactions-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 12px 0;
+    border-top: 0;
+  }
+
+  .baloz-transactions-search {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .baloz-transactions-header {
+    min-height: 68px;
+  }
+
+  .baloz-transactions-brand {
+    font-size: 17px;
+  }
+
+  .baloz-transactions-brand-mark {
+    width: 29px;
+    height: 29px;
+  }
+
+  .baloz-transactions-back {
+    font-size: 12px;
+  }
+
+  .baloz-transactions-content {
+    width: min(100% - 24px, 1180px);
+    padding-top: 32px;
+  }
+
+  .baloz-transactions-intro h1 {
+    font-size: 32px;
+  }
+
+  .baloz-transactions-intro p {
+    font-size: 13px;
+  }
+
+  .baloz-transaction-row {
+    padding: 16px 12px;
+  }
+
+  .baloz-transaction-icon {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .baloz-transaction-main {
+    gap: 10px;
+  }
+
+  .baloz-transaction-main strong {
+    font-size: 12px;
+  }
+
+  .baloz-transaction-main span {
+    max-width: 150px;
+  }
+
+  .baloz-transaction-amount {
+    font-size: 12px;
+  }
+
+  .baloz-transaction-status {
+    margin-left: 44px;
+  }
+
+  .baloz-transaction-date span {
+    font-size: 9px;
+  }
+
+  .baloz-transactions-footer {
+    flex-direction: column;
+    gap: 7px;
+    padding: 25px 0;
+  }
+}

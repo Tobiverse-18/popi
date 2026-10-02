@@ -1,0 +1,704 @@
+.admin-withdraw-page {
+  width: 100%;
+  color: #f4f7fa;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.admin-withdraw-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.admin-withdraw-overline {
+  display: block;
+  margin-bottom: 9px;
+  color: #687482;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.admin-withdraw-heading h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.admin-withdraw-heading p {
+  margin: 8px 0 0;
+  color: #778391;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.admin-withdraw-stats {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.admin-withdraw-stat {
+  min-height: 92px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background: #0d141c;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.admin-withdraw-stat-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.025);
+  color: #9da8b4;
+}
+
+.admin-withdraw-stat span {
+  display: block;
+  margin-bottom: 5px;
+  color: #687482;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.admin-withdraw-stat strong {
+  color: #f2f5f7;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.admin-withdraw-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.admin-withdraw-search {
+  width: min(440px, 100%);
+  height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  background: #0d141c;
+  color: #65717e;
+}
+
+.admin-withdraw-search:focus-within {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.admin-withdraw-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #e9edf1;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.admin-withdraw-search input::placeholder {
+  color: #4f5b68;
+}
+
+.admin-withdraw-search button {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: #6e7986;
+  cursor: pointer;
+}
+
+.admin-withdraw-search button:hover {
+  color: #ffffff;
+}
+
+.admin-withdraw-status-filter {
+  height: 43px;
+  padding: 0 35px 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  outline: 0;
+  background: #0d141c;
+  color: #aab4be;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.admin-withdraw-status-filter:focus {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.admin-withdraw-error {
+  margin-bottom: 15px;
+  padding: 13px 15px;
+  border: 1px solid rgba(191, 76, 76, 0.18);
+  background: rgba(145, 47, 47, 0.07);
+  color: #dba3a3;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.admin-withdraw-table-section {
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background: #0b1219;
+  overflow: hidden;
+}
+
+.admin-withdraw-table-header {
+  min-height: 67px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-withdraw-table-header span {
+  display: block;
+  margin-bottom: 4px;
+  color: #66727f;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.admin-withdraw-table-header strong {
+  color: #c9d0d7;
+  font-size: 12px;
+}
+
+.admin-withdraw-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-withdraw-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.admin-withdraw-table th {
+  height: 45px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+  color: #5f6b78;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.admin-withdraw-table td {
+  padding: 17px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+  vertical-align: middle;
+}
+
+.admin-withdraw-table tbody tr {
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.admin-withdraw-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.admin-withdraw-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   REFERENCE
+========================================================= */
+
+.admin-withdraw-reference {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-withdraw-reference-icon {
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background: rgba(255, 255, 255, 0.02);
+  color: #8995a1;
+}
+
+.admin-withdraw-reference strong {
+  display: block;
+  color: #d9dfe5;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-withdraw-reference span {
+  color: #596572;
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+.admin-withdraw-user strong {
+  display: block;
+  color: #d8dee4;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.admin-withdraw-user span {
+  display: block;
+  margin-top: 3px;
+  color: #626e7a;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   DESTINATION
+========================================================= */
+
+.admin-withdraw-destination {
+  color: #8c98a4;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.admin-withdraw-amount {
+  color: #e9edf1;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.admin-withdraw-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 0 9px;
+  border: 1px solid transparent;
+  font-size: 9px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-withdraw-status-processing {
+  color: #cdbd91;
+  border-color: rgba(205, 189, 145, 0.15);
+  background: rgba(205, 189, 145, 0.055);
+}
+
+.admin-withdraw-status-success {
+  color: #9ed1ae;
+  border-color: rgba(94, 169, 116, 0.15);
+  background: rgba(94, 169, 116, 0.055);
+}
+
+.admin-withdraw-status-pending {
+  color: #aeb9c5;
+  border-color: rgba(174, 185, 197, 0.13);
+  background: rgba(174, 185, 197, 0.045);
+}
+
+.admin-withdraw-status-failed,
+.admin-withdraw-status-cancelled {
+  color: #d79e9e;
+  border-color: rgba(190, 80, 80, 0.14);
+  background: rgba(190, 80, 80, 0.055);
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.admin-withdraw-date {
+  color: #687480;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   LOADING / EMPTY
+========================================================= */
+
+.admin-withdraw-loading,
+.admin-withdraw-empty {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: #697582;
+  font-size: 12px;
+}
+
+.admin-withdraw-spinner {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #dce2e7;
+  border-radius: 50%;
+  animation: admin-withdraw-spin 700ms linear infinite;
+}
+
+@keyframes admin-withdraw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-withdraw-empty-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  color: #65717d;
+}
+
+.admin-withdraw-empty strong {
+  color: #b6bec7;
+  font-size: 13px;
+}
+
+.admin-withdraw-empty p {
+  margin: 0;
+  color: #606c78;
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.admin-withdraw-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: 25px;
+  background: rgba(0, 0, 0, 0.68);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-withdraw-modal {
+  width: min(620px, 100%);
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: #0d141c;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+}
+
+.admin-withdraw-modal-header {
+  padding: 22px 23px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.admin-withdraw-modal-header span {
+  display: block;
+  margin-bottom: 7px;
+  color: #65717e;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.admin-withdraw-modal-header h2 {
+  margin: 0;
+  color: #e8edf1;
+  font-size: 16px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.admin-withdraw-close {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: transparent;
+  color: #788491;
+  cursor: pointer;
+}
+
+.admin-withdraw-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   MODAL STATUS
+========================================================= */
+
+.admin-withdraw-modal-status {
+  padding: 22px 23px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+}
+
+.admin-withdraw-modal-status > strong {
+  color: #ffffff;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+}
+
+
+/* =========================================================
+   DETAIL GRID
+========================================================= */
+
+.admin-withdraw-detail-grid {
+  padding: 21px 23px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+
+.admin-withdraw-detail-grid > div > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #606c78;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-withdraw-detail-grid > div > strong {
+  display: block;
+  color: #cfd6dd;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.admin-withdraw-detail-grid small {
+  display: block;
+  margin-top: 4px;
+  color: #687480;
+  font-size: 10px;
+}
+
+.admin-withdraw-detail-full {
+  grid-column: 1 / -1;
+}
+
+.admin-withdraw-address {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-withdraw-address code {
+  min-width: 0;
+  flex: 1;
+  padding: 11px;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background: #090f15;
+  color: #9ba6b1;
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.admin-withdraw-address button {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: transparent;
+  color: #798591;
+  cursor: pointer;
+}
+
+.admin-withdraw-address button:hover {
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   MODAL NOTE
+========================================================= */
+
+.admin-withdraw-modal-note {
+  margin: 0 23px 23px;
+  padding: 15px;
+  border-left: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.admin-withdraw-modal-note span {
+  display: block;
+  margin-bottom: 7px;
+  color: #6d7884;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.admin-withdraw-modal-note p {
+  margin: 0;
+  color: #77838f;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+  .admin-withdraw-stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-withdraw-heading h1 {
+    font-size: 25px;
+  }
+
+  .admin-withdraw-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-withdraw-search {
+    width: 100%;
+  }
+
+  .admin-withdraw-status-filter {
+    width: 100%;
+  }
+
+  .admin-withdraw-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-withdraw-detail-full {
+    grid-column: auto;
+  }
+
+  .admin-withdraw-overlay {
+    padding: 14px;
+  }
+
+  .admin-withdraw-modal {
+    max-height: calc(100vh - 28px);
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-withdraw-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-withdraw-stat {
+    min-height: 78px;
+  }
+
+  .admin-withdraw-modal-header,
+  .admin-withdraw-modal-status,
+  .admin-withdraw-detail-grid {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .admin-withdraw-modal-note {
+    margin-left: 17px;
+    margin-right: 17px;
+  }
+}

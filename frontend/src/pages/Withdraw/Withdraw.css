@@ -1,0 +1,795 @@
+.baloz-withdraw-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 75% 10%,
+      rgba(255, 255, 255, 0.035),
+      transparent 28%
+    ),
+    #080d13;
+  color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.baloz-withdraw-header {
+  width: 100%;
+  min-height: 72px;
+  padding: 0 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.baloz-withdraw-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.baloz-withdraw-brand-mark {
+  width: 31px;
+  height: 31px;
+  border-radius: 8px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  color: #080d13;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.baloz-withdraw-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #9ba5b2;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.baloz-withdraw-back:hover {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.baloz-withdraw-content {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 64px 0 80px;
+  flex: 1;
+}
+
+.baloz-withdraw-intro {
+  max-width: 680px;
+  margin-bottom: 36px;
+}
+
+.baloz-withdraw-overline {
+  display: block;
+
+  color: #7f8a98;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+
+  margin-bottom: 11px;
+}
+
+.baloz-withdraw-intro h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.baloz-withdraw-intro p {
+  margin: 14px 0 0;
+
+  max-width: 590px;
+
+  color: #8e99a7;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.baloz-withdraw-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.55fr)
+    minmax(300px, 0.75fr);
+
+  gap: 24px;
+  align-items: start;
+}
+
+
+/* =========================================================
+   FORM PANEL
+========================================================= */
+
+.baloz-withdraw-form-panel {
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  background: rgba(13, 19, 27, 0.78);
+
+  padding: 30px;
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.18);
+}
+
+.baloz-withdraw-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+.baloz-withdraw-label {
+  display: block;
+
+  color: #707b89;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+
+  margin-bottom: 7px;
+}
+
+.baloz-withdraw-panel-heading h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.baloz-withdraw-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #dce2e8;
+}
+
+
+/* =========================================================
+   BALANCE
+========================================================= */
+
+.baloz-withdraw-balance {
+  min-height: 78px;
+
+  padding: 17px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  background: rgba(255, 255, 255, 0.018);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 28px;
+}
+
+.baloz-withdraw-balance span {
+  display: block;
+
+  color: #7f8a97;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  margin-bottom: 6px;
+}
+
+.baloz-withdraw-balance strong {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.baloz-withdraw-balance svg {
+  color: #687482;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.baloz-withdraw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.baloz-withdraw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.baloz-withdraw-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.baloz-withdraw-field-header label {
+  color: #d9dee5;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.baloz-withdraw-field-header button {
+  border: 0;
+  background: transparent;
+
+  padding: 3px 0;
+
+  color: #aeb7c2;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: color 160ms ease;
+}
+
+.baloz-withdraw-field-header button:hover {
+  color: #ffffff;
+}
+
+.baloz-withdraw-field-header button:disabled {
+  color: #4d5661;
+  cursor: not-allowed;
+}
+
+.baloz-withdraw-input-wrap {
+  min-height: 56px;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: #0a1017;
+
+  display: flex;
+  align-items: center;
+
+  transition:
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.baloz-withdraw-input-wrap:focus-within {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: #0b1119;
+}
+
+.baloz-withdraw-input-wrap input {
+  width: 100%;
+  min-width: 0;
+
+  height: 54px;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: #ffffff;
+
+  padding: 0 16px;
+
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.baloz-withdraw-input-wrap input::placeholder {
+  color: #4f5965;
+}
+
+.baloz-withdraw-input-wrap input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.baloz-withdraw-currency {
+  padding-left: 17px;
+
+  color: #8c97a4;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.baloz-withdraw-address-wrap input {
+  padding-right: 7px;
+}
+
+.baloz-withdraw-copy {
+  width: 42px;
+  height: 42px;
+
+  margin-right: 7px;
+
+  flex: 0 0 auto;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.025);
+
+  color: #aab4bf;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.baloz-withdraw-copy:hover {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.baloz-withdraw-copy:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.baloz-withdraw-field-help {
+  color: #626d79;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.baloz-withdraw-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  padding: 14px 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.baloz-withdraw-error {
+  color: #e2a6a6;
+  background: rgba(154, 55, 55, 0.08);
+  border-color: rgba(190, 75, 75, 0.18);
+}
+
+.baloz-withdraw-success {
+  color: #a9d8bc;
+  background: rgba(45, 128, 75, 0.08);
+  border-color: rgba(65, 155, 94, 0.18);
+}
+
+.baloz-withdraw-success-icon {
+  width: 27px;
+  height: 27px;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(86, 178, 111, 0.12);
+  color: #83d69a;
+}
+
+.baloz-withdraw-success strong,
+.baloz-withdraw-success span,
+.baloz-withdraw-success small {
+  display: block;
+}
+
+.baloz-withdraw-success strong {
+  color: #c8ebd2;
+  margin-bottom: 3px;
+}
+
+.baloz-withdraw-success span {
+  color: #91b89f;
+}
+
+.baloz-withdraw-success small {
+  margin-top: 7px;
+  color: #6f987d;
+}
+
+
+/* =========================================================
+   REVIEW
+========================================================= */
+
+.baloz-withdraw-review {
+  padding: 17px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.065);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.baloz-withdraw-review > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.baloz-withdraw-review span {
+  color: #737e8b;
+  font-size: 11px;
+}
+
+.baloz-withdraw-review strong {
+  color: #e7ebef;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.baloz-withdraw-submit {
+  min-height: 52px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #f1f3f5;
+  color: #080d13;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.baloz-withdraw-submit:hover:not(:disabled) {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.baloz-withdraw-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.baloz-withdraw-spinner {
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid rgba(8, 13, 19, 0.2);
+  border-top-color: #080d13;
+
+  border-radius: 50%;
+
+  animation: baloz-withdraw-spin 700ms linear infinite;
+}
+
+@keyframes baloz-withdraw-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   INFORMATION PANEL
+========================================================= */
+
+.baloz-withdraw-info {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 24px 2px;
+}
+
+.baloz-withdraw-info-block {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+
+  gap: 13px;
+
+  padding: 12px 0;
+}
+
+.baloz-withdraw-info-icon,
+.baloz-withdraw-info-number {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #9aa5b1;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.baloz-withdraw-info-icon {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.baloz-withdraw-info-block strong {
+  display: block;
+
+  color: #e5e9ed;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  margin-bottom: 5px;
+}
+
+.baloz-withdraw-info-block p {
+  margin: 0;
+
+  color: #6e7986;
+
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.baloz-withdraw-info-divider {
+  height: 1px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  margin: 7px 0 5px;
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.baloz-withdraw-warning {
+  margin-top: 19px;
+
+  padding: 16px;
+
+  border-left: 2px solid rgba(210, 166, 85, 0.45);
+  background: rgba(210, 166, 85, 0.035);
+}
+
+.baloz-withdraw-warning strong {
+  display: block;
+
+  color: #c8aa72;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  margin-bottom: 7px;
+}
+
+.baloz-withdraw-warning p {
+  margin: 0;
+
+  color: #77705f;
+
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.baloz-withdraw-footer {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+
+  min-height: 70px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  color: #596470;
+
+  font-size: 10px;
+}
+
+.baloz-withdraw-footer span:first-child {
+  color: #8b96a2;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .baloz-withdraw-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-withdraw-info {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .baloz-withdraw-header {
+    min-height: 64px;
+    padding: 0 20px;
+  }
+
+  .baloz-withdraw-content {
+    width: min(
+      100% - 32px,
+      1180px
+    );
+
+    padding: 42px 0 60px;
+  }
+
+  .baloz-withdraw-intro {
+    margin-bottom: 27px;
+  }
+
+  .baloz-withdraw-intro h1 {
+    font-size: 34px;
+  }
+
+  .baloz-withdraw-intro p {
+    font-size: 13px;
+  }
+
+  .baloz-withdraw-form-panel {
+    padding: 21px;
+  }
+
+  .baloz-withdraw-panel-heading {
+    margin-bottom: 20px;
+  }
+
+  .baloz-withdraw-balance {
+    margin-bottom: 23px;
+  }
+
+  .baloz-withdraw-footer {
+    width: calc(100% - 32px);
+
+    padding: 18px 0;
+
+    min-height: auto;
+
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .baloz-withdraw-footer span:last-child {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 420px) {
+  .baloz-withdraw-header {
+    padding: 0 16px;
+  }
+
+  .baloz-withdraw-back {
+    font-size: 12px;
+  }
+
+  .baloz-withdraw-content {
+    width: calc(100% - 24px);
+  }
+
+  .baloz-withdraw-form-panel {
+    padding: 17px;
+  }
+
+  .baloz-withdraw-intro h1 {
+    font-size: 30px;
+  }
+
+  .baloz-withdraw-review > div {
+    align-items: flex-start;
+  }
+}

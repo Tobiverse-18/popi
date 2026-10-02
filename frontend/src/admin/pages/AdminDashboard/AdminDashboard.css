@@ -1,0 +1,249 @@
+.admin-dashboard {
+  min-height: 100vh;
+  padding: 42px;
+  background: #080d13;
+  color: #f4f7fa;
+}
+
+.admin-dashboard-header {
+  margin-bottom: 34px;
+}
+
+.admin-overline {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #788493;
+}
+
+.admin-dashboard-header h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.admin-dashboard-header p {
+  margin: 9px 0 0;
+  max-width: 620px;
+  color: #8e99a7;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.admin-stat-card,
+.admin-action-card {
+  border: 1px solid #1b2530;
+  background: #0d141c;
+}
+
+.admin-stat-card {
+  min-height: 160px;
+  padding: 22px;
+}
+
+.admin-stat-icon,
+.admin-action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 24px;
+  border: 1px solid #26313d;
+  background: #111a24;
+  color: #aeb9c5;
+}
+
+.admin-stat-card span:not(.admin-overline) {
+  display: block;
+  margin-bottom: 7px;
+  color: #7f8b98;
+  font-size: 12px;
+}
+
+.admin-stat-card strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.admin-action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.admin-action-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 22px;
+}
+
+.admin-action-icon {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.admin-action-card span {
+  display: block;
+  margin-bottom: 5px;
+  color: #7f8b98;
+  font-size: 12px;
+}
+
+.admin-action-card strong {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.admin-recent-section {
+  margin-top: 38px;
+}
+
+.admin-section-heading {
+  margin-bottom: 18px;
+}
+
+.admin-section-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.admin-transactions-table {
+  overflow-x: auto;
+  border: 1px solid #1b2530;
+  background: #0d141c;
+}
+
+.admin-table-head,
+.admin-table-row {
+  min-width: 850px;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr 0.8fr 1.5fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.admin-table-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid #1b2530;
+  color: #687582;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-table-row {
+  padding: 17px 20px;
+  border-bottom: 1px solid #151e27;
+  color: #b6c0ca;
+  font-size: 13px;
+}
+
+.admin-table-row:last-child {
+  border-bottom: 0;
+}
+
+.admin-table-row > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-status {
+  width: fit-content;
+  padding: 5px 8px;
+  border: 1px solid #27323d;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.admin-status-success {
+  color: #8fc9a3;
+}
+
+.admin-status-pending,
+.admin-status-processing {
+  color: #d7b879;
+}
+
+.admin-status-failed,
+.admin-status-cancelled {
+  color: #d88989;
+}
+
+.admin-empty-state {
+  padding: 50px 20px;
+  border: 1px solid #1b2530;
+  background: #0d141c;
+  text-align: center;
+  color: #687582;
+  font-size: 13px;
+}
+
+.admin-dashboard-loading,
+.admin-dashboard-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.admin-dashboard-error {
+  flex-direction: column;
+  gap: 8px;
+  color: #d88989;
+}
+
+.admin-dashboard-error span {
+  color: #7f8b98;
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .admin-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-dashboard {
+    padding: 24px 16px;
+  }
+
+  .admin-dashboard-header h1 {
+    font-size: 28px;
+  }
+
+  .admin-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-action-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stat-card {
+    min-height: 140px;
+  }
+}

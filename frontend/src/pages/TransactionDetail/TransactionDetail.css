@@ -1,0 +1,869 @@
+* {
+  box-sizing: border-box;
+}
+
+.transaction-page {
+  min-height: 100vh;
+  background: #080d13;
+  color: #f4f7fb;
+  overflow-x: hidden;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.transaction-header {
+  width: min(1100px, calc(100% - 40px));
+  height: 72px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #1a232d;
+}
+
+.transaction-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.transaction-brand-mark {
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #080d13;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.transaction-back {
+  height: 38px;
+  padding: 0 13px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  border: 1px solid #293440;
+  border-radius: 7px;
+
+  background: transparent;
+  color: #cbd4dd;
+
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.transaction-back:hover {
+  background: #111923;
+  color: #ffffff;
+}
+
+
+/* =========================
+   CONTAINER
+   ========================= */
+
+.transaction-container {
+  width: min(780px, calc(100% - 40px));
+  margin: 0 auto;
+
+  padding: 58px 0 40px;
+}
+
+
+/* =========================
+   HEADING
+   ========================= */
+
+.transaction-heading {
+  margin-bottom: 30px;
+}
+
+.transaction-eyebrow {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #778492;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.14em;
+}
+
+.transaction-heading h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 42px;
+  line-height: 1.05;
+
+  letter-spacing: -0.04em;
+}
+
+.transaction-heading p {
+  margin: 12px 0 0;
+
+  color: #82909e;
+
+  font-size: 14px;
+}
+
+
+/* =========================
+   STATUS
+   ========================= */
+
+.transaction-status {
+  width: 100%;
+
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  border: 1px solid #26313b;
+  border-radius: 9px;
+
+  background: #0d141c;
+
+  margin-bottom: 14px;
+}
+
+.transaction-status-icon {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 8px;
+}
+
+.transaction-status-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.transaction-status-content span {
+  color: #778492;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.transaction-status-content strong {
+  color: #e9eef3;
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+
+/* SUCCESS */
+
+.transaction-status-success {
+  border-color: #234032;
+  background: #0c1713;
+}
+
+.transaction-status-success
+.transaction-status-icon {
+  background: #13291f;
+  color: #65cf99;
+}
+
+
+/* PENDING / PROCESSING */
+
+.transaction-status-pending,
+.transaction-status-processing {
+  border-color: #403722;
+  background: #15130d;
+}
+
+.transaction-status-pending
+.transaction-status-icon,
+.transaction-status-processing
+.transaction-status-icon {
+  background: #292315;
+  color: #d7b968;
+}
+
+
+/* FAILED */
+
+.transaction-status-failed,
+.transaction-status-cancelled {
+  border-color: #42282c;
+  background: #170f11;
+}
+
+.transaction-status-failed
+.transaction-status-icon,
+.transaction-status-cancelled
+.transaction-status-icon {
+  background: #2b171a;
+  color: #e27d7d;
+}
+
+
+/* =========================
+   MAIN CARD
+   ========================= */
+
+.transaction-card {
+  width: 100%;
+
+  border: 1px solid #202b35;
+  border-radius: 10px;
+
+  background: #0d141c;
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   AMOUNT
+   ========================= */
+
+.transaction-amount {
+  padding: 25px;
+
+  border-bottom: 1px solid #1b2530;
+}
+
+.transaction-amount-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-bottom: 9px;
+}
+
+.transaction-amount-top > span:first-child {
+  color: #778492;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.transaction-amount > strong {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: 32px;
+  line-height: 1.1;
+
+  letter-spacing: -0.04em;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================
+   DIRECTION
+   ========================= */
+
+.transaction-direction {
+  padding: 6px 9px;
+
+  border-radius: 5px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+.transaction-direction-credit {
+  background: #10251b;
+  color: #6bd09d;
+}
+
+.transaction-direction-debit {
+  background: #261618;
+  color: #e58a8a;
+}
+
+
+/* =========================
+   DETAILS
+   ========================= */
+
+.transaction-details {
+  width: 100%;
+}
+
+.transaction-detail {
+  min-height: 62px;
+
+  padding: 15px 25px;
+
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #19232d;
+}
+
+.transaction-detail:last-child {
+  border-bottom: none;
+}
+
+.transaction-detail span {
+  color: #778492;
+
+  font-size: 12px;
+}
+
+.transaction-detail strong {
+  min-width: 0;
+
+  color: #dce3e9;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: right;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* =========================
+   REFERENCE
+   ========================= */
+
+.transaction-reference {
+  width: 100%;
+
+  margin-top: 14px;
+
+  padding: 17px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border: 1px solid #202b35;
+  border-radius: 9px;
+
+  background: #0d141c;
+}
+
+.transaction-reference-info {
+  min-width: 0;
+}
+
+.transaction-reference-info span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #778492;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+}
+
+.transaction-reference-info strong {
+  display: block;
+
+  color: #d8e0e7;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.transaction-copy {
+  min-width: 76px;
+  height: 38px;
+
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border: 1px solid #2a3641;
+  border-radius: 6px;
+
+  background: #111923;
+  color: #d3dbe3;
+
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.transaction-copy:hover {
+  background: #18212c;
+  color: #ffffff;
+}
+
+
+/* =========================
+   INFORMATION
+   ========================= */
+
+.transaction-info {
+  margin-top: 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.transaction-info-block {
+  padding: 18px;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  border: 1px solid #202b35;
+  border-radius: 9px;
+
+  background: #0d141c;
+}
+
+.transaction-info-icon {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 7px;
+
+  background: #151d26;
+  color: #9ba8b5;
+}
+
+.transaction-info-block h3 {
+  margin: 0 0 5px;
+
+  color: #e4eaf0;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.transaction-info-block p {
+  margin: 0;
+
+  color: #7f8d9b;
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* SUCCESS INFO */
+
+.transaction-success {
+  border-color: #20382d;
+  background: #0c1713;
+}
+
+.transaction-success .transaction-info-icon {
+  background: #13291f;
+  color: #64ce98;
+}
+
+
+/* =========================
+   HISTORY BUTTON
+   ========================= */
+
+.transaction-history {
+  min-height: 48px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  border: 1px solid #293540;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #cbd4dd;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.transaction-history:hover {
+  background: #111923;
+  color: #ffffff;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.transaction-footer {
+  margin-top: 60px;
+  padding-top: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  border-top: 1px solid #18212c;
+
+  color: #667482;
+
+  font-size: 10px;
+}
+
+.transaction-footer span:first-child {
+  color: #aab5bf;
+  font-weight: 700;
+}
+
+
+/* =========================
+   LOADING
+   ========================= */
+
+.transaction-loading {
+  min-height: 280px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  color: #8794a2;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   ERROR
+   ========================= */
+
+.transaction-error {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  gap: 12px;
+
+  color: #dce4eb;
+}
+
+.transaction-error > svg {
+  color: #df7777;
+}
+
+.transaction-error strong {
+  max-width: 500px;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.transaction-error-link {
+  margin-top: 4px;
+
+  color: #cbd5df;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.transaction-error-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .transaction-header {
+    width: calc(100% - 28px);
+    height: 64px;
+  }
+
+  .transaction-container {
+    width: calc(100% - 28px);
+    padding: 34px 0 28px;
+  }
+
+
+  /* HEADER */
+
+  .transaction-brand {
+    font-size: 17px;
+  }
+
+  .transaction-brand-mark {
+    width: 30px;
+    height: 30px;
+
+    border-radius: 7px;
+  }
+
+  .transaction-back {
+    height: 36px;
+    padding: 0 10px;
+  }
+
+
+  /* HEADING */
+
+  .transaction-heading {
+    margin-bottom: 23px;
+  }
+
+  .transaction-eyebrow {
+    font-size: 9px;
+  }
+
+  .transaction-heading h1 {
+    font-size: 31px;
+    line-height: 1.08;
+  }
+
+  .transaction-heading p {
+    margin-top: 9px;
+    font-size: 12px;
+  }
+
+
+  /* STATUS */
+
+  .transaction-status {
+    padding: 13px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+  }
+
+  .transaction-status-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  /* CARD */
+
+  .transaction-amount {
+    padding: 19px 16px;
+  }
+
+  .transaction-amount > strong {
+    font-size: 27px;
+  }
+
+  .transaction-amount-top {
+    margin-bottom: 8px;
+  }
+
+
+  /* DETAILS */
+
+  .transaction-detail {
+    min-height: auto;
+
+    padding: 13px 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+  }
+
+  .transaction-detail span {
+    font-size: 10px;
+  }
+
+  .transaction-detail strong {
+    width: 100%;
+
+    font-size: 12px;
+
+    text-align: left;
+
+    line-height: 1.5;
+  }
+
+
+  /* REFERENCE */
+
+  .transaction-reference {
+    padding: 15px;
+
+    display: block;
+  }
+
+  .transaction-reference-info strong {
+    font-size: 10px;
+  }
+
+  .transaction-copy {
+    width: 100%;
+
+    height: 40px;
+
+    margin-top: 13px;
+  }
+
+
+  /* INFORMATION */
+
+  .transaction-info {
+    gap: 9px;
+  }
+
+  .transaction-info-block {
+    padding: 15px;
+  }
+
+  .transaction-info-block h3 {
+    font-size: 12px;
+  }
+
+  .transaction-info-block p {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .transaction-history {
+    min-height: 44px;
+
+    font-size: 11px;
+  }
+
+
+  /* FOOTER */
+
+  .transaction-footer {
+    margin-top: 42px;
+
+    justify-content: flex-start;
+
+    flex-wrap: wrap;
+
+    line-height: 1.5;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .transaction-header {
+    width: calc(100% - 22px);
+  }
+
+  .transaction-container {
+    width: calc(100% - 22px);
+  }
+
+  .transaction-heading h1 {
+    font-size: 28px;
+  }
+
+  .transaction-amount > strong {
+    font-size: 24px;
+  }
+
+  .transaction-direction {
+    padding: 5px 7px;
+    font-size: 9px;
+  }
+}

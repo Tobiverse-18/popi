@@ -1,0 +1,815 @@
+.baloz-admin-investments-page {
+  width: 100%;
+  color: #f5f7fa;
+}
+
+.baloz-admin-investments-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.baloz-admin-investments-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: #7f8b9a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.baloz-admin-investments-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.baloz-admin-investments-header p {
+  max-width: 620px;
+  margin: 9px 0 0;
+  color: #87919e;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+
+/* ERROR */
+
+.baloz-admin-investments-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 13px 15px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.07);
+  color: #fca5a5;
+  font-size: 13px;
+}
+
+
+/* STATS */
+
+.baloz-admin-investments-stats {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.baloz-admin-investment-stat {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #202934;
+  background: #11171f;
+}
+
+.baloz-admin-investment-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 17px;
+  border: 1px solid #29333f;
+  background: #161e27;
+  color: #aeb8c5;
+}
+
+.baloz-admin-investment-stat span {
+  display: block;
+  margin-bottom: 6px;
+  color: #788492;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.baloz-admin-investment-stat strong {
+  display: block;
+  overflow: hidden;
+  color: #f7f9fb;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* TOOLBAR */
+
+.baloz-admin-investments-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.baloz-admin-investments-search {
+  display: flex;
+  align-items: center;
+  width: min(420px, 100%);
+  height: 44px;
+  border: 1px solid #27313c;
+  background: #11171f;
+  color: #667280;
+}
+
+.baloz-admin-investments-search svg {
+  flex: 0 0 auto;
+  margin-left: 14px;
+}
+
+.baloz-admin-investments-search input {
+  width: 100%;
+  height: 100%;
+  padding: 0 13px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #eef2f6;
+  font: inherit;
+  font-size: 13px;
+}
+
+.baloz-admin-investments-search input::placeholder {
+  color: #606b78;
+}
+
+.baloz-admin-investments-search:focus-within {
+  border-color: #3a4653;
+}
+
+.baloz-admin-investments-filters {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.baloz-admin-investments-filters button {
+  flex: 0 0 auto;
+  height: 36px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #7d8996;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.baloz-admin-investments-filters button:hover {
+  color: #dce2e8;
+}
+
+.baloz-admin-investments-filters button.active {
+  border-color: #29343f;
+  background: #151d26;
+  color: #ffffff;
+}
+
+
+/* TABLE */
+
+.baloz-admin-investments-table-section {
+  overflow: hidden;
+  border: 1px solid #202934;
+  background: #0f151c;
+}
+
+.baloz-admin-investments-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  padding: 0 20px;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investments-table-header span {
+  display: block;
+  margin-bottom: 5px;
+  color: #66727f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.baloz-admin-investments-table-header strong {
+  color: #dce2e8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.baloz-admin-investments-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.baloz-admin-investments-table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+}
+
+.baloz-admin-investments-table th {
+  height: 44px;
+  padding: 0 18px;
+  border-bottom: 1px solid #202934;
+  background: #111820;
+  color: #687482;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.baloz-admin-investments-table td {
+  height: 76px;
+  padding: 10px 18px;
+  border-bottom: 1px solid #1c252f;
+  color: #cdd4dc;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.baloz-admin-investments-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.baloz-admin-investments-table tbody tr:hover {
+  background: #131b24;
+}
+
+.baloz-admin-investments-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* REFERENCE */
+
+.baloz-admin-investment-reference strong,
+.baloz-admin-investment-plan strong {
+  display: block;
+  color: #e8edf2;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.baloz-admin-investment-reference span,
+.baloz-admin-investment-plan span {
+  display: block;
+  margin-top: 4px;
+  color: #687482;
+  font-size: 11px;
+}
+
+
+/* CUSTOMER */
+
+.baloz-admin-investment-customer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.baloz-admin-investment-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #29333e;
+  background: #171f28;
+  color: #8c98a5;
+}
+
+.baloz-admin-investment-customer strong {
+  display: block;
+  max-width: 150px;
+  overflow: hidden;
+  color: #e1e6eb;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-customer span {
+  display: block;
+  max-width: 180px;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #687482;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* RETURN */
+
+.baloz-admin-investment-return {
+  color: #78c69a;
+  font-weight: 600;
+}
+
+
+/* MATURITY */
+
+.baloz-admin-investment-maturity {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #9ca7b3;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-maturity svg {
+  color: #65717e;
+}
+
+
+/* STATUS */
+
+.baloz-admin-investment-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border: 1px solid transparent;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-status-active {
+  border-color: rgba(96, 165, 250, 0.18);
+  background: rgba(96, 165, 250, 0.08);
+  color: #93c5fd;
+}
+
+.baloz-admin-investment-status-matured {
+  border-color: rgba(251, 191, 36, 0.18);
+  background: rgba(251, 191, 36, 0.07);
+  color: #fcd34d;
+}
+
+.baloz-admin-investment-status-completed {
+  border-color: rgba(74, 222, 128, 0.18);
+  background: rgba(74, 222, 128, 0.07);
+  color: #86efac;
+}
+
+.baloz-admin-investment-status-cancelled {
+  border-color: rgba(248, 113, 113, 0.18);
+  background: rgba(248, 113, 113, 0.07);
+  color: #fca5a5;
+}
+
+
+/* VIEW */
+
+.baloz-admin-investment-view {
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid #2a3540;
+  background: #151d26;
+  color: #aeb7c1;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.baloz-admin-investment-view:hover {
+  border-color: #3a4653;
+  color: #ffffff;
+}
+
+
+/* STATES */
+
+.baloz-admin-investments-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  padding: 40px 20px;
+  color: #697582;
+  text-align: center;
+}
+
+.baloz-admin-investments-state strong {
+  margin-top: 14px;
+  color: #dce2e8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.baloz-admin-investments-state p {
+  max-width: 420px;
+  margin: 7px 0 0;
+  color: #697582;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.baloz-admin-investments-loader {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #27313c;
+  border-top-color: #9ba6b2;
+  border-radius: 50%;
+  animation: baloz-admin-investments-spin 0.8s linear infinite;
+}
+
+@keyframes baloz-admin-investments-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* MODAL */
+
+.baloz-admin-investment-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(3, 7, 11, 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.baloz-admin-investment-modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid #29333e;
+  background: #10171f;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+}
+
+.baloz-admin-investment-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  border-bottom: 1px solid #232d37;
+}
+
+.baloz-admin-investment-modal-header span {
+  display: block;
+  margin-bottom: 7px;
+  color: #697582;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.baloz-admin-investment-modal-header h2 {
+  margin: 0;
+  color: #f4f6f8;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.baloz-admin-investment-modal-header > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #29333e;
+  background: #151d26;
+  color: #8995a2;
+  cursor: pointer;
+}
+
+.baloz-admin-investment-modal-header > button:hover {
+  color: #ffffff;
+}
+
+.baloz-admin-investment-modal-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 22px;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investment-modal-status > span:last-child {
+  color: #6d7986;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.baloz-admin-investment-modal-reference {
+  padding: 20px 22px;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investment-modal-reference > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #697582;
+  font-size: 11px;
+}
+
+.baloz-admin-investment-modal-reference > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.baloz-admin-investment-modal-reference strong {
+  overflow: hidden;
+  color: #e8edf2;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-modal-reference button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: #8e9aa7;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.baloz-admin-investment-modal-reference button:hover {
+  color: #ffffff;
+}
+
+
+/* DETAILS */
+
+.baloz-admin-investment-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: #202934;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investment-detail {
+  min-width: 0;
+  padding: 16px 22px;
+  background: #10171f;
+}
+
+.baloz-admin-investment-detail > span {
+  display: block;
+  margin-bottom: 7px;
+  color: #697582;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.baloz-admin-investment-detail > strong {
+  display: block;
+  overflow: hidden;
+  color: #dfe5eb;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-detail-copy {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.baloz-admin-investment-detail-copy strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #dfe5eb;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.baloz-admin-investment-detail-copy button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: #6f7b88;
+  cursor: pointer;
+}
+
+.baloz-admin-investment-detail-copy button:hover {
+  color: #ffffff;
+}
+
+
+/* AMOUNTS */
+
+.baloz-admin-investment-amounts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: #202934;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investment-amounts > div {
+  padding: 18px 22px;
+  background: #111820;
+}
+
+.baloz-admin-investment-amounts span,
+.baloz-admin-investment-dates span {
+  display: block;
+  margin-bottom: 7px;
+  color: #697582;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.baloz-admin-investment-amounts strong {
+  color: #f0f3f6;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.baloz-admin-investment-amounts strong.positive {
+  color: #78c69a;
+}
+
+
+/* DATES */
+
+.baloz-admin-investment-dates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: #202934;
+  border-bottom: 1px solid #202934;
+}
+
+.baloz-admin-investment-dates > div {
+  padding: 16px 22px;
+  background: #10171f;
+}
+
+.baloz-admin-investment-dates strong {
+  color: #cbd2da;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+/* NOTE */
+
+.baloz-admin-investment-modal-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 22px 22px;
+  padding: 13px 14px;
+  border: 1px solid #27323d;
+  background: #141c24;
+  color: #74808d;
+}
+
+.baloz-admin-investment-modal-note svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #8c98a5;
+}
+
+.baloz-admin-investment-modal-note p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1250px) {
+  .baloz-admin-investments-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .baloz-admin-investments-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .baloz-admin-investments-search {
+    width: 100%;
+  }
+
+  .baloz-admin-investments-filters {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .baloz-admin-investments-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .baloz-admin-investments-stat {
+    padding: 15px;
+  }
+
+  .baloz-admin-investment-stat {
+    padding: 15px;
+  }
+
+  .baloz-admin-investment-stat strong {
+    font-size: 17px;
+  }
+
+  .baloz-admin-investment-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .baloz-admin-investment-modal {
+    max-height: 92vh;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+  }
+
+  .baloz-admin-investment-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-admin-investment-amounts,
+  .baloz-admin-investment-dates {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .baloz-admin-investments-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .baloz-admin-investments-header {
+    margin-bottom: 22px;
+  }
+
+  .baloz-admin-investments-header h1 {
+    font-size: 28px;
+  }
+
+  .baloz-admin-investment-modal-header,
+  .baloz-admin-investment-modal-reference,
+  .baloz-admin-investment-detail,
+  .baloz-admin-investment-amounts > div,
+  .baloz-admin-investment-dates > div {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .baloz-admin-investment-modal-note {
+    margin-left: 17px;
+    margin-right: 17px;
+  }
+}

@@ -1,0 +1,570 @@
+.baloz-investments-page {
+  min-height: 100vh;
+  background: #080d13;
+  color: #f4f7fb;
+}
+
+.baloz-investments-header {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #18212c;
+}
+
+.baloz-investments-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #f4f7fb;
+  text-decoration: none;
+
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.baloz-investments-brand-mark {
+  width: 30px;
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #344150;
+  border-radius: 8px;
+
+  color: #ffffff;
+  background: #101720;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.baloz-investments-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #8d99a8;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.baloz-investments-back:hover {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+.baloz-investments-content {
+  width: min(1240px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 64px 0 40px;
+}
+
+.baloz-investments-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+
+  margin-bottom: 30px;
+}
+
+.baloz-investments-overline {
+  display: block;
+
+  margin-bottom: 13px;
+
+  color: #778494;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.baloz-investments-hero h1 {
+  max-width: 720px;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.baloz-investments-hero p {
+  max-width: 650px;
+
+  margin: 18px 0 0;
+
+  color: #8e9aa8;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.baloz-investments-refresh {
+  flex-shrink: 0;
+
+  min-height: 42px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 16px;
+
+  border: 1px solid #26313e;
+  border-radius: 8px;
+
+  background: #0d141c;
+  color: #c9d1da;
+
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.baloz-investments-refresh:hover:not(:disabled) {
+  background: #121b25;
+  border-color: #3a4654;
+  color: #ffffff;
+}
+
+.baloz-investments-refresh:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.baloz-investments-refreshing {
+  animation: baloz-investments-spin 0.9s linear infinite;
+}
+
+@keyframes baloz-investments-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.baloz-investments-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  margin-bottom: 54px;
+  padding: 18px 20px;
+
+  border: 1px solid #1c2834;
+  border-left: 2px solid #526170;
+
+  background: #0b1219;
+}
+
+.baloz-investments-notice-icon {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #263442;
+  border-radius: 7px;
+
+  background: #101923;
+  color: #aab5c1;
+}
+
+.baloz-investments-notice strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #e7ecf2;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.baloz-investments-notice p {
+  margin: 0;
+
+  color: #7f8b99;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.baloz-investments-error {
+  margin-bottom: 28px;
+  padding: 13px 15px;
+
+  border: 1px solid #493033;
+  background: #170f11;
+
+  color: #e5b9bd;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.baloz-investments-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+
+  margin-bottom: 22px;
+}
+
+.baloz-investments-section-heading > div > span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #667484;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.baloz-investments-section-heading h2 {
+  margin: 0;
+
+  color: #f4f7fb;
+
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.baloz-investments-count {
+  color: #687687;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.baloz-investments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.baloz-investment-category {
+  min-height: 270px;
+
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  padding: 24px;
+
+  border: 1px solid #1d2834;
+  border-radius: 2px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0e151d 0%,
+      #0b1118 100%
+    );
+
+  color: inherit;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease;
+}
+
+.baloz-investment-category:hover {
+  border-color: #354250;
+
+  background:
+    linear-gradient(
+      145deg,
+      #111a23 0%,
+      #0d141c 100%
+    );
+
+  transform: translateY(-2px);
+}
+
+.baloz-investment-category:focus-visible {
+  outline: 2px solid #7f8b98;
+  outline-offset: 3px;
+}
+
+.baloz-investment-category-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-bottom: 34px;
+}
+
+.baloz-investment-category-top > span {
+  color: #687687;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.baloz-investment-category-icon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #2b3744;
+  border-radius: 10px;
+
+  background: #121a23;
+  color: #e5eaf0;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.baloz-investment-category-body {
+  flex: 1;
+}
+
+.baloz-investment-category-body h3 {
+  margin: 0;
+
+  color: #f4f7fb;
+
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.baloz-investment-category-body p {
+  max-width: 520px;
+
+  margin: 11px 0 0;
+
+  color: #818d9b;
+
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.baloz-investment-category-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-top: 30px;
+  padding-top: 17px;
+
+  border-top: 1px solid #1b2631;
+
+  color: #687687;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.baloz-investment-category-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  color: #c5cdd6;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.baloz-investment-category:hover
+  .baloz-investment-category-action {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.baloz-investments-state {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  border: 1px solid #1b2631;
+
+  background: #0b1219;
+
+  color: #657383;
+
+  text-align: center;
+}
+
+.baloz-investments-state strong {
+  margin-top: 14px;
+
+  color: #d8dee6;
+
+  font-size: 15px;
+}
+
+.baloz-investments-state p {
+  max-width: 380px;
+
+  margin: 8px 0 0;
+
+  color: #707d8c;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.baloz-investments-spinner {
+  animation: baloz-investments-spin 0.9s linear infinite;
+}
+
+.baloz-investments-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  margin-top: 90px;
+  padding-top: 24px;
+
+  border-top: 1px solid #18212c;
+
+  color: #596675;
+
+  font-size: 11px;
+}
+
+.baloz-investments-footer span:first-child {
+  color: #9aa5b2;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .baloz-investments-header,
+  .baloz-investments-content {
+    width: min(100% - 32px, 1240px);
+  }
+
+  .baloz-investments-content {
+    padding-top: 46px;
+  }
+
+  .baloz-investments-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .baloz-investments-refresh {
+    width: 100%;
+  }
+
+  .baloz-investments-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .baloz-investments-header {
+    min-height: 68px;
+  }
+
+  .baloz-investments-content {
+    padding-top: 36px;
+  }
+
+  .baloz-investments-hero h1 {
+    font-size: 36px;
+  }
+
+  .baloz-investments-notice {
+    margin-bottom: 42px;
+  }
+
+  .baloz-investments-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .baloz-investment-category {
+    min-height: 250px;
+    padding: 20px;
+  }
+
+  .baloz-investment-category-top {
+    margin-bottom: 27px;
+  }
+
+  .baloz-investments-footer {
+    justify-content: flex-start;
+    gap: 9px 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .baloz-investments-header,
+  .baloz-investments-content {
+    width: min(100% - 24px, 1240px);
+  }
+
+  .baloz-investments-hero h1 {
+    font-size: 32px;
+  }
+
+  .baloz-investments-notice {
+    padding: 15px;
+  }
+
+  .baloz-investment-category {
+    padding: 18px;
+  }
+
+  .baloz-investment-category-body h3 {
+    font-size: 20px;
+  }
+}
