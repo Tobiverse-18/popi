@@ -34,20 +34,19 @@ COINS = {
 CACHE_KEY = "baloz_market_data"
 CACHE_TIMEOUT = 300
 
+FALLBACK_CACHE_KEY = "baloz_market_data_fallback"
+FALLBACK_CACHE_TIMEOUT = 60 * 60 * 24
+
 
 def get_market_data():
-
     cached_markets = cache.get(CACHE_KEY)
 
     if cached_markets is not None:
         return cached_markets
 
-
     coin_ids = ",".join(COINS.keys())
 
-
     url = "https://api.coingecko.com/api/v3/coins/markets"
-
 
     params = {
         "vs_currency": "usd",
@@ -59,33 +58,54 @@ def get_market_data():
         "price_change_percentage": "24h",
     }
 
+    headers = {
+        "Accept": "application/json",
+        "User-Agent": "Baloz/1.0",
+    }
 
-    response = requests.get(
-        url,
-        params=params,
-        timeout=10,
-    )
+    try:
+        response = requests.get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=10,
+        )
 
+        response.raise_for_status()
 
-    response.raise_for_status()
+        data = response.json()
 
+    except requests.RequestException as error:
+        print(f"CoinGecko request failed: {error}")
 
-    data = response.json()
+        fallback_markets = cache.get(
+            FALLBACK_CACHE_KEY
+        )
 
+        if fallback_markets is not None:
+            print(
+                "Returning previously cached market data."
+            )
+
+            cache.set(
+                CACHE_KEY,
+                fallback_markets,
+                CACHE_TIMEOUT,
+            )
+
+            return fallback_markets
+
+        raise
 
     markets = []
 
-
     for coin in data:
-
         coin_id = coin.get("id")
 
         coin_info = COINS.get(coin_id)
 
-
         if not coin_info:
             continue
-
 
         markets.append(
             {
@@ -120,12 +140,16 @@ def get_market_data():
             }
         )
 
-
     cache.set(
         CACHE_KEY,
         markets,
         CACHE_TIMEOUT,
     )
 
+    cache.set(
+        FALLBACK_CACHE_KEY,
+        markets,
+        FALLBACK_CACHE_TIMEOUT,
+    )
 
     return markets
