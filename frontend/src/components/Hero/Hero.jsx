@@ -16,7 +16,7 @@ export default function Hero() {
         <div className="hero-content">
           <div className="hero-eyebrow">
             <span className="hero-eyebrow-dot" />
-            <span>INVEST · BUILD · GROW</span>
+            <span>INVEST· BUILD · GROW</span>
           </div>
 
           <h1 className="hero-title">

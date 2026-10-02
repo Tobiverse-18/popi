@@ -111,20 +111,6 @@ const formatPercentage = (value) => {
 };
 
 
-const formatMarketNumber = (value) => {
-  if (value === null || value === undefined) {
-    return "—";
-  }
-
-  return `$${Number(value).toLocaleString(
-    "en-US",
-    {
-      maximumFractionDigits: 2,
-    }
-  )}`;
-};
-
-
 const formatWalletBalance = (value) => {
   if (value === null || value === undefined) {
     return "—";
@@ -176,67 +162,6 @@ const formatInvestmentDate = (value) => {
       day: "numeric",
       year: "numeric",
     }
-  );
-};
-
-
-const Sparkline = ({
-  data,
-  positive,
-}) => {
-  if (!data || data.length < 2) {
-    return (
-      <div className="baloz-sparkline-empty">
-        —
-      </div>
-    );
-  }
-
-  const width = 100;
-  const height = 32;
-
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-
-  const range = max - min || 1;
-
-  const points = data
-    .map((value, index) => {
-      const x =
-        (index / (data.length - 1)) *
-        width;
-
-      const y =
-        height -
-        ((value - min) / range) *
-          (height - 4) -
-        2;
-
-      return `${x},${y}`;
-    })
-    .join(" ");
-
-  return (
-    <div className="baloz-sparkline">
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <polyline
-          points={points}
-          fill="none"
-          stroke={
-            positive
-              ? "var(--baloz-green)"
-              : "var(--baloz-red)"
-          }
-          strokeWidth="1.7"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </div>
   );
 };
 
@@ -456,18 +381,20 @@ export default function Dashboard() {
       : markets;
 
 
-  const allActiveInvestments = investments.filter(
-    (investment) =>
-        investment.status?.toLowerCase() === "active"
+  const allActiveInvestments =
+    investments.filter(
+      (investment) =>
+        investment.status?.toLowerCase() ===
+        "active"
     );
 
-    const activeInvestments = allActiveInvestments.slice(0, 3);
+
+  const activeInvestments =
+    allActiveInvestments.slice(0, 3);
 
 
-  const firstName =
+  const displayName =
     user?.first_name ||
-    user?.firstName ||
-    user?.name?.split(" ")[0] ||
     user?.email?.split("@")[0] ||
     "there";
 
@@ -583,13 +510,10 @@ export default function Dashboard() {
           </span>
 
 
-          
-
-
           <Link
             to="/settings"
             className="baloz-sidebar-link"
-            >
+          >
             <Settings size={17} />
             <span>Settings</span>
           </Link>
@@ -673,19 +597,9 @@ export default function Dashboard() {
                 to="/dashboard"
                 className="baloz-top-link baloz-top-link-active"
               >
-                Dashboard
+                Baloz
               </Link>
 
-
-              
-
-
-              <Link
-                to="/investments"
-                className="baloz-top-link"
-              >
-                Investments
-              </Link>
 
             </nav>
 
@@ -694,19 +608,15 @@ export default function Dashboard() {
 
           <div className="baloz-topbar-right">
 
-
             <button
               type="button"
               className="baloz-top-profile"
             >
               <span>
-                {firstName
+                {displayName
                   .charAt(0)
                   .toUpperCase()}
               </span>
-
-              
-
             </button>
 
           </div>
@@ -729,14 +639,9 @@ export default function Dashboard() {
 
             <div className="baloz-portfolio-heading">
 
-              
-
-
               <h1 className="baloz-welcome-heading">
-                {userLoading
-                  ? "Welcome"
-                  : `Welcome, ${firstName}`}
-              </h1>
+              Welcome back, {displayName}
+            </h1>
 
 
               <div className="baloz-balance-row">
@@ -866,59 +771,67 @@ export default function Dashboard() {
           <section className="baloz-market-ticker">
 
             <div className="baloz-ticker-label">
-
               <span className="baloz-live-dot" />
-
               Markets
-
             </div>
-
 
             <div className="baloz-ticker-items">
 
               {marketsLoading ? (
+
                 <div className="baloz-ticker-loading">
                   Loading live markets...
                 </div>
+
               ) : marketsError ? (
+
                 <div className="baloz-ticker-loading">
                   Market data unavailable
                 </div>
-              ) : (
-                markets
-                  .slice(0, 5)
-                  .map((asset) => (
-                    <div
-                      className="baloz-ticker-item"
-                      key={asset.id}
+
+              ) : markets.length > 0 ? (
+
+                markets.slice(0, 5).map((asset) => (
+
+                  <div
+                    className="baloz-ticker-item"
+                    key={asset.id}
+                  >
+
+                    <span className="baloz-ticker-symbol">
+                      {asset.symbol}
+                    </span>
+
+                    <span className="baloz-ticker-price">
+                      {formatPrice(
+                        asset.price
+                      )}
+                    </span>
+
+                    <span
+                      className={
+                        Number(
+                          asset.change_24h
+                        ) >= 0
+                          ? "baloz-ticker-positive"
+                          : "baloz-ticker-negative"
+                      }
                     >
+                      {formatPercentage(
+                        asset.change_24h
+                      )}
+                    </span>
 
-                      <span className="baloz-ticker-symbol">
-                        {asset.symbol}
-                      </span>
+                  </div>
 
-                      <span className="baloz-ticker-price">
-                        {formatPrice(
-                          asset.current_price
-                        )}
-                      </span>
+                ))
 
-                      <span
-                        className={
-                          Number(
-                            asset.price_change_percentage_24h
-                          ) >= 0
-                            ? "baloz-ticker-positive"
-                            : "baloz-ticker-negative"
-                        }
-                      >
-                        {formatPercentage(
-                          asset.price_change_percentage_24h
-                        )}
-                      </span>
+              ) : (
 
-                    </div>
-                  ))
+                <div className="baloz-ticker-loading">
+                  No market data available
+                </div>
+
               )}
 
             </div>
@@ -1177,16 +1090,17 @@ export default function Dashboard() {
 
                   <strong>
                     {formatInvestmentMoney(
-                        allActiveInvestments.reduce(
+                      allActiveInvestments.reduce(
                         (total, investment) =>
-                            total +
-                            Number(
-                            investment.principal_amount || 0
-                            ),
+                          total +
+                          Number(
+                            investment.principal_amount ||
+                              0
+                          ),
                         0
-                        )
+                      )
                     )}
-                    </strong>
+                  </strong>
 
                 </div>
 
@@ -1199,16 +1113,17 @@ export default function Dashboard() {
 
                   <strong className="baloz-summary-profit">
                     {formatInvestmentMoney(
-                        allActiveInvestments.reduce(
+                      allActiveInvestments.reduce(
                         (total, investment) =>
-                            total +
-                            Number(
-                            investment.return_amount || 0
-                            ),
+                          total +
+                          Number(
+                            investment.return_amount ||
+                              0
+                          ),
                         0
-                        )
+                      )
                     )}
-                    </strong>
+                  </strong>
 
                 </div>
 
@@ -1295,196 +1210,156 @@ export default function Dashboard() {
             </div>
 
 
-            <div className="baloz-market-table">
+            <div className="baloz-market-table-head">
 
-              <div className="baloz-market-table-head">
+              <span>
+                ASSET
+              </span>
+
+              <span>
+                PRICE
+              </span>
+
+              <span>
+                24H CHANGE
+              </span>
+
+              <span />
+
+            </div>
+
+
+            {marketsLoading ? (
+
+              <div className="baloz-market-state">
+                Loading live market data...
+              </div>
+
+            ) : marketsError ? (
+
+              <div className="baloz-market-state">
 
                 <span>
-                  ASSET
+                  Unable to load market data.
                 </span>
 
-                <span>
-                  PRICE
-                </span>
-
-                <span>
-                  24H CHANGE
-                </span>
-
-                <span>
-                  24H HIGH
-                </span>
-
-                <span>
-                  24H LOW
-                </span>
-
-                <span>
-                  7D
-                </span>
-
-                <span />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMarketsLoading(true);
+                    fetchMarkets();
+                  }}
+                >
+                  Try again
+                </button>
 
               </div>
 
+            ) : visibleAssets.length > 0 ? (
 
-              {marketsLoading ? (
+              visibleAssets.map((asset) => {
 
-                <div className="baloz-market-state">
-                  Loading live market data...
-                </div>
+                const meta =
+                  getAssetMeta(
+                    asset.symbol
+                  );
 
-              ) : marketsError ? (
+                const isWatching =
+                  watchlisted.includes(
+                    asset.symbol
+                  );
 
-                <div className="baloz-market-state">
 
-                  <span>
-                    Unable to load market data.
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={fetchMarkets}
+                return (
+                  <div
+                    className="baloz-market-row"
+                    key={asset.id}
                   >
-                    Try again
-                  </button>
 
-                </div>
+                    <div className="baloz-asset-cell">
 
-              ) : visibleAssets.length > 0 ? (
-
-                visibleAssets.map((asset) => {
-
-                  const meta =
-                    getAssetMeta(
-                      asset.symbol
-                    );
-
-                  const change =
-                    Number(
-                      asset.price_change_percentage_24h
-                    );
-
-                  const isPositive =
-                    change >= 0;
-
-                  const isWatching =
-                    watchlisted.includes(
-                      asset.symbol
-                    );
-
-
-                  return (
-                    <div
-                      className="baloz-market-row"
-                      key={asset.id}
-                    >
-
-                      <div className="baloz-asset-cell">
-
-                        <button
-                          type="button"
-                          className="baloz-star-button"
-                          onClick={() =>
-                            toggleWatchlist(
-                              asset.symbol
-                            )
-                          }
-                          aria-label={
+                      <button
+                        type="button"
+                        className="baloz-star-button"
+                        onClick={() =>
+                          toggleWatchlist(
+                            asset.symbol
+                          )
+                        }
+                        aria-label={
+                          isWatching
+                            ? `Remove ${asset.symbol} from watchlist`
+                            : `Add ${asset.symbol} to watchlist`
+                        }
+                      >
+                        <Star
+                          size={15}
+                          fill={
                             isWatching
-                              ? `Remove ${asset.symbol} from watchlist`
-                              : `Add ${asset.symbol} to watchlist`
+                              ? "currentColor"
+                              : "none"
                           }
-                        >
-                          <Star
-                            size={15}
-                            fill={
-                              isWatching
-                                ? "currentColor"
-                                : "none"
-                            }
-                          />
-                        </button>
+                        />
+                      </button>
 
+                      <span className="baloz-asset-icon">
+                        {meta.icon}
+                      </span>
 
-                        <span className="baloz-asset-icon">
-                          {meta.icon}
-                        </span>
+                      <div>
 
+                        <strong>
+                          {asset.symbol}
+                        </strong>
 
-                        <div>
-
-                          <strong>
-                            {asset.symbol}
-                          </strong>
-
-                          <small>
-                            {asset.name}
-                          </small>
-
-                        </div>
+                        <small>
+                          {asset.name}
+                        </small>
 
                       </div>
 
-
-                      <span className="baloz-price">
-                        {formatPrice(
-                          asset.current_price
-                        )}
-                      </span>
-
-
-                      <span
-                        className={
-                          isPositive
-                            ? "baloz-change-positive"
-                            : "baloz-change-negative"
-                        }
-                      >
-                        {formatPercentage(
-                          asset.price_change_percentage_24h
-                        )}
-                      </span>
-
-
-                      <span className="baloz-market-muted">
-                        {formatMarketNumber(
-                          asset.high_24h
-                        )}
-                      </span>
-
-
-                      <span className="baloz-market-muted">
-                        {formatMarketNumber(
-                          asset.low_24h
-                        )}
-                      </span>
-
-
-                      <Sparkline
-                        data={asset.sparkline}
-                        positive={isPositive}
-                      />
-
                     </div>
-                  );
-                })
 
-              ) : (
 
-                <div className="baloz-no-watchlist">
+                    <span className="baloz-price">
+                      {formatPrice(
+                        asset.price
+                      )}
+                    </span>
 
-                  <Star size={18} />
 
-                  <span>
-                    Your watchlist is empty.
-                  </span>
+                    <span
+                      className={
+                        Number(
+                          asset.change_24h
+                        ) >= 0
+                          ? "baloz-change-positive"
+                          : "baloz-change-negative"
+                      }
+                    >
+                      {formatPercentage(
+                        asset.change_24h
+                      )}
+                    </span>
 
-                </div>
+                  </div>
+                );
 
-              )}
+              })
 
-            </div>
+            ) : (
+
+              <div className="baloz-no-watchlist">
+
+                <Star size={18} />
+
+                <span>
+                  Your watchlist is empty.
+                </span>
+
+              </div>
+
+            )}
 
           </section>
 

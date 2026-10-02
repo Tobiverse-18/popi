@@ -3,153 +3,153 @@ import requests
 from django.core.cache import cache
 
 
+COINPAPRIKA_URL = "https://api.coinpaprika.com/v1/tickers"
+
+CACHE_KEY = "baloz_market_prices"
+CACHE_TIMEOUT = 60
+
+
 COINS = {
-    "bitcoin": {
+    "btc-bitcoin": {
         "symbol": "BTC",
         "name": "Bitcoin",
     },
-    "ethereum": {
+    "eth-ethereum": {
         "symbol": "ETH",
         "name": "Ethereum",
     },
-    "solana": {
+    "sol-solana": {
         "symbol": "SOL",
         "name": "Solana",
     },
-    "binancecoin": {
+    "bnb-binance-coin": {
         "symbol": "BNB",
         "name": "BNB",
     },
-    "ripple": {
+    "xrp-xrp": {
         "symbol": "XRP",
         "name": "XRP",
     },
-    "tether": {
+    "usdt-tether": {
         "symbol": "USDT",
         "name": "Tether",
     },
 }
 
 
-CACHE_KEY = "baloz_market_data"
-CACHE_TIMEOUT = 300
-
-FALLBACK_CACHE_KEY = "baloz_market_data_fallback"
-FALLBACK_CACHE_TIMEOUT = 60 * 60 * 24
-
-
 def get_market_data():
-    cached_markets = cache.get(CACHE_KEY)
+    """
+    Get simple cryptocurrency market data.
 
-    if cached_markets is not None:
-        return cached_markets
+    Returns:
+        [
+            {
+                "id": "btc-bitcoin",
+                "symbol": "BTC",
+                "name": "Bitcoin",
+                "price": 100000.00,
+                "change_24h": 2.45,
+            },
+            ...
+        ]
+    """
 
-    coin_ids = ",".join(COINS.keys())
+    # ---------------------------------------------------------
+    # 1. Check cache first
+    # ---------------------------------------------------------
 
-    url = "https://api.coingecko.com/api/v3/coins/markets"
+    cached_data = cache.get(CACHE_KEY)
 
-    params = {
-        "vs_currency": "usd",
-        "ids": coin_ids,
-        "order": "market_cap_desc",
-        "per_page": len(COINS),
-        "page": 1,
-        "sparkline": "true",
-        "price_change_percentage": "24h",
-    }
+    if cached_data is not None:
+        return cached_data
 
-    headers = {
-        "Accept": "application/json",
-        "User-Agent": "Baloz/1.0",
-    }
+    # ---------------------------------------------------------
+    # 2. Request market data from CoinPaprika
+    # ---------------------------------------------------------
 
     try:
         response = requests.get(
-            url,
-            params=params,
-            headers=headers,
-            timeout=10,
+            COINPAPRIKA_URL,
+            params={
+                "quotes": "USD",
+            },
+            timeout=15,
         )
 
         response.raise_for_status()
 
-        data = response.json()
+        coins = response.json()
 
-    except requests.RequestException as error:
-        print(f"CoinGecko request failed: {error}")
+    except requests.RequestException as exc:
+        print(f"CoinPaprika request failed: {exc}")
 
-        fallback_markets = cache.get(
-            FALLBACK_CACHE_KEY
-        )
+        # If the provider is temporarily unavailable,
+        # return an empty list instead of crashing the API.
+        return []
 
-        if fallback_markets is not None:
-            print(
-                "Returning previously cached market data."
-            )
+    # ---------------------------------------------------------
+    # 3. Create lookup for the coins we actually need
+    # ---------------------------------------------------------
 
-            cache.set(
-                CACHE_KEY,
-                fallback_markets,
-                CACHE_TIMEOUT,
-            )
+    requested_ids = set(COINS.keys())
 
-            return fallback_markets
+    market_data = []
 
-        raise
+    for coin in coins:
 
-    markets = []
-
-    for coin in data:
         coin_id = coin.get("id")
 
-        coin_info = COINS.get(coin_id)
-
-        if not coin_info:
+        if coin_id not in requested_ids:
             continue
 
-        markets.append(
+        coin_info = COINS[coin_id]
+
+        usd_data = (
+            coin.get("quotes", {})
+            .get("USD", {})
+        )
+
+        price = usd_data.get("price")
+        change_24h = usd_data.get(
+            "percent_change_24h"
+        )
+
+        if price is None:
+            continue
+
+        market_data.append(
             {
                 "id": coin_id,
                 "symbol": coin_info["symbol"],
                 "name": coin_info["name"],
-                "current_price": coin.get(
-                    "current_price"
-                ),
-                "price_change_percentage_24h": coin.get(
-                    "price_change_percentage_24h"
-                ),
-                "high_24h": coin.get(
-                    "high_24h"
-                ),
-                "low_24h": coin.get(
-                    "low_24h"
-                ),
-                "market_cap": coin.get(
-                    "market_cap"
-                ),
-                "total_volume": coin.get(
-                    "total_volume"
-                ),
-                "sparkline": coin.get(
-                    "sparkline_in_7d",
-                    {}
-                ).get(
-                    "price",
-                    []
+                "price": float(price),
+                "change_24h": (
+                    float(change_24h)
+                    if change_24h is not None
+                    else 0.0
                 ),
             }
         )
 
-    cache.set(
-        CACHE_KEY,
-        markets,
-        CACHE_TIMEOUT,
+    # ---------------------------------------------------------
+    # 4. Keep the assets in our desired order
+    # ---------------------------------------------------------
+
+    order = list(COINS.keys())
+
+    market_data.sort(
+        key=lambda item: order.index(item["id"])
     )
 
-    cache.set(
-        FALLBACK_CACHE_KEY,
-        markets,
-        FALLBACK_CACHE_TIMEOUT,
-    )
+    # ---------------------------------------------------------
+    # 5. Cache successful data
+    # ---------------------------------------------------------
 
-    return markets
+    if market_data:
+        cache.set(
+            CACHE_KEY,
+            market_data,
+            CACHE_TIMEOUT,
+        )
+
+    return market_data

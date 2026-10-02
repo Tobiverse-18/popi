@@ -57,7 +57,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         try:
             send_welcome_email(user)
         except Exception as error:
-            print(f"Welcome email failed for {user.email}: {error}")
+            print(
+                f"Welcome email failed for {user.email}: {error}"
+            )
 
         return user
 
@@ -70,6 +72,8 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "phone_number",
+            "first_name",
+            "last_name",
             "role",
             "email_verified",
             "is_kyc_verified",
