@@ -3,6 +3,7 @@ from datetime import timedelta
 import os
 
 from dotenv import load_dotenv
+import dj_database_url
 
 
 # ============================================================
@@ -11,7 +12,8 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Load environment variables from .env
+# Load environment variables from .env locally.
+# On Render, environment variables are supplied by Render.
 load_dotenv(BASE_DIR / ".env")
 
 
@@ -24,13 +26,38 @@ SECRET_KEY = os.environ.get(
     "django-insecure-pcg%j^d(y$8!w%txbp!$@@=&@ol1pg_aqiq1+$#xzddzhq1p72",
 )
 
-DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+DEBUG = os.environ.get(
+    "DEBUG",
+    "True",
+).lower() == "true"
+
+
+# ============================================================
+# ALLOWED HOSTS
+# ============================================================
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "testserver",
 ]
+
+render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
+
+extra_allowed_hosts = os.environ.get(
+    "ALLOWED_HOSTS",
+    "",
+)
+
+if extra_allowed_hosts:
+    ALLOWED_HOSTS.extend(
+        host.strip()
+        for host in extra_allowed_hosts.split(",")
+        if host.strip()
+    )
 
 
 # ============================================================
@@ -64,6 +91,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+
+    # Serve static files in production.
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -112,12 +143,29 @@ WSGI_APPLICATION = "config.wsgi.application"
 # DATABASE
 # ============================================================
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
-}
+else:
+    # Local development
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+
+# ============================================================
+# CACHE
+# ============================================================
 
 CACHES = {
     "default": {
@@ -176,7 +224,24 @@ USE_TZ = True
 # STATIC FILES
 # ============================================================
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "django.core.files.storage."
+            "FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 
 # ============================================================
@@ -242,3 +307,52 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+frontend_url = os.environ.get("FRONTEND_URL")
+
+if frontend_url:
+    CORS_ALLOWED_ORIGINS.append(
+        frontend_url.rstrip("/")
+    )
+
+
+# ============================================================
+# CSRF TRUSTED ORIGINS
+# ============================================================
+
+CSRF_TRUSTED_ORIGINS = []
+
+if frontend_url:
+    CSRF_TRUSTED_ORIGINS.append(
+        frontend_url.rstrip("/")
+    )
+
+
+# ============================================================
+# PRODUCTION SECURITY
+# ============================================================
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
+
+    SESSION_COOKIE_SECURE = True
+
+    CSRF_COOKIE_SECURE = True
+
+    SECURE_BROWSER_XSS_FILTER = True
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
+    X_FRAME_OPTIONS = "DENY"
+
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+
+# ============================================================
+# DEFAULT PRIMARY KEY
+# ============================================================
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
