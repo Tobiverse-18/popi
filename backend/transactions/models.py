@@ -12,6 +12,7 @@ class Transaction(models.Model):
         WITHDRAWAL = "withdrawal", "Withdrawal"
         INVESTMENT = "investment", "Investment"
         MATURITY = "maturity", "Investment Maturity"
+        LOAN = "loan", "Loan"
         REFUND = "refund", "Refund"
         FEE = "fee", "Fee"
 

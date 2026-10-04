@@ -365,7 +365,7 @@ export default function AdminInvestmentPlans() {
 
           <p>
             Create and manage the plans available
-            to customers on the Baloz platform.
+            to customers on the HarvestCoin platform.
           </p>
         </div>
 

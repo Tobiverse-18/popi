@@ -16,7 +16,7 @@ export default function About() {
         <div className="about-header">
           <div className="about-eyebrow">
             <span>01</span>
-            <span>ABOUT BALOZ</span>
+            <span>ABOUT HARVESTCOIN</span>
           </div>
 
           <div className="about-heading-wrap">
@@ -116,7 +116,7 @@ export default function About() {
           <div className="about-statement-line" />
 
           <div className="about-statement-content">
-            <span>THE BALOZ APPROACH</span>
+            <span>THE HARVESTCOIN APPROACH</span>
 
             <h3>
               Your money should feel
@@ -125,7 +125,7 @@ export default function About() {
 
             <p>
               We believe financial technology should give you
-              clarity without overwhelming you. Baloz brings
+              clarity without overwhelming you. HarvestCoin brings
               essential financial tools into one thoughtful
               experience.
             </p>

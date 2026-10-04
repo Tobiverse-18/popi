@@ -85,7 +85,7 @@ export default function AdminDashboard() {
       <header className="admin-dashboard-header">
         <div>
           <span className="admin-overline">
-            BALOZ ADMIN
+            HARVESTCOIN ADMIN
           </span>
 
           <h1>Dashboard</h1>

@@ -278,10 +278,10 @@ export default function InvestmentPlan() {
             className="baloz-plan-brand"
           >
             <span className="baloz-plan-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
 
         </header>
@@ -322,10 +322,10 @@ export default function InvestmentPlan() {
           className="baloz-plan-brand"
         >
           <span className="baloz-plan-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -459,7 +459,7 @@ export default function InvestmentPlan() {
 
               <p>
                 Your investment amount will be
-                deducted from your Baloz wallet
+                deducted from your HarvestCoin wallet
                 only after you confirm the
                 investment.
               </p>
@@ -589,7 +589,7 @@ export default function InvestmentPlan() {
               Expected return is based on the
               rate configured for this plan.
               Final investment processing is
-              subject to Baloz platform rules.
+              subject to HarvestCoin platform rules.
             </p>
 
           </div>
@@ -599,7 +599,7 @@ export default function InvestmentPlan() {
 
         <footer className="baloz-plan-footer">
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
 
           <span>
             Financial platform
@@ -609,9 +609,7 @@ export default function InvestmentPlan() {
             © {new Date().getFullYear()}
           </span>
 
-          <span>
-            Designed & Developed by Balora
-          </span>
+          
 
         </footer>
 

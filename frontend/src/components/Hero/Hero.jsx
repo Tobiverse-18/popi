@@ -22,7 +22,7 @@ export default function Hero() {
           <h1 className="hero-title">
             Build your
             <span> financial future</span>
-            with Baloz
+            with HarvestCoin
           </h1>
 
           <p className="hero-description">
@@ -38,7 +38,7 @@ export default function Hero() {
             </a>
 
             <a href="#how-it-works" className="hero-secondary-button">
-              Explore Baloz
+              Explore HarvestCoin
             </a>
           </div>
 

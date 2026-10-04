@@ -43,7 +43,7 @@ export default function Features() {
             </h2>
 
             <p>
-              Baloz brings the important parts of your financial
+              HarvestCoin brings the important parts of your financial
               activity into one focused experience.
             </p>
           </div>

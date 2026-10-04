@@ -161,8 +161,8 @@ export default function Login() {
 
       <div className="login-topbar">
         <Link to="/" className="login-brand">
-          <span className="login-brand-mark">B</span>
-          <span>Baloz</span>
+          <span className="login-brand-mark">H</span>
+          <span>HarvestCoin</span>
         </Link>
 
         <ThemeToggle />
@@ -173,7 +173,7 @@ export default function Login() {
           <div className="login-intro-content">
             <span className="login-eyebrow">
               <span />
-              BALOZ ACCOUNT
+              HarvestCoin ACCOUNT
             </span>
 
             <h1>
@@ -223,7 +223,7 @@ export default function Login() {
             </span>
 
             <span>
-              © {new Date().getFullYear()} Baloz
+              © {new Date().getFullYear()} HarvestCoin
             </span>
           </div>
         </section>
@@ -240,7 +240,7 @@ export default function Login() {
                   SIGN IN
                 </span>
 
-                <h2>Log in to Baloz</h2>
+                <h2>Log in to HarvestCoin</h2>
 
                 <p>
                   Enter your account details to continue.
@@ -396,7 +396,7 @@ export default function Login() {
 
             <div className="login-divider">
               <span />
-              <p>NEW TO BALOZ?</p>
+              <p>NEW TO HARVESTCOIN?</p>
               <span />
             </div>
 
@@ -414,7 +414,7 @@ export default function Login() {
 
             <p className="login-legal">
               By continuing, you acknowledge that you have
-              read and understood the Baloz terms and privacy
+              read and understood the HarvestCoin terms and privacy
               policy.
             </p>
           </div>

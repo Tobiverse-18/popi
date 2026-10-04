@@ -186,10 +186,10 @@ export default function TransactionDetail() {
             className="transaction-brand"
           >
             <span className="transaction-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
         </header>
 
@@ -213,10 +213,10 @@ export default function TransactionDetail() {
             className="transaction-brand"
           >
             <span className="transaction-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
         </header>
 
@@ -253,10 +253,10 @@ export default function TransactionDetail() {
           className="transaction-brand"
         >
           <span className="transaction-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -448,7 +448,7 @@ export default function TransactionDetail() {
 
               <p>
                 This transaction is linked to
-                your Baloz account and can only
+                your HarvestCoin account and can only
                 be viewed by you.
               </p>
             </div>
@@ -471,7 +471,7 @@ export default function TransactionDetail() {
                 <p>
                   This transaction has been
                   successfully recorded on your
-                  Baloz account.
+                  HarvestCoin account.
                 </p>
               </div>
 
@@ -497,7 +497,7 @@ export default function TransactionDetail() {
 
         <footer className="transaction-footer">
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
 
           <span>
             Financial platform

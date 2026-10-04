@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     "payments",
     "markets",
     "admin_dashboard",
+    "notifications",
+    "loans",
 ]
 
 

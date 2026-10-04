@@ -1,6 +1,9 @@
 from rest_framework import serializers
 
-from .models import ManualFundingRequest
+from .models import (
+    FundingWallet,
+    ManualFundingRequest,
+)
 
 
 class ManualFundingRequestSerializer(
@@ -190,3 +193,33 @@ class AdminFundingRequestSerializer(
         )
 
         read_only_fields = fields
+
+class FundingWalletSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FundingWallet
+
+        fields = (
+            "id",
+            "asset",
+            "network",
+            "address",
+            "is_active",
+            "created_at",
+            "updated_at",
+        )
+
+        read_only_fields = (
+            "id",
+            "created_at",
+            "updated_at",
+        )
+
+    def validate_address(self, value):
+        value = value.strip()
+
+        if not value:
+            raise serializers.ValidationError(
+                "Wallet address is required."
+            )
+
+        return value

@@ -117,10 +117,10 @@ export default function Investments() {
           className="baloz-investments-brand"
         >
           <span className="baloz-investments-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -362,7 +362,7 @@ export default function Investments() {
 
         <footer className="baloz-investments-footer">
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
 
           <span>
             Financial platform

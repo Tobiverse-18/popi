@@ -14,11 +14,11 @@ export default function Footer() {
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
             <span className="footer-logo-mark">
-              B
+              H
             </span>
 
             <span>
-              Baloz
+              HarvestCoin
             </span>
           </Link>
 
@@ -103,7 +103,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>
-          © {new Date().getFullYear()} Baloz. All rights reserved.
+          © {new Date().getFullYear()} HarvestCoin. All rights reserved.
         </p>
       </div>
     </footer>

@@ -123,3 +123,39 @@ class PaymentConfiguration(models.Model):
 
     def __str__(self):
         return "Baloz Payment Configuration"
+
+
+class FundingWallet(models.Model):
+    asset = models.CharField(
+        max_length=10,
+        default="BTC",
+    )
+
+    network = models.CharField(
+        max_length=30,
+        default="Bitcoin",
+    )
+
+    address = models.CharField(
+        max_length=255,
+        unique=True,
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return (
+            f"{self.asset} - "
+            f"{self.network} - "
+            f"{self.address}"
+        )

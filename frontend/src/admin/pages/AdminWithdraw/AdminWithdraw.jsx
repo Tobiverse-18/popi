@@ -9,7 +9,11 @@ import {
   XCircle,
 } from "lucide-react";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import api from "../../../api/api";
 
@@ -32,7 +36,13 @@ const formatDate = (date) => {
     return "—";
   }
 
-  return new Date(date).toLocaleString(
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "—";
+  }
+
+  return parsedDate.toLocaleString(
     "en-US",
     {
       month: "short",
@@ -121,6 +131,15 @@ export default function AdminWithdraw() {
 
   const [copied, setCopied] = useState(false);
 
+  const [actionLoading, setActionLoading] =
+    useState(false);
+
+  const [actionError, setActionError] =
+    useState("");
+
+  const [adminNote, setAdminNote] =
+    useState("");
+
 
   const fetchWithdrawals = async () => {
     try {
@@ -202,6 +221,90 @@ export default function AdminWithdraw() {
   };
 
 
+  const openWithdrawal = (withdrawal) => {
+    setSelectedWithdrawal(withdrawal);
+    setActionError("");
+    setAdminNote("");
+    setCopied(false);
+  };
+
+
+  const closeWithdrawal = () => {
+    if (actionLoading) {
+      return;
+    }
+
+    setSelectedWithdrawal(null);
+    setActionError("");
+    setAdminNote("");
+    setCopied(false);
+  };
+
+
+  const handleWithdrawalAction = async (
+    action
+  ) => {
+    if (!selectedWithdrawal) {
+      return;
+    }
+
+    if (
+      selectedWithdrawal.status !==
+      "pending"
+    ) {
+      return;
+    }
+
+    const actionLabel =
+      action === "approve"
+        ? "approve"
+        : "reject";
+
+    const confirmed = window.confirm(
+      `Are you sure you want to ${actionLabel} this withdrawal?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      setActionLoading(true);
+      setActionError("");
+
+      const endpoint =
+        action === "approve"
+          ? `/admin-dashboard/withdrawals/${selectedWithdrawal.id}/approve/`
+          : `/admin-dashboard/withdrawals/${selectedWithdrawal.id}/reject/`;
+
+      await api.post(
+        endpoint,
+        {
+          admin_note: adminNote.trim(),
+        }
+      );
+
+      setSelectedWithdrawal(null);
+      setAdminNote("");
+      setActionError("");
+
+      await fetchWithdrawals();
+    } catch (err) {
+      console.error(
+        `Failed to ${action} withdrawal:`,
+        err
+      );
+
+      setActionError(
+        err.response?.data?.detail ||
+          `Unable to ${action} withdrawal.`
+      );
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+
   const stats = useMemo(() => {
     const total = withdrawals.length;
 
@@ -220,6 +323,11 @@ export default function AdminWithdraw() {
         item.status === "failed"
     ).length;
 
+    const pending = withdrawals.filter(
+      (item) =>
+        item.status === "pending"
+    ).length;
+
     const totalAmount = withdrawals.reduce(
       (sum, item) =>
         sum + Number(item.amount || 0),
@@ -231,6 +339,7 @@ export default function AdminWithdraw() {
       processing,
       successful,
       failed,
+      pending,
       totalAmount,
     };
   }, [withdrawals]);
@@ -252,7 +361,7 @@ export default function AdminWithdraw() {
 
           <p>
             Monitor customer withdrawals and
-            their processing status.
+            review pending requests.
           </p>
         </div>
 
@@ -290,11 +399,11 @@ export default function AdminWithdraw() {
 
           <div>
             <span>
-              Processing
+              Pending
             </span>
 
             <strong>
-              {stats.processing}
+              {stats.pending}
             </strong>
           </div>
 
@@ -368,6 +477,7 @@ export default function AdminWithdraw() {
               type="button"
               onClick={() => {
                 setSearch("");
+
                 setTimeout(
                   fetchWithdrawals,
                   0
@@ -391,8 +501,13 @@ export default function AdminWithdraw() {
           }
           className="admin-withdraw-status-filter"
         >
+
           <option value="all">
             All statuses
+          </option>
+
+          <option value="pending">
+            Pending
           </option>
 
           <option value="processing">
@@ -403,10 +518,6 @@ export default function AdminWithdraw() {
             Successful
           </option>
 
-          <option value="pending">
-            Pending
-          </option>
-
           <option value="failed">
             Failed
           </option>
@@ -414,6 +525,7 @@ export default function AdminWithdraw() {
           <option value="cancelled">
             Cancelled
           </option>
+
         </select>
 
       </div>
@@ -476,6 +588,7 @@ export default function AdminWithdraw() {
 
               <thead>
                 <tr>
+
                   <th>
                     Withdrawal
                   </th>
@@ -499,6 +612,7 @@ export default function AdminWithdraw() {
                   <th>
                     Date
                   </th>
+
                 </tr>
               </thead>
 
@@ -509,7 +623,7 @@ export default function AdminWithdraw() {
                     <tr
                       key={withdrawal.id}
                       onClick={() =>
-                        setSelectedWithdrawal(
+                        openWithdrawal(
                           withdrawal
                         )
                       }
@@ -587,15 +701,19 @@ export default function AdminWithdraw() {
                             />
                           )}
 
-                          {withdrawal.status ===
-                            "processing" && (
+                          {(withdrawal.status ===
+                            "processing" ||
+                            withdrawal.status ===
+                              "pending") && (
                             <Clock3
                               size={13}
                             />
                           )}
 
-                          {withdrawal.status ===
-                            "failed" && (
+                          {(withdrawal.status ===
+                            "failed" ||
+                            withdrawal.status ===
+                              "cancelled") && (
                             <XCircle
                               size={13}
                             />
@@ -636,9 +754,7 @@ export default function AdminWithdraw() {
       {selectedWithdrawal && (
         <div
           className="admin-withdraw-overlay"
-          onClick={() =>
-            setSelectedWithdrawal(null)
-          }
+          onClick={closeWithdrawal}
         >
 
           <div
@@ -662,10 +778,9 @@ export default function AdminWithdraw() {
 
               <button
                 type="button"
-                onClick={() =>
-                  setSelectedWithdrawal(null)
-                }
+                onClick={closeWithdrawal}
                 className="admin-withdraw-close"
+                disabled={actionLoading}
               >
                 <X size={18} />
               </button>
@@ -809,23 +924,151 @@ export default function AdminWithdraw() {
                 </strong>
               </div>
 
+
+              {selectedWithdrawal.reviewed_at && (
+                <div>
+                  <span>
+                    Reviewed
+                  </span>
+
+                  <strong>
+                    {formatDate(
+                      selectedWithdrawal.reviewed_at
+                    )}
+                  </strong>
+                </div>
+              )}
+
+
+              {selectedWithdrawal.approved_amount && (
+                <div>
+                  <span>
+                    Approved amount
+                  </span>
+
+                  <strong>
+                    {formatAmount(
+                      selectedWithdrawal.approved_amount
+                    )}
+                  </strong>
+                </div>
+              )}
+
             </div>
 
 
-            <div className="admin-withdraw-modal-note">
+            {selectedWithdrawal.status ===
+              "pending" && (
+              <div className="admin-withdraw-review">
 
-              <span>
-                OPERATIONS NOTE
-              </span>
+                <div className="admin-withdraw-review-heading">
+                  <span>
+                    ADMIN REVIEW
+                  </span>
 
-              <p>
-                This withdrawal has already been
-                deducted from the customer's wallet.
-                Its current status reflects the
-                external transfer process.
-              </p>
+                  <p>
+                    The customer's wallet will only
+                    be debited if you approve this
+                    withdrawal.
+                  </p>
+                </div>
 
-            </div>
+
+                <label>
+                  Admin note
+                  <textarea
+                    value={adminNote}
+                    onChange={(event) =>
+                      setAdminNote(
+                        event.target.value
+                      )
+                    }
+                    placeholder="Optional note about this withdrawal..."
+                    maxLength={1000}
+                    disabled={actionLoading}
+                  />
+                </label>
+
+
+                {actionError && (
+                  <div className="admin-withdraw-action-error">
+                    {actionError}
+                  </div>
+                )}
+
+
+                <div className="admin-withdraw-actions">
+
+                  <button
+                    type="button"
+                    className="admin-withdraw-reject"
+                    onClick={() =>
+                      handleWithdrawalAction(
+                        "reject"
+                      )
+                    }
+                    disabled={actionLoading}
+                  >
+                    <XCircle size={15} />
+
+                    {actionLoading
+                      ? "Processing..."
+                      : "Reject withdrawal"}
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className="admin-withdraw-approve"
+                    onClick={() =>
+                      handleWithdrawalAction(
+                        "approve"
+                      )
+                    }
+                    disabled={actionLoading}
+                  >
+                    <CheckCircle2 size={15} />
+
+                    {actionLoading
+                      ? "Processing..."
+                      : "Approve withdrawal"}
+                  </button>
+
+                </div>
+
+              </div>
+            )}
+
+
+            {selectedWithdrawal.status !==
+              "pending" && (
+              <div className="admin-withdraw-modal-note">
+
+                <span>
+                  OPERATIONS NOTE
+                </span>
+
+                <p>
+                  {selectedWithdrawal.status ===
+                  "success"
+                    ? "This withdrawal was approved and the customer's wallet was debited."
+                    : selectedWithdrawal.status ===
+                      "failed"
+                    ? "This withdrawal was rejected and the customer's wallet was not debited."
+                    : "This withdrawal is no longer awaiting administrative approval."}
+                </p>
+
+                {selectedWithdrawal.admin_note && (
+                  <p className="admin-withdraw-existing-note">
+                    <strong>
+                      Admin note:
+                    </strong>{" "}
+                    {selectedWithdrawal.admin_note}
+                  </p>
+                )}
+
+              </div>
+            )}
 
           </div>
 

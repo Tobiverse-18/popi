@@ -5,12 +5,12 @@ import "./FAQ.css";
 
 const faqs = [
   {
-    question: "What is Baloz?",
+    question: "What is HarvestCoin?",
     answer:
-      "Baloz is a digital financial platform designed to bring investment management, digital assets, account funding, and financial activity into one organized experience.",
+      "HarvestCoin is a digital financial platform designed to bring investment management, digital assets, account funding, and financial activity into one organized experience.",
   },
   {
-    question: "What can I do on Baloz?",
+    question: "What can I do on HarvestCoin?",
     answer:
       "Depending on the services available to your account, you can manage your wallet, fund your account, access investment opportunities, manage supported digital assets, and keep track of your financial activity.",
   },
@@ -27,7 +27,7 @@ const faqs = [
   {
     question: "How can I fund my account?",
     answer:
-      "Baloz provides available funding options within the platform. Once a funding method is available for your account, you can follow the instructions provided to complete the process.",
+      "HarvestCoin provides available funding options within the platform. Once a funding method is available for your account, you can follow the instructions provided to complete the process.",
   },
   {
     question: "How do I track my transactions?",
@@ -121,7 +121,7 @@ export default function FAQ() {
             </h3>
           </div>
 
-          <a href="mailto:baloz@gmail.com">
+          <a href="mailto:HarvestCoin@gmail.com">
             <span>Get in touch</span>
 
             <ArrowUpRight

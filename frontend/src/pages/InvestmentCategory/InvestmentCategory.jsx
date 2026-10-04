@@ -176,10 +176,10 @@ export default function InvestmentCategory() {
           className="baloz-category-brand"
         >
           <span className="baloz-category-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -487,7 +487,7 @@ export default function InvestmentCategory() {
 
         <footer className="baloz-category-footer">
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
 
           <span>
             Financial platform

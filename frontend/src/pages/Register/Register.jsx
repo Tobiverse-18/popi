@@ -199,7 +199,7 @@ export default function Register() {
 
         <div className="register-brand">
           <Link to="/" className="register-brand-link">
-            Baloz
+            HarvestCoin
           </Link>
         </div>
 
@@ -211,7 +211,7 @@ export default function Register() {
           <h1>Start your journey.</h1>
 
           <p>
-            Create your Baloz account and get access to a
+            Create your HarvestCoin account and get access to a
             modern financial platform built around clarity,
             control, and a better digital experience.
           </p>
@@ -244,7 +244,7 @@ export default function Register() {
         </div>
 
         <div className="register-visual-footer">
-          <span>© {new Date().getFullYear()} Baloz</span>
+          <span>© {new Date().getFullYear()} HarvestCoin</span>
           <span>Private &amp; Secure</span>
         </div>
       </section>
@@ -253,7 +253,7 @@ export default function Register() {
         <div className="register-form-wrapper">
           <div className="register-mobile-brand">
             <Link to="/" className="register-brand-link">
-              Baloz
+              HarvestCoin
             </Link>
           </div>
 
@@ -266,7 +266,7 @@ export default function Register() {
 
             <p>
               Enter your details below to get started with
-              Baloz.
+              HarvestCoin.
             </p>
           </div>
 

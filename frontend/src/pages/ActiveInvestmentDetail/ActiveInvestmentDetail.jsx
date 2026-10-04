@@ -245,10 +245,10 @@ export default function ActiveInvestmentDetail() {
             className="active-investment-detail-brand"
           >
             <span className="active-investment-detail-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
 
         </header>
@@ -284,10 +284,10 @@ export default function ActiveInvestmentDetail() {
             className="active-investment-detail-brand"
           >
             <span className="active-investment-detail-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
 
         </header>
@@ -342,10 +342,10 @@ export default function ActiveInvestmentDetail() {
           className="active-investment-detail-brand"
         >
           <span className="active-investment-detail-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -755,7 +755,7 @@ export default function ActiveInvestmentDetail() {
         <footer className="active-investment-detail-footer">
 
           <span>
-            Baloz
+              HarvestCoin
           </span>
 
           <span>

@@ -165,10 +165,10 @@ export default function InvestmentConfirm() {
             className="baloz-confirm-brand"
           >
             <span className="baloz-confirm-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
 
         </header>
@@ -213,10 +213,10 @@ export default function InvestmentConfirm() {
           className="baloz-confirm-brand"
         >
           <span className="baloz-confirm-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -408,7 +408,7 @@ export default function InvestmentConfirm() {
                 {plan.currency}{" "}
                 {formattedAmount}
               </strong>{" "}
-              from your Baloz wallet.
+              from your HarvestCoin wallet.
             </p>
 
 
@@ -451,7 +451,7 @@ export default function InvestmentConfirm() {
 
         <footer className="baloz-confirm-footer">
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
 
           <span>
             Financial platform

@@ -228,11 +228,11 @@ export default function Transactions() {
           className="baloz-transactions-brand"
         >
           <span className="baloz-transactions-brand-mark">
-            B
+            H
           </span>
 
           <span>
-            Baloz
+            HarvestCoin
           </span>
         </Link>
 
@@ -527,7 +527,7 @@ export default function Transactions() {
         <footer className="baloz-transactions-footer">
 
           <span>
-            Baloz
+            HarvestCoin
           </span>
 
           <span>

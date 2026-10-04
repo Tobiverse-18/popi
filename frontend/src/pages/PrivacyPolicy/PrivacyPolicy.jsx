@@ -18,15 +18,15 @@ export default function PrivacyPolicy() {
             className="baloz-privacy-back"
           >
             <ArrowLeft size={16} />
-            <span>Back to Baloz</span>
+            <span>Back to HarvestCoin</span>
           </Link>
 
           <div className="baloz-privacy-brand">
             <div className="baloz-privacy-brand-mark">
-              B
+              H
             </div>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </div>
         </header>
 
@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
 
           <p>
             Your privacy matters to us. This Privacy Policy
-            explains how Baloz collects, uses, stores, and
+            explains how HarvestCoin collects, uses, stores, and
             protects information when you use our platform
             and services.
           </p>
@@ -67,7 +67,7 @@ export default function PrivacyPolicy() {
             <h2>1. Introduction</h2>
 
             <p>
-              Baloz ("Baloz", "we", "us", or "our") respects
+              HarvestCoin ("HarvestCoin", "we", "us", or "our") respects
               your privacy and is committed to protecting the
               personal information you provide when using our
               website, applications, and related services.
@@ -86,7 +86,7 @@ export default function PrivacyPolicy() {
             <h2>2. Information We Collect</h2>
 
             <p>
-              Depending on how you use Baloz, we may collect
+              Depending on how you use HarvestCoin, we may collect
               information including:
             </p>
 
@@ -138,7 +138,7 @@ export default function PrivacyPolicy() {
 
             <ul>
               <li>
-                Create and manage your Baloz account.
+                Create and manage your HarvestCoin account.
               </li>
 
               <li>
@@ -182,7 +182,7 @@ export default function PrivacyPolicy() {
             <h2>4. Transaction and Financial Information</h2>
 
             <p>
-              When you use financial features on Baloz, we
+              When you use financial features on HarvestCoin, we
               may collect and maintain information relating to
               deposits, withdrawals, investments, wallet
               activity, transaction references, transaction
@@ -227,7 +227,7 @@ export default function PrivacyPolicy() {
 
             <p>
               We may share information when reasonably
-              necessary to operate Baloz or comply with
+              necessary to operate HarvestCoin or comply with
               applicable obligations, including with:
             </p>
 
@@ -300,7 +300,7 @@ export default function PrivacyPolicy() {
             <h2>9. Cookies and Technical Information</h2>
 
             <p>
-              Baloz may use cookies, local storage, logs, and
+              HarvestCoin may use cookies, local storage, logs, and
               similar technologies to support authentication,
               security, functionality, preferences, and
               performance.
@@ -329,7 +329,7 @@ export default function PrivacyPolicy() {
             <p>
               If you believe that your account has been
               accessed without authorization, you should
-              contact Baloz as soon as possible.
+              contact HarvestCoin as soon as possible.
             </p>
           </section>
 
@@ -355,7 +355,7 @@ export default function PrivacyPolicy() {
             <h2>12. Children's Privacy</h2>
 
             <p>
-              Baloz services are not intended for individuals
+              HarvestCoin services are not intended for individuals
               who are not legally permitted to use the
               applicable services.
             </p>
@@ -372,7 +372,7 @@ export default function PrivacyPolicy() {
             <h2>13. Third-Party Services</h2>
 
             <p>
-              Baloz may rely on third-party services to provide
+              HarvestCoin may rely on third-party services to provide
               certain functionality, including hosting,
               communications, payments, security, identity
               verification, analytics, or other infrastructure.
@@ -410,7 +410,7 @@ export default function PrivacyPolicy() {
             <p>
               If you have questions, concerns, or requests
               regarding this Privacy Policy or the handling of
-              your information, please contact Baloz through
+              your information, please contact HarvestCoin through
               the official contact channels provided on our
               platform.
             </p>
@@ -422,7 +422,7 @@ export default function PrivacyPolicy() {
         {/* Footer */}
         <footer className="baloz-privacy-footer">
           <div>
-            © 2026 Baloz. All rights reserved.
+            © 2026 HarvestCoin. All rights reserved.
           </div>
 
           <div className="baloz-privacy-footer-links">

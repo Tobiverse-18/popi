@@ -16,6 +16,8 @@ import {
   Star,
   TrendingUp,
   Wallet,
+  Landmark,
+  X,
 } from "lucide-react";
 
 import { useEffect, useState } from "react";
@@ -57,6 +59,709 @@ const fallbackAssets = [
     symbol: "USDT",
     name: "Tether",
     icon: "₮",
+  },
+];
+
+const sampleActivities = [
+  {
+    id: 1,
+    name: "Daniel M.",
+    type: "investment",
+    amount: 12500,
+    time: "1 min ago",
+  },
+  {
+    id: 2,
+    name: "Sarah K.",
+    type: "withdrawal",
+    amount: 1850,
+    time: "2 mins ago",
+  },
+  {
+    id: 3,
+    name: "Michael A.",
+    type: "investment",
+    amount: 8500,
+    time: "3 mins ago",
+  },
+  {
+    id: 4,
+    name: "James R.",
+    type: "investment",
+    amount: 22000,
+    time: "4 mins ago",
+  },
+  {
+    id: 5,
+    name: "Emily W.",
+    type: "withdrawal",
+    amount: 3200,
+    time: "5 mins ago",
+  },
+  {
+    id: 6,
+    name: "Christopher B.",
+    type: "investment",
+    amount: 6750,
+    time: "6 mins ago",
+  },
+  {
+    id: 7,
+    name: "Olivia T.",
+    type: "investment",
+    amount: 15000,
+    time: "7 mins ago",
+  },
+  {
+    id: 8,
+    name: "Matthew J.",
+    type: "withdrawal",
+    amount: 750,
+    time: "8 mins ago",
+  },
+  {
+    id: 9,
+    name: "Andrew P.",
+    type: "investment",
+    amount: 9800,
+    time: "9 mins ago",
+  },
+  {
+    id: 10,
+    name: "Sophia L.",
+    type: "investment",
+    amount: 28500,
+    time: "10 mins ago",
+  },
+  {
+    id: 11,
+    name: "David H.",
+    type: "withdrawal",
+    amount: 2400,
+    time: "11 mins ago",
+  },
+  {
+    id: 12,
+    name: "Jessica R.",
+    type: "investment",
+    amount: 7200,
+    time: "12 mins ago",
+  },
+  {
+    id: 13,
+    name: "William C.",
+    type: "investment",
+    amount: 11250,
+    time: "13 mins ago",
+  },
+  {
+    id: 14,
+    name: "Ashley N.",
+    type: "withdrawal",
+    amount: 950,
+    time: "14 mins ago",
+  },
+  {
+    id: 15,
+    name: "Joshua D.",
+    type: "investment",
+    amount: 18500,
+    time: "15 mins ago",
+  },
+  {
+    id: 16,
+    name: "Megan S.",
+    type: "investment",
+    amount: 5400,
+    time: "16 mins ago",
+  },
+  {
+    id: 17,
+    name: "Ryan F.",
+    type: "withdrawal",
+    amount: 4100,
+    time: "17 mins ago",
+  },
+  {
+    id: 18,
+    name: "Lauren G.",
+    type: "investment",
+    amount: 13200,
+    time: "18 mins ago",
+  },
+  {
+    id: 19,
+    name: "Jonathan E.",
+    type: "investment",
+    amount: 35000,
+    time: "19 mins ago",
+  },
+  {
+    id: 20,
+    name: "Amanda V.",
+    type: "withdrawal",
+    amount: 1600,
+    time: "20 mins ago",
+  },
+  {
+    id: 21,
+    name: "Nicholas P.",
+    type: "investment",
+    amount: 9100,
+    time: "21 mins ago",
+  },
+  {
+    id: 22,
+    name: "Grace B.",
+    type: "investment",
+    amount: 14750,
+    time: "22 mins ago",
+  },
+  {
+    id: 23,
+    name: "Brandon W.",
+    type: "withdrawal",
+    amount: 2750,
+    time: "23 mins ago",
+  },
+  {
+    id: 24,
+    name: "Hannah M.",
+    type: "investment",
+    amount: 6250,
+    time: "24 mins ago",
+  },
+  {
+    id: 25,
+    name: "Kevin T.",
+    type: "investment",
+    amount: 24500,
+    time: "25 mins ago",
+  },
+  {
+    id: 26,
+    name: "Rachel A.",
+    type: "withdrawal",
+    amount: 5200,
+    time: "26 mins ago",
+  },
+  {
+    id: 27,
+    name: "Ethan S.",
+    type: "investment",
+    amount: 11800,
+    time: "27 mins ago",
+  },
+  {
+    id: 28,
+    name: "Madison J.",
+    type: "investment",
+    amount: 7600,
+    time: "28 mins ago",
+  },
+  {
+    id: 29,
+    name: "Tyler K.",
+    type: "withdrawal",
+    amount: 1250,
+    time: "29 mins ago",
+  },
+  {
+    id: 30,
+    name: "Victoria C.",
+    type: "investment",
+    amount: 19500,
+    time: "30 mins ago",
+  },
+  {
+    id: 31,
+    name: "Nathan R.",
+    type: "investment",
+    amount: 8300,
+    time: "31 mins ago",
+  },
+  {
+    id: 32,
+    name: "Chloe H.",
+    type: "withdrawal",
+    amount: 3600,
+    time: "32 mins ago",
+  },
+  {
+    id: 33,
+    name: "Alexander W.",
+    type: "investment",
+    amount: 27500,
+    time: "33 mins ago",
+  },
+  {
+    id: 34,
+    name: "Samantha D.",
+    type: "investment",
+    amount: 10400,
+    time: "34 mins ago",
+  },
+  {
+    id: 35,
+    name: "Benjamin L.",
+    type: "withdrawal",
+    amount: 680,
+    time: "35 mins ago",
+  },
+  {
+    id: 36,
+    name: "Natalie P.",
+    type: "investment",
+    amount: 6900,
+    time: "36 mins ago",
+  },
+  {
+    id: 37,
+    name: "Jason F.",
+    type: "investment",
+    amount: 16000,
+    time: "37 mins ago",
+  },
+  {
+    id: 38,
+    name: "Elizabeth G.",
+    type: "withdrawal",
+    amount: 2950,
+    time: "38 mins ago",
+  },
+  {
+    id: 39,
+    name: "Jacob N.",
+    type: "investment",
+    amount: 12500,
+    time: "39 mins ago",
+  },
+  {
+    id: 40,
+    name: "Kayla V.",
+    type: "investment",
+    amount: 42000,
+    time: "40 mins ago",
+  },
+  {
+    id: 41,
+    name: "Marcus J.",
+    type: "withdrawal",
+    amount: 2100,
+    time: "41 mins ago",
+  },
+  {
+    id: 42,
+    name: "Taylor B.",
+    type: "investment",
+    amount: 8700,
+    time: "42 mins ago",
+  },
+  {
+    id: 43,
+    name: "Anthony C.",
+    type: "investment",
+    amount: 14800,
+    time: "43 mins ago",
+  },
+  {
+    id: 44,
+    name: "Brittany S.",
+    type: "withdrawal",
+    amount: 4800,
+    time: "44 mins ago",
+  },
+  {
+    id: 45,
+    name: "Justin H.",
+    type: "investment",
+    amount: 21500,
+    time: "45 mins ago",
+  },
+  {
+    id: 46,
+    name: "Nicole F.",
+    type: "investment",
+    amount: 5900,
+    time: "46 mins ago",
+  },
+  {
+    id: 47,
+    name: "Robert D.",
+    type: "withdrawal",
+    amount: 1450,
+    time: "47 mins ago",
+  },
+  {
+    id: 48,
+    name: "Stephanie M.",
+    type: "investment",
+    amount: 9300,
+    time: "48 mins ago",
+  },
+  {
+    id: 49,
+    name: "Brandon K.",
+    type: "investment",
+    amount: 31500,
+    time: "49 mins ago",
+  },
+  {
+    id: 50,
+    name: "Lauren P.",
+    type: "withdrawal",
+    amount: 3300,
+    time: "50 mins ago",
+  },
+  {
+    id: 51,
+    name: "Eric T.",
+    type: "investment",
+    amount: 11750,
+    time: "51 mins ago",
+  },
+  {
+    id: 52,
+    name: "Mia R.",
+    type: "investment",
+    amount: 7800,
+    time: "52 mins ago",
+  },
+  {
+    id: 53,
+    name: "Brian W.",
+    type: "withdrawal",
+    amount: 2250,
+    time: "53 mins ago",
+  },
+  {
+    id: 54,
+    name: "Kayla S.",
+    type: "investment",
+    amount: 17200,
+    time: "54 mins ago",
+  },
+  {
+    id: 55,
+    name: "Steven A.",
+    type: "investment",
+    amount: 26500,
+    time: "55 mins ago",
+  },
+  {
+    id: 56,
+    name: "Alyssa C.",
+    type: "withdrawal",
+    amount: 890,
+    time: "56 mins ago",
+  },
+  {
+    id: 57,
+    name: "Kevin M.",
+    type: "investment",
+    amount: 6400,
+    time: "57 mins ago",
+  },
+  {
+    id: 58,
+    name: "Thomas J.",
+    type: "investment",
+    amount: 13800,
+    time: "58 mins ago",
+  },
+  {
+    id: 59,
+    name: "Rebecca L.",
+    type: "withdrawal",
+    amount: 3750,
+    time: "59 mins ago",
+  },
+  {
+    id: 60,
+    name: "Charles B.",
+    type: "investment",
+    amount: 23000,
+    time: "1 hour ago",
+  },
+  {
+    id: 61,
+    name: "Isabella M.",
+    type: "investment",
+    amount: 8500,
+    time: "1 hour ago",
+  },
+  {
+    id: 62,
+    name: "Patrick O.",
+    type: "withdrawal",
+    amount: 1950,
+    time: "1 hour ago",
+  },
+  {
+    id: 63,
+    name: "Kayla N.",
+    type: "investment",
+    amount: 15600,
+    time: "1 hour ago",
+  },
+  {
+    id: 64,
+    name: "Jordan E.",
+    type: "investment",
+    amount: 32500,
+    time: "1 hour ago",
+  },
+  {
+    id: 65,
+    name: "Cameron R.",
+    type: "withdrawal",
+    amount: 4200,
+    time: "1 hour ago",
+  },
+  {
+    id: 66,
+    name: "Morgan T.",
+    type: "investment",
+    amount: 7100,
+    time: "1 hour ago",
+  },
+  {
+    id: 67,
+    name: "Derek P.",
+    type: "investment",
+    amount: 19800,
+    time: "1 hour ago",
+  },
+  {
+    id: 68,
+    name: "Liam H.",
+    type: "withdrawal",
+    amount: 1150,
+    time: "1 hour ago",
+  },
+  {
+    id: 69,
+    name: "Abigail W.",
+    type: "investment",
+    amount: 9200,
+    time: "1 hour ago",
+  },
+  {
+    id: 70,
+    name: "Sean D.",
+    type: "investment",
+    amount: 45000,
+    time: "1 hour ago",
+  },
+  {
+    id: 71,
+    name: "Zoe F.",
+    type: "withdrawal",
+    amount: 2850,
+    time: "1 hour ago",
+  },
+  {
+    id: 72,
+    name: "Nathaniel K.",
+    type: "investment",
+    amount: 13400,
+    time: "1 hour ago",
+  },
+  {
+    id: 73,
+    name: "George V.",
+    type: "investment",
+    amount: 6800,
+    time: "1 hour ago",
+  },
+  {
+    id: 74,
+    name: "Emma J.",
+    type: "withdrawal",
+    amount: 5100,
+    time: "1 hour ago",
+  },
+  {
+    id: 75,
+    name: "Lucas A.",
+    type: "investment",
+    amount: 18200,
+    time: "1 hour ago",
+  },
+  {
+    id: 76,
+    name: "Henry S.",
+    type: "investment",
+    amount: 29500,
+    time: "1 hour ago",
+  },
+  {
+    id: 77,
+    name: "Amelia R.",
+    type: "withdrawal",
+    amount: 1750,
+    time: "1 hour ago",
+  },
+  {
+    id: 78,
+    name: "Samuel C.",
+    type: "investment",
+    amount: 10900,
+    time: "1 hour ago",
+  },
+  {
+    id: 79,
+    name: "Charlotte P.",
+    type: "investment",
+    amount: 7500,
+    time: "1 hour ago",
+  },
+  {
+    id: 80,
+    name: "Daniel O.",
+    type: "withdrawal",
+    amount: 3400,
+    time: "1 hour ago",
+  },
+  {
+    id: 81,
+    name: "Noah G.",
+    type: "investment",
+    amount: 14200,
+    time: "1 hour ago",
+  },
+  {
+    id: 82,
+    name: "Ethan B.",
+    type: "investment",
+    amount: 21500,
+    time: "1 hour ago",
+  },
+  {
+    id: 83,
+    name: "Harper L.",
+    type: "withdrawal",
+    amount: 950,
+    time: "1 hour ago",
+  },
+  {
+    id: 84,
+    name: "Mason T.",
+    type: "investment",
+    amount: 8700,
+    time: "1 hour ago",
+  },
+  {
+    id: 85,
+    name: "Ella M.",
+    type: "investment",
+    amount: 37500,
+    time: "1 hour ago",
+  },
+  {
+    id: 86,
+    name: "Oliver R.",
+    type: "withdrawal",
+    amount: 2600,
+    time: "1 hour ago",
+  },
+  {
+    id: 87,
+    name: "Grace W.",
+    type: "investment",
+    amount: 11900,
+    time: "1 hour ago",
+  },
+  {
+    id: 88,
+    name: "Aiden K.",
+    type: "investment",
+    amount: 6200,
+    time: "1 hour ago",
+  },
+  {
+    id: 89,
+    name: "Sophia M.",
+    type: "withdrawal",
+    amount: 3900,
+    time: "1 hour ago",
+  },
+  {
+    id: 90,
+    name: "Marcus L.",
+    type: "investment",
+    amount: 25500,
+    time: "1 hour ago",
+  },
+  {
+    id: 91,
+    name: "Hannah C.",
+    type: "investment",
+    amount: 9600,
+    time: "1 hour ago",
+  },
+  {
+    id: 92,
+    name: "Ryan J.",
+    type: "withdrawal",
+    amount: 1350,
+    time: "1 hour ago",
+  },
+  {
+    id: 93,
+    name: "Lily B.",
+    type: "investment",
+    amount: 16500,
+    time: "1 hour ago",
+  },
+  {
+    id: 94,
+    name: "Alex P.",
+    type: "investment",
+    amount: 28500,
+    time: "1 hour ago",
+  },
+  {
+    id: 95,
+    name: "Mason H.",
+    type: "withdrawal",
+    amount: 4700,
+    time: "1 hour ago",
+  },
+  {
+    id: 96,
+    name: "Anna K.",
+    type: "investment",
+    amount: 7300,
+    time: "1 hour ago",
+  },
+  {
+    id: 97,
+    name: "Marcus T.",
+    type: "investment",
+    amount: 19500,
+    time: "1 hour ago",
+  },
+  {
+    id: 98,
+    name: "Sophie R.",
+    type: "withdrawal",
+    amount: 2200,
+    time: "1 hour ago",
+  },
+  {
+    id: 99,
+    name: "Jason M.",
+    type: "investment",
+    amount: 34500,
+    time: "1 hour ago",
+  },
+  {
+    id: 100,
+    name: "William P.",
+    type: "investment",
+    amount: 12800,
+    time: "1 hour ago",
   },
 ];
 
@@ -170,6 +875,12 @@ export default function Dashboard() {
   const [balanceVisible, setBalanceVisible] =
     useState(true);
 
+  const [sampleActivityIndex, setSampleActivityIndex] =
+    useState(0);
+
+  const [sampleActivityVisible, setSampleActivityVisible] =
+    useState(true);
+
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
 
@@ -215,6 +926,24 @@ export default function Dashboard() {
     investmentsError,
     setInvestmentsError,
   ] = useState(false);
+
+  const [notifications, setNotifications] =
+    useState([]);
+
+  const [unreadNotificationCount, setUnreadNotificationCount] =
+    useState(0);
+
+  const [notificationsOpen, setNotificationsOpen] =
+    useState(false);
+
+  const [notificationsLoading, setNotificationsLoading] =
+    useState(false);
+
+  const [notificationsError, setNotificationsError] =
+    useState(false);
+
+  const [selectedNotification, setSelectedNotification] =
+    useState(null);
 
 
   const fetchMarkets = async () => {
@@ -312,21 +1041,189 @@ export default function Dashboard() {
     }
   };
 
+    const fetchUnreadNotificationCount = async () => {
+    try {
+      const response = await api.get(
+        "/notifications/unread-count/"
+      );
 
-  useEffect(() => {
-    fetchMarkets();
-    fetchWallet();
-    fetchUser();
-    fetchInvestments();
+      setUnreadNotificationCount(
+        Number(
+          response.data?.unread_count || 0
+        )
+      );
+    } catch (error) {
+      console.error(
+        "Failed to load notification count:",
+        error
+      );
+    }
+  };
 
-    const interval = setInterval(() => {
+
+  const fetchNotifications = async () => {
+    try {
+      setNotificationsLoading(true);
+      setNotificationsError(false);
+
+      const response = await api.get(
+        "/notifications/"
+      );
+
+      const data = Array.isArray(
+        response.data
+      )
+        ? response.data
+        : response.data?.results || [];
+
+      setNotifications(data);
+
+      await fetchUnreadNotificationCount();
+    } catch (error) {
+      console.error(
+        "Failed to load notifications:",
+        error
+      );
+
+      setNotificationsError(true);
+    } finally {
+      setNotificationsLoading(false);
+    }
+  };
+
+
+  const handleOpenNotifications = async () => {
+    const nextState =
+      !notificationsOpen;
+
+    setNotificationsOpen(nextState);
+
+    if (nextState) {
+      await fetchNotifications();
+    }
+  };
+
+
+  const handleOpenNotification = async (
+    notification
+  ) => {
+    setSelectedNotification(notification);
+    setNotificationsOpen(false);
+
+    if (notification.is_read) {
+      return;
+    }
+
+    if (notification.is_read) {
+      return;
+    }
+
+    try {
+      await api.post(
+        `/notifications/${notification.id}/read/`
+      );
+
+      setNotifications((current) =>
+        current.map((item) =>
+          item.id === notification.id
+            ? {
+                ...item,
+                is_read: true,
+                read_at:
+                  new Date().toISOString(),
+              }
+            : item
+        )
+      );
+
+      setUnreadNotificationCount(
+        (current) =>
+          Math.max(0, current - 1)
+      );
+    } catch (error) {
+      console.error(
+        "Failed to mark notification as read:",
+        error
+      );
+    }
+  };
+
+
+  const handleMarkAllNotificationsRead =
+    async () => {
+      if (
+        unreadNotificationCount === 0
+      ) {
+        return;
+      }
+
+      try {
+        await api.post(
+          "/notifications/read-all/"
+        );
+
+        setNotifications((current) =>
+          current.map((notification) => ({
+            ...notification,
+            is_read: true,
+            read_at:
+              notification.read_at ||
+              new Date().toISOString(),
+          }))
+        );
+
+        setUnreadNotificationCount(0);
+      } catch (error) {
+        console.error(
+          "Failed to mark notifications as read:",
+          error
+        );
+      }
+    };
+
+
+  const closeNotificationModal = () => {
+    setSelectedNotification(null);
+  };
+
+
+    useEffect(() => {
       fetchMarkets();
       fetchWallet();
+      fetchUser();
       fetchInvestments();
-    }, 60000);
+      fetchUnreadNotificationCount();
+
+      const interval = setInterval(() => {
+        fetchMarkets();
+        fetchWallet();
+        fetchInvestments();
+        fetchUnreadNotificationCount();
+      }, 60000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
+
+  useEffect(() => {
+    const activityInterval = setInterval(() => {
+      setSampleActivityVisible(false);
+
+      setTimeout(() => {
+        setSampleActivityIndex((current) => {
+          return (
+            (current + 1) %
+            sampleActivities.length
+          );
+        });
+
+        setSampleActivityVisible(true);
+      }, 300);
+    }, 5000);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(activityInterval);
     };
   }, []);
 
@@ -393,10 +1290,23 @@ export default function Dashboard() {
     allActiveInvestments.slice(0, 3);
 
 
-  const displayName =
+  const formatDisplayName = (name) => {
+    if (!name) {
+      return "there";
+    }
+
+    return name
+      .trim()
+      .toLowerCase()
+      .replace(/\b\w/g, (letter) =>
+        letter.toUpperCase()
+      );
+  };
+
+  const displayName = formatDisplayName(
     user?.first_name ||
-    user?.email?.split("@")[0] ||
-    "there";
+    user?.email?.split("@")[0]
+  );
 
 
   return (
@@ -436,11 +1346,11 @@ export default function Dashboard() {
             className="baloz-brand"
           >
             <span className="baloz-brand-mark">
-              B
+              H
             </span>
 
             <span className="baloz-brand-name">
-              Baloz
+              HarvestCoin
             </span>
           </Link>
 
@@ -500,6 +1410,14 @@ export default function Dashboard() {
             <span>Active Investments</span>
           </Link>
 
+          <Link
+            to="/loans"
+            className="baloz-sidebar-link"
+          >
+            <Landmark size={17} />
+            <span>Loans</span>
+          </Link>
+
         </div>
 
 
@@ -510,12 +1428,36 @@ export default function Dashboard() {
           </span>
 
 
+          <button
+            type="button"
+            className="baloz-sidebar-link baloz-sidebar-notification-link"
+            onClick={handleOpenNotifications}
+          >
+            <Bell size={17} />
+
+            <span>
+              Notifications
+            </span>
+
+            {unreadNotificationCount > 0 && (
+              <span className="baloz-sidebar-notification-count">
+                {unreadNotificationCount > 99
+                  ? "99+"
+                  : unreadNotificationCount}
+              </span>
+            )}
+          </button>
+
+
           <Link
             to="/settings"
             className="baloz-sidebar-link"
           >
             <Settings size={17} />
-            <span>Settings</span>
+
+            <span>
+              Settings
+            </span>
           </Link>
 
 
@@ -532,7 +1474,6 @@ export default function Dashboard() {
           </button>
 
         </div>
-
 
         <div className="baloz-sidebar-bottom">
 
@@ -556,7 +1497,7 @@ export default function Dashboard() {
 
 
           <span className="baloz-sidebar-version">
-            Baloz Financial Platform
+            HarvestCoin Financial Platform
           </span>
 
         </div>
@@ -597,7 +1538,7 @@ export default function Dashboard() {
                 to="/dashboard"
                 className="baloz-top-link baloz-top-link-active"
               >
-                Baloz
+                HarvestCoin
               </Link>
 
 
@@ -607,6 +1548,209 @@ export default function Dashboard() {
 
 
           <div className="baloz-topbar-right">
+
+            <div className="baloz-notification-wrapper">
+
+              <button
+                type="button"
+                className={`baloz-notification-button ${
+                  notificationsOpen
+                    ? "baloz-notification-button-active"
+                    : ""
+                }`}
+                onClick={handleOpenNotifications}
+                aria-label="Notifications"
+                aria-expanded={notificationsOpen}
+              >
+                <Bell size={18} />
+
+                {unreadNotificationCount > 0 && (
+                  <span className="baloz-notification-count">
+                    {unreadNotificationCount > 99
+                      ? "99+"
+                      : unreadNotificationCount}
+                  </span>
+                )}
+              </button>
+
+
+              {notificationsOpen && (
+                <div className="baloz-notification-panel">
+
+                  <div className="baloz-notification-panel-header">
+
+                    <div>
+                      <span className="baloz-notification-panel-overline">
+                        ACCOUNT
+                      </span>
+
+                      <h3>
+                        Notifications
+                      </h3>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="baloz-notification-close"
+                      onClick={() =>
+                        setNotificationsOpen(false)
+                      }
+                      aria-label="Close notifications"
+                    >
+                      <X size={17} />
+                    </button>
+
+                  </div>
+
+
+                  <div className="baloz-notification-panel-actions">
+
+                    <span>
+                      {unreadNotificationCount} unread
+                    </span>
+
+                    {unreadNotificationCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={
+                          handleMarkAllNotificationsRead
+                        }
+                      >
+                        Mark all as read
+                      </button>
+                    )}
+
+                  </div>
+
+
+                  <div className="baloz-notification-list">
+
+                    {notificationsLoading ? (
+
+                      <div className="baloz-notification-state">
+                        <RefreshCw
+                          size={17}
+                          className="baloz-notification-spin"
+                        />
+
+                        <span>
+                          Loading notifications...
+                        </span>
+                      </div>
+
+                    ) : notificationsError ? (
+
+                      <div className="baloz-notification-state">
+
+                        <span>
+                          Unable to load notifications.
+                        </span>
+
+                        <button
+                          type="button"
+                          onClick={fetchNotifications}
+                        >
+                          Try again
+                        </button>
+
+                      </div>
+
+                    ) : notifications.length === 0 ? (
+
+                      <div className="baloz-notification-empty">
+
+                        <div className="baloz-notification-empty-icon">
+                          <Bell size={18} />
+                        </div>
+
+                        <strong>
+                          No notifications
+                        </strong>
+
+                        <span>
+                          You’re all caught up.
+                        </span>
+
+                      </div>
+
+                    ) : (
+
+                      notifications.map(
+                        (notification) => (
+                          <button
+                            type="button"
+                            key={notification.id}
+                            className={`baloz-notification-item ${
+                              notification.is_read
+                                ? "baloz-notification-item-read"
+                                : "baloz-notification-item-unread"
+                            }`}
+                            onClick={() =>
+                              handleOpenNotification(
+                                notification
+                              )
+                            }
+                          >
+
+                            <div className="baloz-notification-item-icon">
+                              <Bell size={16} />
+                            </div>
+
+
+                            <div className="baloz-notification-item-content">
+
+                              <div className="baloz-notification-item-heading">
+
+                                <strong>
+                                  {notification.title}
+                                </strong>
+
+                                {!notification.is_read && (
+                                  <span className="baloz-notification-unread-dot" />
+                                )}
+
+                              </div>
+
+
+                              <p>
+                                {notification.message}
+                              </p>
+
+
+                              <span className="baloz-notification-item-time">
+                                {new Date(
+                                  notification.created_at
+                                ).toLocaleString(
+                                  "en-US",
+                                  {
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </span>
+
+                            </div>
+
+                            <ChevronRight
+                              size={15}
+                              className="baloz-notification-item-arrow"
+                            />
+
+                          </button>
+                        )
+                      )
+
+                    )}
+
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+
 
             <button
               type="button"
@@ -1367,97 +2511,98 @@ export default function Dashboard() {
           {/* ==================================================
               LOWER GRID
           ================================================== */}
-
-          <section className="baloz-lower-grid">
-
-
-            <div className="baloz-lower-panel">
-
-              <div className="baloz-section-header">
-
-                <div>
-
-                  <span className="baloz-overline">
-                    HOLDINGS
-                  </span>
-
-                  <h2>
-                    Your assets
-                  </h2>
-
-                </div>
-
+          <div
+            className={`baloz-floating-activity ${
+              sampleActivityVisible
+                ? "baloz-floating-activity-visible"
+                : "baloz-floating-activity-hidden"
+            }`}
+            key={sampleActivities[sampleActivityIndex].id}
+          >
+            <div className="baloz-floating-activity-header">
+              <div className="baloz-floating-activity-label">
+                <span className="baloz-floating-activity-live" />
+                <span>Recent Activity</span>
               </div>
 
-
-              <div className="baloz-holdings-empty">
-
-                <div className="baloz-empty-icon">
-                  <Wallet size={20} />
-                </div>
-
-                <strong>
-                  No assets yet
-                </strong>
-
-                <span>
-                  Your crypto and cash balances
-                  will appear here.
-                </span>
-
-              </div>
-
+              <button
+                type="button"
+                className="baloz-floating-activity-close"
+                onClick={() =>
+                  setSampleActivityVisible(false)
+                }
+                aria-label="Dismiss activity notification"
+              >
+                ×
+              </button>
             </div>
 
+            <div className="baloz-floating-activity-body">
+              <div
+                className={
+                  sampleActivities[
+                    sampleActivityIndex
+                  ].type === "investment"
+                    ? "baloz-floating-activity-icon baloz-floating-activity-investment"
+                    : "baloz-floating-activity-icon baloz-floating-activity-withdrawal"
+                }
+              >
+                {sampleActivities[
+                  sampleActivityIndex
+                ].type === "investment" ? (
+                  <TrendingUp size={17} />
+                ) : (
+                  <ArrowUpFromLine size={17} />
+                )}
+              </div>
 
-            <div className="baloz-lower-panel">
+              <div className="baloz-floating-activity-content">
+                <div className="baloz-floating-activity-message">
+                  <strong>
+                    {sampleActivities[
+                      sampleActivityIndex
+                    ].name}
+                  </strong>
 
-              <div className="baloz-section-header">
-
-                <div>
-
-                  <span className="baloz-overline">
-                    ACTIVITY
+                  <span>
+                    {sampleActivities[
+                      sampleActivityIndex
+                    ].type === "investment"
+                      ? " just invested "
+                      : " just withdrew "}
                   </span>
 
-                  <h2>
-                    Recent activity
-                  </h2>
+                  <strong>
+                    $
+                    {Number(
+                      sampleActivities[
+                        sampleActivityIndex
+                      ].amount
+                    ).toLocaleString("en-US")}
+                  </strong>
 
+                  {sampleActivities[
+                    sampleActivityIndex
+                  ].type === "investment" && (
+                    <span>
+                      {" "}in HarvestCoin
+                    </span>
+                  )}
                 </div>
 
-
-                <Link
-                  to="/transactions"
-                  className="baloz-section-link"
-                >
-                  History
-                  <ChevronRight size={15} />
-                </Link>
-
-              </div>
-
-
-              <div className="baloz-holdings-empty">
-
-                <div className="baloz-empty-icon">
-                  <Activity size={20} />
-                </div>
-
-                <strong>
-                  Nothing here yet
-                </strong>
-
-                <span>
-                  Your deposits, withdrawals and
-                  investments will appear here.
+                <span className="baloz-floating-activity-time">
+                  {sampleActivities[
+                    sampleActivityIndex
+                  ].time}
                 </span>
-
               </div>
-
             </div>
 
-          </section>
+            <div className="baloz-floating-activity-footer">
+              Recent Activity
+            </div>
+          </div>
+          
 
 
           {/* ==================================================
@@ -1467,7 +2612,7 @@ export default function Dashboard() {
           <footer className="baloz-dashboard-footer">
 
             <span>
-              Baloz
+              HarvestCoin
             </span>
 
             <span>
@@ -1483,7 +2628,85 @@ export default function Dashboard() {
 
         </main>
 
-      </div>
+            </div>
+
+
+      {/* ==================================================
+          NOTIFICATION MESSAGE MODAL
+      ================================================== */}
+
+      {selectedNotification && (
+        <div
+          className="baloz-notification-modal-backdrop"
+          onClick={closeNotificationModal}
+        >
+
+          <div
+            className="baloz-notification-modal"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+
+            <div className="baloz-notification-modal-header">
+
+              <div className="baloz-notification-modal-icon">
+                <Bell size={18} />
+              </div>
+
+              <button
+                type="button"
+                className="baloz-notification-modal-close"
+                onClick={
+                  closeNotificationModal
+                }
+                aria-label="Close notification"
+              >
+                <X size={17} />
+              </button>
+
+            </div>
+
+
+            <div className="baloz-notification-modal-body">
+
+              <span className="baloz-notification-modal-label">
+                {selectedNotification.notification_type ===
+                "admin_message"
+                  ? "HARVESTCOIN MESSAGE"
+                  : "NOTIFICATION"}
+              </span>
+
+              <h2>
+                {selectedNotification.title}
+              </h2>
+
+              <p>
+                {selectedNotification.message}
+              </p>
+
+              <span className="baloz-notification-modal-time">
+                {new Date(
+                  selectedNotification.created_at
+                ).toLocaleString(
+                  "en-US",
+                  {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  }
+                )}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
 
     </div>
   );

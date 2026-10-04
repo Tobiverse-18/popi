@@ -51,7 +51,7 @@ export default function Security() {
 
             <p>
               Protecting your account is not an extra feature.
-              It is part of how the Baloz experience is designed.
+              It is part of how the HarvestCoin experience is designed.
             </p>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function Security() {
               </h3>
 
               <p>
-                Baloz uses authentication, identity verification,
+                HarvestCoin uses authentication, identity verification,
                 and controlled access as part of the account
                 experience.
               </p>
@@ -186,7 +186,7 @@ export default function Security() {
           />
 
           <div>
-            <span>THE BALOZ APPROACH</span>
+            <span>THE HARVESTCOIN APPROACH</span>
 
             <h3>
               Clear systems.

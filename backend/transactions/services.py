@@ -1,7 +1,8 @@
 from decimal import Decimal
 from uuid import uuid4
 
-from django.db import transaction
+from django.db import models, transaction
+from django.utils import timezone
 
 from wallets.models import LedgerEntry
 from wallets.services import credit_wallet
@@ -230,9 +231,30 @@ def create_withdrawal(
             "Withdrawal currency does not match wallet currency."
         )
 
-    if amount > wallet.balance:
+    # Money already committed to pending withdrawals.
+    pending_withdrawals = (
+        Transaction.objects
+        .filter(
+            user=user,
+            transaction_type=(
+                Transaction.TransactionType.WITHDRAWAL
+            ),
+            status=Transaction.Status.PENDING,
+            currency=currency,
+        )
+        .aggregate(
+            total=models.Sum("amount")
+        )["total"]
+        or Decimal("0.00")
+    )
+
+    available_balance = (
+        wallet.balance - pending_withdrawals
+    )
+
+    if amount > available_balance:
         raise ValueError(
-            "Insufficient wallet balance."
+            "Insufficient available wallet balance."
         )
 
     transaction_reference = (
@@ -241,23 +263,16 @@ def create_withdrawal(
         )
     )
 
-    # Deduct the user's wallet immediately.
-    wallet.balance -= amount
-
-    wallet.save(
-        update_fields=[
-            "balance",
-            "updated_at",
-        ]
-    )
-
-    # Create the withdrawal transaction.
+    # Create the withdrawal as PENDING.
+    #
+    # The wallet is NOT deducted here.
+    # The ledger is NOT updated here.
     txn = Transaction.objects.create(
         user=user,
         transaction_type=(
             Transaction.TransactionType.WITHDRAWAL
         ),
-        status=Transaction.Status.PROCESSING,
+        status=Transaction.Status.PENDING,
         direction=(
             Transaction.Direction.DEBIT
         ),
@@ -268,22 +283,136 @@ def create_withdrawal(
         description="Crypto wallet withdrawal",
     )
 
-    # Record the wallet debit in the ledger.
+    return txn
+
+@transaction.atomic
+def approve_withdrawal(
+    transaction_id,
+    admin_user,
+    admin_note="",
+):
+    txn = (
+        Transaction.objects
+        .select_for_update()
+        .select_related("user")
+        .get(id=transaction_id)
+    )
+
+    if (
+        txn.transaction_type
+        != Transaction.TransactionType.WITHDRAWAL
+    ):
+        raise ValueError(
+            "This transaction is not a withdrawal."
+        )
+
+    if txn.status != Transaction.Status.PENDING:
+        raise ValueError(
+            "Only pending withdrawals can be approved."
+        )
+
+    wallet = (
+        txn.user.wallet.__class__.objects
+        .select_for_update()
+        .get(pk=txn.user.wallet.pk)
+    )
+
+    if wallet.currency != txn.currency:
+        raise ValueError(
+            "Withdrawal currency does not match wallet currency."
+        )
+
+    if txn.amount > wallet.balance:
+        raise ValueError(
+            "Insufficient wallet balance to approve this withdrawal."
+        )
+
+    new_balance = wallet.balance - txn.amount
+
+    wallet.balance = new_balance
+
+    wallet.save(
+        update_fields=[
+            "balance",
+            "updated_at",
+        ]
+    )
+
     LedgerEntry.objects.create(
         wallet=wallet,
-        currency=currency,
-        entry_type=(
-            LedgerEntry.EntryType.WITHDRAWAL
-        ),
-        direction=(
-            LedgerEntry.Direction.DEBIT
-        ),
-        amount=amount,
-        balance_after=wallet.balance,
-        reference=transaction_reference,
+        currency=wallet.currency,
+        entry_type=LedgerEntry.EntryType.WITHDRAWAL,
+        direction=LedgerEntry.Direction.DEBIT,
+        amount=txn.amount,
+        balance_after=new_balance,
+        reference=txn.reference,
         description=(
-            f"Crypto withdrawal {transaction_reference}"
+            f"Approved crypto withdrawal "
+            f"{txn.reference}"
         ),
+    )
+
+    txn.status = Transaction.Status.SUCCESS
+    txn.approved_amount = txn.amount
+    txn.reviewed_by = admin_user
+    txn.reviewed_at = timezone.now()
+
+    if admin_note:
+        txn.admin_note = admin_note.strip()
+
+    txn.save(
+        update_fields=[
+            "status",
+            "approved_amount",
+            "reviewed_by",
+            "reviewed_at",
+            "admin_note",
+            "updated_at",
+        ]
+    )
+
+    return txn
+
+@transaction.atomic
+def reject_withdrawal(
+    transaction_id,
+    admin_user,
+    admin_note="",
+):
+    txn = (
+        Transaction.objects
+        .select_for_update()
+        .get(id=transaction_id)
+    )
+
+    if (
+        txn.transaction_type
+        != Transaction.TransactionType.WITHDRAWAL
+    ):
+        raise ValueError(
+            "This transaction is not a withdrawal."
+        )
+
+    if txn.status != Transaction.Status.PENDING:
+        raise ValueError(
+            "Only pending withdrawals can be rejected."
+        )
+
+    txn.status = Transaction.Status.FAILED
+    txn.reviewed_by = admin_user
+    txn.reviewed_at = timezone.now()
+
+    if admin_note:
+        txn.admin_note = admin_note.strip()
+
+    txn.save(
+        update_fields=[
+            "status",
+            "reviewed_by",
+            "reviewed_at",
+            "admin_note",
+            "updated_at",
+        ]
     )
 
     return txn

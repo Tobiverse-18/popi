@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 /* =========================================================
    CUSTOMER PAGES
@@ -11,6 +11,8 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import Terms from "./pages/Terms/Terms";
+import NotFound from "./pages/NotFound/NotFound";
+import ServerError from "./pages/ServerError/ServerError";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Deposit from "./pages/Deposit/Deposit";
@@ -28,6 +30,7 @@ import ActiveInvestments from "./pages/ActiveInvestments/ActiveInvestments";
 import ActiveInvestmentDetail from "./pages/ActiveInvestmentDetail/ActiveInvestmentDetail";
 
 import Settings from "./pages/Settings/Settings";
+import Loans from "./pages/Loans/Loans";
 
 
 /* =========================================================
@@ -39,10 +42,13 @@ import AdminLogin from "./admin/pages/AdminLogin/AdminLogin";
 import AdminLayout from "./admin/components/AdminLayout/AdminLayout";
 
 import AdminUsers from "./admin/pages/AdminUsers/AdminUsers";
+import AdminUserDetail from "./admin/pages/AdminUserDetail/AdminUserDetail";
 import AdminDeposits from "./admin/pages/AdminDeposits/AdminDeposits";
 import AdminWithdraw from "./admin/pages/AdminWithdraw/AdminWithdraw";
 import AdminInvestments from "./admin/pages/AdminInvestments/AdminInvestments";
 import AdminInvestmentPlans from "./admin/pages/AdminInvestmentPlans/AdminInvestmentPlans";
+import AdminFundingWallets from "./admin/pages/AdminFundingWallets/AdminFundingWallets";
+import AdminLoans from "./admin/pages/AdminLoans/AdminLoans";
 
 
 /* =========================================================
@@ -180,6 +186,14 @@ export default function App() {
           element={<Settings />}
         />
 
+
+        {/* Loans */}
+
+        <Route
+          path="/loans"
+          element={<Loans />}
+        />
+
       </Route>
 
 
@@ -216,6 +230,11 @@ export default function App() {
             element={<AdminUsers />}
           />
 
+          <Route
+            path="/admin/users/:id"
+            element={<AdminUserDetail />}
+          />
+
 
           {/* Deposits */}
 
@@ -240,12 +259,25 @@ export default function App() {
             element={<AdminInvestments />}
           />
 
-
-          {/* Investment Plans */}
-
           <Route
             path="/admin/investment-plans"
             element={<AdminInvestmentPlans />}
+          />
+
+
+          {/* Funding Wallets */}
+
+          <Route
+            path="/admin/funding-wallets"
+            element={<AdminFundingWallets />}
+          />
+
+
+          {/* Loans */}
+
+          <Route
+            path="/admin/loans"
+            element={<AdminLoans />}
           />
 
         </Route>
@@ -254,12 +286,22 @@ export default function App() {
 
 
       {/* =====================================================
-          FALLBACK
+          SERVER ERROR
+          ===================================================== */}
+
+      <Route
+        path="/server-error"
+        element={<ServerError />}
+      />
+
+
+      {/* =====================================================
+          404 FALLBACK
           ===================================================== */}
 
       <Route
         path="*"
-        element={<Navigate to="/" replace />}
+        element={<NotFound />}
       />
 
     </Routes>

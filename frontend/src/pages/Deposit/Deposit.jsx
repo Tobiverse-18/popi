@@ -224,7 +224,7 @@ export default function Deposit() {
         </Link>
 
         <div className="deposit-header-brand">
-          BALOZ
+          HarvestCoin
         </div>
 
         <div className="deposit-header-spacer" />
@@ -241,7 +241,7 @@ export default function Deposit() {
           <p>
             Choose how much you want to add,
             send the required payment to the
-            Baloz Bitcoin address, and upload
+            HarvestCoin Bitcoin address, and upload
             your payment proof for verification.
           </p>
         </section>
@@ -269,7 +269,7 @@ export default function Deposit() {
 
               <p className="deposit-section-description">
                 Enter the exact amount you want
-                credited to your Baloz USD wallet.
+                credited to your HarvestCoin USD wallet.
               </p>
 
               <div className="deposit-field">
@@ -344,7 +344,7 @@ export default function Deposit() {
 
               <div className="deposit-address-box">
                 <div className="deposit-address-label">
-                  Baloz BTC payment address
+                  HarvestCoin BTC payment address
                 </div>
 
                 {loadingAddress ? (
@@ -533,7 +533,7 @@ export default function Deposit() {
 
               <p>
                 Your wallet is only credited
-                after the Baloz team confirms
+                after the HarvestCoin team confirms
                 your payment.
               </p>
             </div>
@@ -558,7 +558,7 @@ export default function Deposit() {
 
                   <p>
                     Send the required BTC payment
-                    to the Baloz address.
+                    to the HarvestCoin address.
                   </p>
                 </li>
 
@@ -584,15 +584,11 @@ export default function Deposit() {
 
             <div className="deposit-sidebar-block deposit-security">
               <span className="deposit-sidebar-label">
-                IMPORTANT
+                IMPORTANT 
               </span>
 
               <p>
-                Do not send BTC until you have
-                checked the payment address
-                carefully. Baloz will never ask
-                you to send funds to a personal
-                address.
+                Check the address carefully before confirming your payment.
               </p>
             </div>
           </aside>
@@ -600,7 +596,7 @@ export default function Deposit() {
       </main>
 
       <footer className="deposit-footer">
-        Designed &amp; Developed by Balora
+        HarvestCoin
       </footer>
     </div>
   );

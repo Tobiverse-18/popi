@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
+from decimal import Decimal
+
 from investments.models import (
     Investment,
     InvestmentPlan,
@@ -309,3 +311,64 @@ class AdminInvestmentPlanSerializer(
             )
 
         return attrs
+
+class AdminUserDetailSerializer(serializers.ModelSerializer):
+    wallet_balance = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+
+        fields = (
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "role",
+            "email_verified",
+            "is_kyc_verified",
+            "is_active",
+            "is_staff",
+            "date_joined",
+            "created_at",
+            "updated_at",
+            "wallet_balance",
+        )
+
+        read_only_fields = (
+            "id",
+            "date_joined",
+            "created_at",
+            "updated_at",
+            "wallet_balance",
+        )
+
+    def get_wallet_balance(self, obj):
+        wallet = getattr(obj, "wallet", None)
+
+        if wallet is None:
+            return "0.00"
+
+        return str(wallet.balance)
+
+
+class AdminWalletAdjustmentSerializer(serializers.Serializer):
+    direction = serializers.ChoiceField(
+        choices=["credit", "debit"]
+    )
+
+    amount = serializers.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        min_value=Decimal("0.01"),
+    )
+
+    description = serializers.CharField(
+        max_length=255,
+        required=False,
+        allow_blank=True,
+    )
+
+    def validate_description(self, value):
+        return value.strip()

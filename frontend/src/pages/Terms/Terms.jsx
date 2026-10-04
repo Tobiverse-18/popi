@@ -19,7 +19,7 @@ export default function Terms() {
             className="baloz-terms-back"
           >
             <ArrowLeft size={16} />
-            <span>Back to Baloz</span>
+            <span>Back to HarvestCoin</span>
           </Link>
 
           <Link
@@ -27,11 +27,11 @@ export default function Terms() {
             className="baloz-terms-brand"
           >
             <span className="baloz-terms-brand-mark">
-              B
+              H
             </span>
 
             <span>
-              Baloz
+              HarvestCoin
             </span>
           </Link>
         </header>
@@ -55,7 +55,7 @@ export default function Terms() {
 
           <p>
             These Terms of Service govern your access to and
-            use of the Baloz platform and the services made
+            use of the HarvestCoin platform and the services made
             available through it.
           </p>
 
@@ -74,23 +74,23 @@ export default function Terms() {
             <h2>1. Acceptance of These Terms</h2>
 
             <p>
-              By creating an account, accessing, or using Baloz,
+              By creating an account, accessing, or using HarvestCoin,
               you agree to be bound by these Terms of Service
               and any applicable policies referenced by them.
             </p>
 
             <p>
               If you do not agree with these Terms, you should
-              not access or use the Baloz platform.
+              not access or use the HarvestCoin platform.
             </p>
           </section>
 
 
           <section>
-            <h2>2. About Baloz</h2>
+            <h2>2. About HarvestCoin</h2>
 
             <p>
-              Baloz is a digital platform that provides
+              HarvestCoin is a digital platform that provides
               technology and financial-service-related
               functionality through its website and applications.
             </p>
@@ -99,7 +99,7 @@ export default function Terms() {
               The specific services and features available to
               you may depend on your location, account status,
               verification status, applicable requirements,
-              and the services currently offered by Baloz.
+              and the services currently offered by HarvestCoin.
             </p>
           </section>
 
@@ -108,14 +108,14 @@ export default function Terms() {
             <h2>3. Eligibility</h2>
 
             <p>
-              You may only use Baloz if you are legally permitted
+              You may only use HarvestCoin if you are legally permitted
               to enter into an agreement and use the services
               available in your jurisdiction.
             </p>
 
             <p>
               Certain products or features may have additional
-              eligibility requirements. Baloz may restrict or
+              eligibility requirements. HarvestCoin may restrict or
               refuse access to services where required by
               applicable law, regulation, or internal
               compliance requirements.
@@ -128,7 +128,7 @@ export default function Terms() {
 
             <p>
               You must provide accurate and complete information
-              when creating your Baloz account and keep that
+              when creating your HarvestCoin account and keep that
               information reasonably up to date.
             </p>
 
@@ -146,7 +146,7 @@ export default function Terms() {
             <h2>5. Identity Verification</h2>
 
             <p>
-              Baloz may require identity verification before
+              HarvestCoin may require identity verification before
               allowing access to certain services or features.
             </p>
 
@@ -171,7 +171,7 @@ export default function Terms() {
             <p>
               Where wallet functionality is provided, balances
               displayed within your account represent records
-              maintained by Baloz based on transactions processed
+              maintained by HarvestCoin based on transactions processed
               through the platform.
             </p>
 
@@ -179,7 +179,7 @@ export default function Terms() {
               You must not attempt to manipulate, falsify, or
               interfere with wallet balances, transaction
               records, payment processes, or other technical
-              systems used by Baloz.
+              systems used by HarvestCoin.
             </p>
           </section>
 
@@ -194,7 +194,7 @@ export default function Terms() {
             </p>
 
             <p>
-              Baloz may request additional information or
+              HarvestCoin may request additional information or
               supporting documentation relating to a deposit
               where reasonably necessary for security,
               verification, fraud prevention, or compliance.
@@ -203,7 +203,7 @@ export default function Terms() {
             <p>
               A deposit is not considered successfully credited
               until it has been confirmed and recorded in your
-              Baloz account.
+              HarvestCoin account.
             </p>
           </section>
 
@@ -236,7 +236,7 @@ export default function Terms() {
             <h2>9. Investments</h2>
 
             <p>
-              Baloz may make certain investment-related products
+              HarvestCoin may make certain investment-related products
               or plans available through the platform.
             </p>
 
@@ -279,7 +279,7 @@ export default function Terms() {
             <h2>11. Cryptocurrency and Digital Assets</h2>
 
             <p>
-              Where Baloz supports cryptocurrency or digital
+              Where HarvestCoin supports cryptocurrency or digital
               asset functionality, such services may involve
               additional risks, including network delays,
               incorrect destination addresses, asset volatility,
@@ -298,7 +298,7 @@ export default function Terms() {
             <h2>12. Prohibited Activities</h2>
 
             <p>
-              You must not use Baloz to engage in unlawful,
+              You must not use HarvestCoin to engage in unlawful,
               fraudulent, abusive, deceptive, or unauthorized
               activity.
             </p>
@@ -341,7 +341,7 @@ export default function Terms() {
 
               <li>
                 Interfering with the availability, integrity, or
-                security of Baloz systems.
+                security of HarvestCoin systems.
               </li>
             </ul>
           </section>
@@ -351,7 +351,7 @@ export default function Terms() {
             <h2>13. Fees</h2>
 
             <p>
-              Certain Baloz services may involve fees. Where
+              Certain HarvestCoin services may involve fees. Where
               applicable, relevant fees will be communicated
               through the platform or applicable service terms
               before they become applicable to a transaction.
@@ -363,7 +363,7 @@ export default function Terms() {
             <h2>14. Third-Party Services</h2>
 
             <p>
-              Baloz may rely on third-party providers for
+              HarvestCoin may rely on third-party providers for
               services such as payments, communications, hosting,
               identity verification, security, blockchain
               infrastructure, or other technology.
@@ -371,7 +371,7 @@ export default function Terms() {
 
             <p>
               Third-party services may be governed by their own
-              terms and policies. Baloz is not responsible for
+              terms and policies. HarvestCoin is not responsible for
               matters outside its reasonable control relating to
               independent third-party services.
             </p>
@@ -382,7 +382,7 @@ export default function Terms() {
             <h2>15. Platform Availability</h2>
 
             <p>
-              We aim to maintain reliable access to Baloz but
+              We aim to maintain reliable access to HarvestCoin but
               do not guarantee that the platform will always be
               available, uninterrupted, or error-free.
             </p>
@@ -400,7 +400,7 @@ export default function Terms() {
             <h2>16. Suspension and Termination</h2>
 
             <p>
-              Baloz may restrict, suspend, or terminate access
+              HarvestCoin may restrict, suspend, or terminate access
               to an account or particular services where
               reasonably necessary to protect users, the
               platform, or comply with applicable obligations.
@@ -419,16 +419,16 @@ export default function Terms() {
             <h2>17. Intellectual Property</h2>
 
             <p>
-              Unless otherwise stated, the Baloz platform,
+              Unless otherwise stated, the HarvestCoin platform,
               branding, software, designs, text, graphics, and
-              other content are owned by or licensed to Baloz
+              other content are owned by or licensed to HarvestCoin
               and are protected by applicable intellectual
               property laws.
             </p>
 
             <p>
               You may not reproduce, modify, distribute,
-              reverse engineer, or commercially exploit Baloz
+              reverse engineer, or commercially exploit HarvestCoin
               materials without appropriate authorization.
             </p>
           </section>
@@ -438,7 +438,7 @@ export default function Terms() {
             <h2>18. Privacy</h2>
 
             <p>
-              Your use of Baloz is also subject to our Privacy
+              Your use of HarvestCoin is also subject to our Privacy
               Policy, which explains how information may be
               collected, used, stored, and protected.
             </p>
@@ -460,7 +460,7 @@ export default function Terms() {
             <h2>19. Disclaimer</h2>
 
             <p>
-              Baloz provides its platform and services subject
+              HarvestCoin provides its platform and services subject
               to the applicable terms and conditions of those
               services. Information displayed on the platform
               may change and should not be treated as a
@@ -480,13 +480,13 @@ export default function Terms() {
             <h2>20. Limitation of Liability</h2>
 
             <p>
-              To the extent permitted by applicable law, Baloz
+              To the extent permitted by applicable law, HarvestCoin
               will not be responsible for losses resulting from
               circumstances outside its reasonable control,
               including certain network failures, third-party
               service interruptions, unauthorized access caused
               by compromised user credentials, or events beyond
-              the reasonable control of Baloz.
+              the reasonable control of HarvestCoin.
             </p>
           </section>
 
@@ -512,9 +512,9 @@ export default function Terms() {
 
             <p>
               These Terms will be interpreted and applied in
-              accordance with the laws applicable to the Baloz
+              accordance with the laws applicable to the HarvestCoin
               services and the jurisdiction governing the
-              relationship between you and Baloz, subject to any
+              relationship between you and HarvestCoin, subject to any
               mandatory legal requirements that may apply.
             </p>
           </section>
@@ -525,7 +525,7 @@ export default function Terms() {
 
             <p>
               If you have questions regarding these Terms or
-              your use of Baloz, please contact Baloz through
+              your use of HarvestCoin, please contact HarvestCoin through
               the official contact channels provided on the
               platform.
             </p>
@@ -539,7 +539,7 @@ export default function Terms() {
         <footer className="baloz-terms-footer">
 
           <div>
-            © {new Date().getFullYear()} Baloz.
+            © {new Date().getFullYear()} HarvestCoin.
             All rights reserved.
           </div>
 

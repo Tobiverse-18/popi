@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Q, Sum
+from django.db import transaction as db_transaction
 
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
@@ -9,15 +10,21 @@ from rest_framework.views import APIView
 
 from investments.models import Investment, InvestmentPlan
 from transactions.models import Transaction
-from wallets.models import Wallet
+from transactions.services import (
+    approve_withdrawal,
+    reject_withdrawal,
+)
+from wallets.models import Wallet, LedgerEntry
+import uuid
 
 from .serializers import (
     AdminInvestmentPlanSerializer,
     AdminInvestmentSerializer,
     AdminUserSerializer,
+    AdminUserDetailSerializer,
+    AdminWalletAdjustmentSerializer,
     AdminWithdrawalSerializer,
 )
-
 
 User = get_user_model()
 
@@ -180,6 +187,145 @@ class AdminUsersView(APIView):
 
         return paginator.get_paginated_response(
             serializer.data
+        )
+
+class AdminUserDetailView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response(
+                {
+                    "detail": "User not found."
+                },
+                status=404,
+            )
+
+        serializer = AdminUserDetailSerializer(user)
+
+        return Response(
+            serializer.data
+        )
+
+
+class AdminWalletAdjustmentView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response(
+                {
+                    "detail": "User not found."
+                },
+                status=404,
+            )
+
+        serializer = AdminWalletAdjustmentSerializer(
+            data=request.data
+        )
+
+        serializer.is_valid(raise_exception=True)
+
+        direction = serializer.validated_data[
+            "direction"
+        ]
+
+        amount = serializer.validated_data[
+            "amount"
+        ]
+
+        description = serializer.validated_data.get(
+            "description",
+            "",
+        )
+
+        with db_transaction.atomic():
+            wallet, created = Wallet.objects.get_or_create(
+                user=user,
+                defaults={
+                    "currency": "USD",
+                    "balance": 0,
+                },
+            )
+
+            wallet = Wallet.objects.select_for_update().get(
+                pk=wallet.pk
+            )
+
+            current_balance = wallet.balance
+
+            if direction == "credit":
+                new_balance = (
+                    current_balance + amount
+                )
+
+            else:
+                if amount > current_balance:
+                    return Response(
+                        {
+                            "detail": (
+                                "Insufficient wallet "
+                                "balance for this debit."
+                            )
+                        },
+                        status=400,
+                    )
+
+                new_balance = (
+                    current_balance - amount
+                )
+
+            wallet.balance = new_balance
+            wallet.save(
+                update_fields=[
+                    "balance",
+                    "updated_at",
+                ]
+            )
+
+            entry_reference = (
+                f"ADMIN-ADJ-{uuid.uuid4().hex[:20].upper()}"
+            )
+
+            LedgerEntry.objects.create(
+                wallet=wallet,
+                currency=wallet.currency,
+                entry_type=LedgerEntry.EntryType.ADJUSTMENT,
+                direction=(
+                    LedgerEntry.Direction.CREDIT
+                    if direction == "credit"
+                    else LedgerEntry.Direction.DEBIT
+                ),
+                amount=amount,
+                balance_after=new_balance,
+                reference=entry_reference,
+                description=(
+                    description
+                    or (
+                        "Admin wallet credit"
+                        if direction == "credit"
+                        else "Admin wallet debit"
+                    )
+                ),
+            )
+
+        return Response(
+            {
+                "detail": (
+                    "Wallet credited successfully."
+                    if direction == "credit"
+                    else "Wallet debited successfully."
+                ),
+                "user_id": user.id,
+                "wallet_balance": str(
+                    new_balance
+                ),
+            },
+            status=200,
         )
 
 
@@ -393,3 +539,88 @@ class AdminInvestmentPlanDetailView(
         InvestmentPlan.objects
         .select_related("category")
     )
+
+class AdminWithdrawalApproveView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request, pk):
+        try:
+            withdrawal = approve_withdrawal(
+                transaction_id=pk,
+                admin_user=request.user,
+                admin_note=request.data.get(
+                    "admin_note",
+                    "",
+                ),
+            )
+        except Transaction.DoesNotExist:
+            return Response(
+                {
+                    "detail": "Withdrawal not found."
+                },
+                status=404,
+            )
+        except ValueError as exc:
+            return Response(
+                {
+                    "detail": str(exc)
+                },
+                status=400,
+            )
+
+        return Response(
+            {
+                "detail": (
+                    "Withdrawal approved successfully."
+                ),
+                "transaction": (
+                    AdminWithdrawalSerializer(
+                        withdrawal
+                    ).data
+                ),
+            },
+            status=200,
+        )
+
+
+class AdminWithdrawalRejectView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request, pk):
+        try:
+            withdrawal = reject_withdrawal(
+                transaction_id=pk,
+                admin_user=request.user,
+                admin_note=request.data.get(
+                    "admin_note",
+                    "",
+                ),
+            )
+        except Transaction.DoesNotExist:
+            return Response(
+                {
+                    "detail": "Withdrawal not found."
+                },
+                status=404,
+            )
+        except ValueError as exc:
+            return Response(
+                {
+                    "detail": str(exc)
+                },
+                status=400,
+            )
+
+        return Response(
+            {
+                "detail": (
+                    "Withdrawal rejected successfully."
+                ),
+                "transaction": (
+                    AdminWithdrawalSerializer(
+                        withdrawal
+                    ).data
+                ),
+            },
+            status=200,
+        )

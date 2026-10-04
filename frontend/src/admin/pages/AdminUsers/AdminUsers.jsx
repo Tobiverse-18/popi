@@ -10,7 +10,14 @@ import {
   XCircle,
 } from "lucide-react";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import api from "../../../api/api";
 
@@ -23,6 +30,8 @@ export default function AdminUsers() {
 
   const [page, setPage] = useState(1);
   const [pageSize] = useState(20);
+
+  const navigate = useNavigate();
 
   const [totalUsers, setTotalUsers] = useState(0);
 
@@ -321,7 +330,13 @@ export default function AdminUsers() {
                 </tr>
               ) : (
                 users.map((user) => (
-                  <tr key={user.id}>
+                  <tr
+                      key={user.id}
+                      className="admin-users-clickable-row"
+                      onClick={() =>
+                        navigate(`/admin/users/${user.id}`)
+                      }
+                    >
                     <td>
                       <div className="admin-users-user">
                         <div className="admin-users-avatar">

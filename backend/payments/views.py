@@ -15,11 +15,13 @@ from transactions.models import Transaction
 from wallets.models import LedgerEntry, Wallet
 
 from .models import (
+    FundingWallet,
     ManualFundingRequest,
     PaymentConfiguration,
 )
 from .serializers import (
     AdminFundingRequestSerializer,
+    FundingWalletSerializer,
     ManualFundingRequestSerializer,
 )
 
@@ -30,14 +32,16 @@ class FundingConfigurationView(APIView):
     ]
 
     def get(self, request):
-        configuration = (
-            PaymentConfiguration.objects.filter(
-                is_active=True
+        funding_wallet = (
+            FundingWallet.objects
+            .filter(
+                asset="BTC",
+                is_active=True,
             )
             .first()
         )
 
-        if not configuration:
+        if not funding_wallet:
             return Response(
                 {
                     "bitcoin_address": "",
@@ -47,7 +51,7 @@ class FundingConfigurationView(APIView):
         return Response(
             {
                 "bitcoin_address":
-                    configuration.bitcoin_address,
+                    funding_wallet.address,
             }
         )
 
@@ -64,14 +68,16 @@ class FundingRequestCreateView(
     )
 
     def perform_create(self, serializer):
-        configuration = (
-            PaymentConfiguration.objects.filter(
-                is_active=True
+        funding_wallet = (
+            FundingWallet.objects
+            .filter(
+                asset="BTC",
+                is_active=True,
             )
             .first()
         )
 
-        if not configuration:
+        if not funding_wallet:
             raise ValidationError(
                 {
                     "detail":
@@ -79,7 +85,7 @@ class FundingRequestCreateView(
                 }
             )
 
-        if not configuration.bitcoin_address:
+        if not funding_wallet.address:
             raise ValidationError(
                 {
                     "detail":
@@ -91,9 +97,7 @@ class FundingRequestCreateView(
             user=self.request.user,
             currency="USD",
             crypto_currency="BTC",
-            wallet_address=(
-                configuration.bitcoin_address
-            ),
+            wallet_address=funding_wallet.address,
             status=(
                 ManualFundingRequest
                 .Status
@@ -423,4 +427,68 @@ class FundingRequestRejectView(APIView):
                     funding_request.reference,
             },
             status=status.HTTP_200_OK,
+        )
+
+class AdminFundingWalletListCreateView(
+    generics.ListCreateAPIView
+):
+    permission_classes = [
+        permissions.IsAdminUser
+    ]
+
+    serializer_class = FundingWalletSerializer
+
+    def get_queryset(self):
+        return FundingWallet.objects.all().order_by(
+            "-created_at"
+        )
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        FundingWallet.objects.filter(
+            asset="BTC",
+            is_active=True,
+        ).update(
+            is_active=False
+        )
+
+        serializer.save(
+            asset="BTC",
+            network="Bitcoin",
+            is_active=True,
+        )
+
+class AdminFundingWalletDetailView(
+    generics.RetrieveUpdateDestroyAPIView
+):
+    permission_classes = [
+        permissions.IsAdminUser
+    ]
+
+    serializer_class = FundingWalletSerializer
+
+    queryset = FundingWallet.objects.all()
+
+    @transaction.atomic
+    def perform_update(self, serializer):
+        wallet = serializer.instance
+
+        is_active = serializer.validated_data.get(
+            "is_active",
+            wallet.is_active,
+        )
+
+        if is_active:
+            FundingWallet.objects.filter(
+                asset="BTC",
+                is_active=True,
+            ).exclude(
+                pk=wallet.pk
+            ).update(
+                is_active=False
+            )
+
+        serializer.save(
+            asset="BTC",
+            network="Bitcoin",
         )

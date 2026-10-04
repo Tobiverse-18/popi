@@ -41,6 +41,16 @@ urlpatterns = [
         "api/admin-dashboard/",
         include("admin_dashboard.urls"),
     ),
+
+    path(
+        "api/notifications/",
+        include("notifications.urls"),
+    ),
+
+    path(
+        "api/loans/",
+        include("loans.urls"),
+    ),
 ]
 
 

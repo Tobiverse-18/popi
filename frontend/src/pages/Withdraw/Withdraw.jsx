@@ -261,11 +261,11 @@ export default function Withdraw() {
           className="baloz-withdraw-brand"
         >
           <span className="baloz-withdraw-brand-mark">
-            B
+            H
           </span>
 
           <span>
-            Baloz
+            HarvestCoin
           </span>
         </Link>
 
@@ -298,7 +298,7 @@ export default function Withdraw() {
           </h1>
 
           <p>
-            Send funds from your Baloz wallet
+            Send funds from your HarvestCoin wallet
             to a crypto wallet address.
           </p>
 
@@ -509,10 +509,11 @@ export default function Withdraw() {
                     </strong>
 
                     <span>
-                      Your balance has been
-                      deducted and the
-                      withdrawal is being
-                      processed.
+                      Your withdrawal request has been
+                      submitted and is awaiting admin
+                      approval. Your balance will only be
+                      deducted once the withdrawal is
+                      approved.
                     </span>
 
                     {success.reference && (
@@ -636,7 +637,7 @@ export default function Withdraw() {
                 <p>
                   Your wallet balance is checked
                   and updated securely on the
-                  Baloz server.
+                  HarvestCoin server.
                 </p>
 
               </div>
@@ -705,9 +706,9 @@ export default function Withdraw() {
                 </strong>
 
                 <p>
-                  Your Baloz balance is deducted
-                  immediately and the withdrawal
-                  moves into processing.
+                  Your balance remains unchanged
+                  until an administrator reviews and
+                  approves your withdrawal request.
                 </p>
 
               </div>
@@ -745,7 +746,7 @@ export default function Withdraw() {
       <footer className="baloz-withdraw-footer">
 
         <span>
-          Baloz
+          HarvestCoin
         </span>
 
         <span>

@@ -196,11 +196,11 @@ export default function Settings() {
         <div className="baloz-settings-brand">
 
           <span className="baloz-settings-brand-mark">
-            B
+            H
           </span>
 
           <span>
-            Baloz
+            HarvestCoin
           </span>
 
         </div>
@@ -247,7 +247,7 @@ export default function Settings() {
               </h2>
 
               <p>
-                Keep your Baloz account secure.
+                Keep your HarvestCoin account secure.
               </p>
 
             </div>
@@ -537,7 +537,7 @@ export default function Settings() {
                 </h3>
 
                 <p>
-                  Sign out of your Baloz account
+                  Sign out of your HarvestCoin account
                   on this device.
                 </p>
 
@@ -568,7 +568,7 @@ export default function Settings() {
         <footer className="baloz-settings-footer">
 
           <span>
-            Baloz Financial Platform
+            HarvestCoin Financial Platform
           </span>
 
          

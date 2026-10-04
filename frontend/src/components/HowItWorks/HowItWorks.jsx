@@ -12,7 +12,7 @@ const steps = [
     number: "01",
     title: "Create your account",
     description:
-      "Create your Baloz account and set up your profile in a few straightforward steps.",
+      "Create your HarvestCoin account and set up your profile in a few straightforward steps.",
     icon: ArrowRight,
   },
   {

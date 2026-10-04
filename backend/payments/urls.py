@@ -2,6 +2,8 @@ from django.urls import path
 
 from .views import (
     AdminFundingRequestListView,
+    AdminFundingWalletDetailView,
+    AdminFundingWalletListCreateView,
     FundingConfigurationView,
     FundingRequestApproveView,
     FundingRequestCreateView,
@@ -45,5 +47,17 @@ urlpatterns = [
         "funding/<int:pk>/reject/",
         FundingRequestRejectView.as_view(),
         name="funding-reject",
+    ),
+
+    path(
+        "admin/funding-wallets/",
+        AdminFundingWalletListCreateView.as_view(),
+        name="admin-funding-wallet-list",
+    ),
+
+    path(
+        "admin/funding-wallets/<int:pk>/",
+        AdminFundingWalletDetailView.as_view(),
+        name="admin-funding-wallet-detail",
     ),
 ]

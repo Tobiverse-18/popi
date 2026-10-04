@@ -2,6 +2,7 @@ import {
   ArrowDownToLine,
   ArrowUpFromLine,
   BarChart3,
+  Landmark,
   ChevronRight,
   LayoutDashboard,
   LogOut,
@@ -52,7 +53,16 @@ const navigation = [
     path: "/admin/investment-plans",
     icon: TrendingUp,
   },
-
+  {
+    label: "Funding Wallets",
+    path: "/admin/funding-wallets",
+    icon: BarChart3,
+  },
+  {
+    label: "Loans",
+    path: "/admin/loans",
+    icon: Landmark,
+  },
 ];
 
 export default function AdminLayout() {
@@ -114,12 +124,10 @@ export default function AdminLayout() {
       >
         <div className="admin-sidebar-top">
           <div className="admin-brand">
-            <span className="admin-brand-mark">
-              B
-            </span>
+            
 
             <div>
-              <strong>Baloz</strong>
+              <strong>HarvestCoin</strong>
 
               <span>Administration</span>
             </div>

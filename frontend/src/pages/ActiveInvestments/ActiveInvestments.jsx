@@ -176,10 +176,10 @@ export default function ActiveInvestments() {
             className="active-investments-brand"
           >
             <span className="active-investments-brand-mark">
-              B
+              H
             </span>
 
-            <span>Baloz</span>
+            <span>HarvestCoin</span>
           </Link>
 
         </header>
@@ -214,10 +214,10 @@ export default function ActiveInvestments() {
           className="active-investments-brand"
         >
           <span className="active-investments-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </Link>
 
 
@@ -573,7 +573,7 @@ export default function ActiveInvestments() {
         <footer className="active-investments-footer">
 
           <span>
-            Baloz
+            HarvestCoin
           </span>
 
           <span>

@@ -121,10 +121,10 @@ export default function AdminLogin() {
       <div className="admin-login-container">
         <div className="admin-login-brand">
           <span className="admin-login-brand-mark">
-            B
+            H
           </span>
 
-          <span>Baloz</span>
+          <span>HarvestCoin</span>
         </div>
 
         <section className="admin-login-panel">
@@ -143,7 +143,7 @@ export default function AdminLogin() {
             <h1>Admin sign in</h1>
 
             <p>
-              Sign in with an authorized Baloz
+              Sign in with an authorized HarvestCoin
               administrator account.
             </p>
           </div>
@@ -261,7 +261,7 @@ export default function AdminLogin() {
         </section>
 
         <p className="admin-login-footer">
-          Baloz Administration ·{" "}
+          HarvestCoin Administration ·{" "}
           {new Date().getFullYear()}
         </p>
       </div>

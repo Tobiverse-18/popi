@@ -1,0 +1,434 @@
+.not-found-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  box-sizing: border-box;
+
+  background: #080d13;
+  color: #f5f7fa;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  overflow-x: hidden;
+}
+
+.not-found-content {
+  width: 100%;
+  max-width: 620px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.not-found-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 54px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  letter-spacing: -0.3px;
+
+  user-select: none;
+}
+
+.not-found-brand-mark {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.not-found-brand-name {
+  line-height: 1;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.not-found-icon {
+  width: 62px;
+  height: 62px;
+
+  flex: 0 0 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  margin-bottom: 25px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: #aeb7c4;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   404 CODE
+   ========================================================= */
+
+.not-found-code {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(76px, 15vw, 132px);
+  font-weight: 800;
+
+  line-height: 0.9;
+
+  letter-spacing: -7px;
+
+  user-select: none;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.not-found-title {
+  margin: 28px 0 12px;
+
+  color: #ffffff;
+
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 750;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.not-found-description {
+  width: 100%;
+  max-width: 490px;
+
+  margin: 0;
+
+  color: #8f99a7;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.not-found-actions {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-top: 30px;
+
+  flex-wrap: wrap;
+}
+
+.not-found-actions button {
+  min-width: 130px;
+  min-height: 48px;
+
+  padding: 0 18px;
+
+  box-sizing: border-box;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  position: relative;
+  z-index: 10;
+
+  touch-action: manipulation;
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.not-found-actions button:hover {
+  transform: translateY(-1px);
+}
+
+.not-found-actions button:active {
+  transform: scale(0.98);
+}
+
+.not-found-actions button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.not-found-primary {
+  border: 1px solid #ffffff;
+
+  background: #ffffff;
+
+  color: #080d13;
+}
+
+.not-found-primary:hover {
+  border-color: #e9edf1;
+
+  background: #e9edf1;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.not-found-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+
+  background: rgba(255, 255, 255, 0.035);
+
+  color: #d7dce3;
+}
+
+.not-found-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.not-found-footer {
+  margin: 62px 0 0;
+
+  color: #596270;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .not-found-page {
+    padding: 30px 18px;
+  }
+
+  .not-found-brand {
+    margin-bottom: 44px;
+
+    font-size: 17px;
+  }
+
+  .not-found-brand-mark {
+    width: 32px;
+    height: 32px;
+
+    flex-basis: 32px;
+
+    border-radius: 8px;
+  }
+
+  .not-found-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-basis: 58px;
+
+    margin-bottom: 23px;
+  }
+
+  .not-found-code {
+    font-size: clamp(72px, 22vw, 100px);
+
+    letter-spacing: -4px;
+  }
+
+  .not-found-title {
+    margin-top: 22px;
+
+    font-size: clamp(27px, 8vw, 36px);
+
+    letter-spacing: -1px;
+  }
+
+  .not-found-description {
+    max-width: 430px;
+
+    font-size: 14px;
+
+    line-height: 1.65;
+  }
+
+  .not-found-actions {
+    width: 100%;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 28px;
+  }
+
+  .not-found-actions button {
+    width: 100%;
+
+    max-width: 300px;
+
+    min-height: 50px;
+
+    padding: 0 20px;
+  }
+
+  .not-found-footer {
+    margin-top: 48px;
+
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .not-found-page {
+    padding: 24px 16px;
+  }
+
+  .not-found-brand {
+    margin-bottom: 36px;
+  }
+
+  .not-found-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-basis: 54px;
+  }
+
+  .not-found-code {
+    font-size: 72px;
+  }
+
+  .not-found-title {
+    font-size: 27px;
+  }
+
+  .not-found-description {
+    font-size: 13.5px;
+  }
+
+  .not-found-actions button {
+    max-width: 280px;
+  }
+
+  .not-found-footer {
+    margin-top: 40px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found-actions button {
+    transition: none;
+  }
+
+  .not-found-actions button:hover {
+    transform: none;
+  }
+
+  .not-found-actions button:active {
+    transform: none;
+  }
+}

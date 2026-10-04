@@ -33,10 +33,10 @@ export default function Navbar() {
           href="#top"
           className="brand"
           onClick={closeMenu}
-          aria-label="Baloz home"
+          aria-label="HarvestCoin home"
         >
-          <span className="brand-mark">B</span>
-          <span className="brand-name">Baloz</span>
+          <span className="brand-mark">H</span>
+          <span className="brand-name">HarvestCoin</span>
         </a>
 
         {/* Desktop Navigation */}
