@@ -1,9 +1,17 @@
+
 .admin-funding-wallets-page {
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
   padding: 32px;
   color: var(--admin-text, #f4f7fb);
+  box-sizing: border-box;
+}
+
+.admin-funding-wallets-page *,
+.admin-funding-wallets-page *::before,
+.admin-funding-wallets-page *::after {
+  box-sizing: border-box;
 }
 
 .admin-funding-wallets-header {
@@ -11,10 +19,11 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
-.admin-funding-wallets-eyebrow {
+.admin-funding-wallets-eyebrow,
+.admin-funding-wallets-form-eyebrow {
   display: block;
   margin-bottom: 8px;
   color: #7f8a9d;
@@ -26,17 +35,18 @@
 
 .admin-funding-wallets-header h1 {
   margin: 0;
-  color: #ffffff;
+  color: #fff;
   font-size: 30px;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 .admin-funding-wallets-header p {
+  max-width: 620px;
   margin: 8px 0 0;
   color: #8994a7;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .admin-funding-wallets-header-actions {
@@ -57,10 +67,9 @@
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
 }
 
 .admin-funding-wallets-refresh {
@@ -81,7 +90,7 @@
 }
 
 .admin-funding-wallets-add:hover {
-  background: #ffffff;
+  background: #fff;
 }
 
 .admin-funding-wallets-refresh:disabled {
@@ -94,9 +103,7 @@
 }
 
 @keyframes admin-funding-wallets-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 .admin-funding-wallets-error,
@@ -108,6 +115,8 @@
   padding: 13px 15px;
   border-radius: 9px;
   font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .admin-funding-wallets-error {
@@ -122,11 +131,19 @@
   color: #8bd6ae;
 }
 
-.admin-funding-wallets-error button {
+.admin-funding-wallets-error > span,
+.admin-funding-wallets-success > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-funding-wallets-error button,
+.admin-funding-wallets-success button {
+  flex: 0 0 auto;
   margin-left: auto;
   border: 0;
   background: transparent;
-  color: #ffffff;
+  color: inherit;
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
@@ -134,35 +151,29 @@
 }
 
 .admin-funding-wallets-success button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  margin-left: auto;
-  border: 0;
-  background: transparent;
-  color: inherit;
+  width: 28px;
+  height: 28px;
   font-size: 20px;
-  cursor: pointer;
 }
 
 .admin-funding-wallets-overview {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 18px;
+  overflow: hidden;
   border: 1px solid #242d3a;
   border-radius: 12px;
   background: #10161f;
-  overflow: hidden;
 }
 
 .admin-funding-wallets-overview-item {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  min-height: 82px;
-  padding: 17px 20px;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  min-height: 108px;
+  padding: 19px 21px;
   border-right: 1px solid #242d3a;
 }
 
@@ -170,8 +181,8 @@
   border-right: 0;
 }
 
-.admin-funding-wallets-overview-item > span {
-  color: #697689;
+.admin-funding-wallets-overview-item > span:first-child {
+  color: #788598;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -181,15 +192,34 @@
 .admin-funding-wallets-overview-item strong {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 9px;
   color: #eef2f7;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.admin-funding-wallets-overview-item small {
+  color: #758196;
+  font-size: 11px;
+}
+
+.admin-funding-wallets-overview-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid #344052;
+  border-radius: 7px;
+  background: #19212c;
+  color: #dce3ec !important;
+  font-size: 16px !important;
+  letter-spacing: 0 !important;
 }
 
 .admin-funding-wallets-form-card {
   margin-bottom: 18px;
-  padding: 22px;
+  padding: 23px;
   border: 1px solid #293242;
   border-radius: 12px;
   background: #111720;
@@ -199,33 +229,23 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 22px;
-}
-
-.admin-funding-wallets-form-eyebrow {
-  display: block;
-  margin-bottom: 7px;
-  color: #7f8a9d;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  margin-bottom: 23px;
 }
 
 .admin-funding-wallets-form-header h2 {
   margin: 0;
   color: #f4f7fb;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 650;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .admin-funding-wallets-form-header p {
   max-width: 620px;
-  margin: 7px 0 0;
+  margin: 8px 0 0;
   color: #788598;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .admin-funding-wallets-form-close {
@@ -233,42 +253,51 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border: 1px solid #293242;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #151b24;
   color: #9ba6b5;
-  font-size: 19px;
+  font-size: 20px;
   cursor: pointer;
 }
 
-.admin-funding-wallets-form-close:hover {
-  color: #ffffff;
+.admin-funding-wallets-form-close:hover:not(:disabled) {
   background: #1b222d;
+  color: #fff;
+}
+
+.admin-funding-wallets-form-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .admin-funding-wallets-form {
+  width: 100%;
   max-width: 760px;
 }
 
 .admin-funding-wallets-form-error {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 9px;
-  margin-bottom: 15px;
-  padding: 11px 13px;
+  margin-bottom: 17px;
+  padding: 12px 13px;
   border: 1px solid rgba(239, 68, 68, 0.25);
   border-radius: 8px;
   background: rgba(127, 29, 29, 0.1);
   color: #fca5a5;
   font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .admin-funding-wallets-field {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-bottom: 19px;
 }
 
 .admin-funding-wallets-field label {
@@ -277,7 +306,9 @@
   font-weight: 600;
 }
 
-.admin-funding-wallets-field input {
+.admin-funding-wallets-field input,
+.admin-funding-wallets-field select {
+  display: block;
   width: 100%;
   min-height: 46px;
   padding: 0 13px;
@@ -288,11 +319,22 @@
   color: #eef2f7;
   font-family: inherit;
   font-size: 13px;
-  box-sizing: border-box;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.admin-funding-wallets-field input:focus {
-  border-color: #56657b;
+.admin-funding-wallets-field select {
+  cursor: pointer;
+}
+
+.admin-funding-wallets-field input:focus,
+.admin-funding-wallets-field select:focus {
+  border-color: #697b94;
+}
+
+.admin-funding-wallets-field input:disabled,
+.admin-funding-wallets-field select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .admin-funding-wallets-field input::placeholder {
@@ -300,48 +342,87 @@
 }
 
 .admin-funding-wallets-field > span {
-  color: #687487;
+  color: #788598;
   font-size: 11px;
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+.admin-funding-wallets-network-preview {
+  margin: 0 0 20px;
+  padding: 14px 15px;
+  border: 1px solid #293242;
+  border-radius: 9px;
+  background: #0d131b;
+}
+
+.admin-funding-wallets-network-preview > span {
+  display: block;
+  margin-bottom: 6px;
+  color: #758196;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.admin-funding-wallets-network-preview strong {
+  color: #e8edf4;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.admin-funding-wallets-network-preview p {
+  margin: 7px 0 0;
+  color: #788598;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .admin-funding-wallets-active-toggle {
   display: flex;
   align-items: center;
   gap: 11px;
-  margin-top: 18px;
+  margin-top: 20px;
   cursor: pointer;
 }
 
 .admin-funding-wallets-active-toggle input {
   position: absolute;
+  width: 1px;
+  height: 1px;
   opacity: 0;
-  pointer-events: none;
 }
 
 .admin-funding-wallets-toggle-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
   flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
   border: 1px solid #394555;
   border-radius: 5px;
   background: #151c25;
   color: transparent;
 }
 
-.admin-funding-wallets-active-toggle input:checked + .admin-funding-wallets-toggle-box {
+.admin-funding-wallets-active-toggle input:checked
+  + .admin-funding-wallets-toggle-box {
   border-color: #8bd6ae;
   background: rgba(74, 222, 128, 0.1);
   color: #8bd6ae;
 }
 
+.admin-funding-wallets-active-toggle input:focus-visible
+  + .admin-funding-wallets-toggle-box {
+  outline: 2px solid #a7b6ca;
+  outline-offset: 3px;
+}
+
 .admin-funding-wallets-active-toggle > span:last-child {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .admin-funding-wallets-active-toggle strong {
@@ -351,28 +432,30 @@
 }
 
 .admin-funding-wallets-active-toggle small {
-  color: #687487;
+  color: #788598;
   font-size: 11px;
+  line-height: 1.5;
 }
 
 .admin-funding-wallets-form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 9px;
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 23px;
+  padding-top: 19px;
   border-top: 1px solid #242d3a;
 }
 
 .admin-funding-wallets-cancel,
 .admin-funding-wallets-save {
-  min-height: 40px;
-  padding: 0 15px;
+  min-height: 41px;
+  padding: 0 16px;
   border-radius: 8px;
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
 }
 
 .admin-funding-wallets-cancel {
@@ -381,10 +464,18 @@
   color: #c8d0db;
 }
 
+.admin-funding-wallets-cancel:hover:not(:disabled) {
+  background: #1b222d;
+}
+
 .admin-funding-wallets-save {
   border: 1px solid #e9edf2;
   background: #e9edf2;
   color: #0c1118;
+}
+
+.admin-funding-wallets-save:hover:not(:disabled) {
+  background: #fff;
 }
 
 .admin-funding-wallets-cancel:disabled,
@@ -400,6 +491,38 @@
   background: #10161f;
 }
 
+.admin-funding-wallets-table-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 19px 21px;
+  border-bottom: 1px solid #242d3a;
+}
+
+.admin-funding-wallets-table-heading h2 {
+  margin: 0;
+  color: #e8edf4;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.admin-funding-wallets-table-heading p {
+  margin: 5px 0 0;
+  color: #788598;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.admin-funding-wallets-table-heading > span {
+  flex: 0 0 auto;
+  padding: 6px 9px;
+  border: 1px solid #293242;
+  border-radius: 7px;
+  color: #aab5c4;
+  font-size: 11px;
+}
+
 .admin-funding-wallets-table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -407,29 +530,29 @@
 
 .admin-funding-wallets-table {
   width: 100%;
-  min-width: 1100px;
+  min-width: 1050px;
   border-collapse: collapse;
 }
 
 .admin-funding-wallets-table th {
   height: 48px;
-  padding: 0 20px;
+  padding: 0 17px;
   border-bottom: 1px solid #242d3a;
   background: #121923;
-  color: #697689;
+  color: #788598;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   text-align: left;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .admin-funding-wallets-table td {
-  padding: 17px 20px;
+  padding: 16px 17px;
   border-bottom: 1px solid #202834;
   color: #d9e0e9;
-  font-size: 13px;
+  font-size: 12px;
   vertical-align: middle;
 }
 
@@ -438,7 +561,7 @@
 }
 
 .admin-funding-wallets-table tbody tr {
-  transition: background 0.18s ease;
+  transition: background 0.18s;
 }
 
 .admin-funding-wallets-table tbody tr:hover {
@@ -449,27 +572,33 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 100px;
+  min-width: 110px;
 }
 
 .admin-funding-wallets-asset-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 37px;
+  height: 37px;
+  flex: 0 0 auto;
   border: 1px solid #303b4b;
   border-radius: 9px;
   background: #19212c;
   color: #e4e9ef;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
 }
 
-.admin-funding-wallets-asset div:last-child {
+.admin-funding-wallets-asset-icon.eth {
+  background: #18202b;
+  color: #c7d2e4;
+}
+
+.admin-funding-wallets-asset > div:last-child {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .admin-funding-wallets-asset strong {
@@ -478,7 +607,7 @@
 }
 
 .admin-funding-wallets-asset span {
-  color: #667387;
+  color: #788598;
   font-size: 10px;
 }
 
@@ -486,12 +615,14 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 360px;
+  min-width: 300px;
+  max-width: 470px;
 }
 
 .admin-funding-wallets-address > span {
+  display: block;
+  min-width: 0;
   overflow: hidden;
-  max-width: 430px;
   color: #cbd4df;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 11px;
@@ -503,24 +634,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
   width: 30px;
   height: 30px;
+  flex: 0 0 auto;
   border: 1px solid #2a3442;
   border-radius: 7px;
   background: #151c25;
-  color: #7f8b9d;
+  color: #aab5c4;
   cursor: pointer;
 }
 
 .admin-funding-wallets-address button:hover {
-  color: #ffffff;
   background: #1c2530;
+  color: #fff;
 }
 
 .admin-funding-wallets-network {
   color: #aeb8c5;
-  font-size: 12px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .admin-funding-wallets-status {
@@ -532,6 +664,7 @@
   border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .admin-funding-wallets-status.active {
@@ -543,19 +676,20 @@
 .admin-funding-wallets-status.inactive {
   border: 1px solid rgba(148, 163, 184, 0.16);
   background: rgba(148, 163, 184, 0.06);
-  color: #8c97a7;
+  color: #a0aaba;
 }
 
 .admin-funding-wallets-status-dot {
   width: 6px;
   height: 6px;
+  flex: 0 0 auto;
   border-radius: 50%;
   background: currentColor;
 }
 
 .admin-funding-wallets-date {
   color: #8b96a6;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
 }
 
@@ -572,6 +706,7 @@
   font-family: inherit;
   font-size: 10px;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -593,7 +728,7 @@
 .admin-funding-wallets-action-delete {
   border: 1px solid rgba(239, 68, 68, 0.2);
   background: rgba(127, 29, 29, 0.08);
-  color: #d98989;
+  color: #e49b9b;
 }
 
 .admin-funding-wallets-actions button:hover {
@@ -601,7 +736,7 @@
 }
 
 .admin-funding-wallets-empty {
-  height: 300px;
+  height: 290px;
   text-align: center !important;
 }
 
@@ -611,7 +746,7 @@
   justify-content: center;
   width: 46px;
   height: 46px;
-  margin: 0 auto 12px;
+  margin: 0 auto 13px;
   border: 1px solid #303a49;
   border-radius: 10px;
   background: #171e28;
@@ -624,15 +759,16 @@
 }
 
 .admin-funding-wallets-empty strong {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   color: #e6ebf1;
   font-size: 13px;
 }
 
 .admin-funding-wallets-empty span {
   margin-bottom: 14px;
-  color: #687487;
+  color: #788598;
   font-size: 12px;
+  line-height: 1.6;
 }
 
 .admin-funding-wallets-empty button {
@@ -648,12 +784,9 @@
   cursor: pointer;
 }
 
-.admin-funding-wallets-empty button:hover {
-  background: #1b222d;
-}
-
-.admin-funding-wallets-skeleton {
-  height: 13px;
+.admin-funding-wallets-skeleton-row {
+  height: 38px;
+  margin: 4px 0;
   border-radius: 5px;
   background: linear-gradient(
     90deg,
@@ -665,30 +798,9 @@
   animation: admin-funding-wallets-loading 1.4s infinite;
 }
 
-.admin-funding-wallets-skeleton.small {
-  width: 65px;
-}
-
-.admin-funding-wallets-skeleton.medium {
-  width: 90px;
-}
-
-.admin-funding-wallets-skeleton.address {
-  width: 330px;
-}
-
-.admin-funding-wallets-skeleton.actions {
-  width: 210px;
-}
-
 @keyframes admin-funding-wallets-loading {
-  from {
-    background-position: 200% 0;
-  }
-
-  to {
-    background-position: -200% 0;
-  }
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
 }
 
 .admin-funding-wallets-security {
@@ -696,7 +808,7 @@
   align-items: flex-start;
   gap: 12px;
   margin-top: 18px;
-  padding: 15px;
+  padding: 16px;
   border: 1px solid #242d3a;
   border-radius: 10px;
   background: #111720;
@@ -706,18 +818,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 35px;
+  height: 35px;
   flex: 0 0 auto;
-  width: 34px;
-  height: 34px;
   border: 1px solid #303a49;
   border-radius: 8px;
   background: #171e28;
-  color: #9aa6b6;
+  color: #aab5c4;
 }
 
 .admin-funding-wallets-security strong {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   color: #dce3ec;
   font-size: 12px;
 }
@@ -725,9 +837,10 @@
 .admin-funding-wallets-security p {
   max-width: 900px;
   margin: 0;
-  color: #6f7b8d;
+  color: #8490a1;
   font-size: 11px;
-  line-height: 1.6;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 900px) {
@@ -739,26 +852,20 @@
     align-items: flex-start;
   }
 
-  .admin-funding-wallets-header-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .admin-funding-wallets-refresh,
-  .admin-funding-wallets-add {
-    width: 150px;
-  }
-
   .admin-funding-wallets-overview {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-funding-wallets-overview-item {
-    border-right: 0;
     border-bottom: 1px solid #242d3a;
   }
 
+  .admin-funding-wallets-overview-item:nth-child(2) {
+    border-right: 0;
+  }
+
   .admin-funding-wallets-overview-item:last-child {
+    grid-column: 1 / -1;
     border-bottom: 0;
   }
 }
@@ -784,13 +891,29 @@
 
   .admin-funding-wallets-header-actions {
     width: 100%;
-    flex-direction: row;
   }
 
   .admin-funding-wallets-refresh,
   .admin-funding-wallets-add {
-    width: auto;
     flex: 1;
+    min-width: 0;
+    padding: 0 10px;
+  }
+
+  .admin-funding-wallets-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-funding-wallets-overview-item,
+  .admin-funding-wallets-overview-item:nth-child(2) {
+    min-height: 88px;
+    border-right: 0;
+    border-bottom: 1px solid #242d3a;
+  }
+
+  .admin-funding-wallets-overview-item:last-child {
+    grid-column: auto;
+    border-bottom: 0;
   }
 
   .admin-funding-wallets-form-card {
@@ -814,7 +937,24 @@
     width: 100%;
   }
 
+  .admin-funding-wallets-table-heading {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
   .admin-funding-wallets-security {
     padding: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-funding-wallets-spin,
+  .admin-funding-wallets-skeleton-row {
+    animation: none;
+  }
+
+  .admin-funding-wallets-page * {
+    scroll-behavior: auto;
+    transition: none !important;
   }
 }

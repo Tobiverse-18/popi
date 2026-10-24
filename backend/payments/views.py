@@ -1,204 +1,153 @@
+
 from decimal import Decimal, InvalidOperation
 
 from django.db import transaction
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from rest_framework import generics, permissions, status
 from rest_framework.exceptions import ValidationError
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from wallets.models import Wallet, LedgerEntry
 from transactions.models import Transaction
-from wallets.models import LedgerEntry, Wallet
 
-from .models import (
-    FundingWallet,
-    ManualFundingRequest,
-    PaymentConfiguration,
-)
+from .models import FundingWallet, ManualFundingRequest
 from .serializers import (
+    ManualFundingRequestSerializer,
     AdminFundingRequestSerializer,
     FundingWalletSerializer,
-    ManualFundingRequestSerializer,
 )
 
 
 class FundingConfigurationView(APIView):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    """Return active BTC and ETH funding addresses."""
+
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        funding_wallet = (
-            FundingWallet.objects
-            .filter(
-                asset="BTC",
+        wallets = list(
+            FundingWallet.objects.filter(
                 is_active=True,
+                asset__in=["BTC", "ETH"],
             )
-            .first()
+            .order_by("asset")
+            .values("asset", "network", "address")
         )
 
-        if not funding_wallet:
-            return Response(
-                {
-                    "bitcoin_address": "",
-                }
-            )
+        bitcoin_wallet = next(
+            (wallet for wallet in wallets if wallet["asset"] == "BTC"),
+            None,
+        )
+        ethereum_wallet = next(
+            (wallet for wallet in wallets if wallet["asset"] == "ETH"),
+            None,
+        )
 
         return Response(
             {
-                "bitcoin_address":
-                    funding_wallet.address,
-            }
+                "wallets": wallets,
+                "bitcoin_address": (
+                    bitcoin_wallet["address"] if bitcoin_wallet else ""
+                ),
+                "ethereum_address": (
+                    ethereum_wallet["address"] if ethereum_wallet else ""
+                ),
+            },
+            status=status.HTTP_200_OK,
         )
 
 
-class FundingRequestCreateView(
-    generics.CreateAPIView
-):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+class FundingRequestCreateView(generics.CreateAPIView):
+    """Create a pending BTC or ETH funding request."""
 
-    serializer_class = (
-        ManualFundingRequestSerializer
-    )
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ManualFundingRequestSerializer
+    parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
-        funding_wallet = (
-            FundingWallet.objects
-            .filter(
-                asset="BTC",
-                is_active=True,
+        asset = (
+            serializer.validated_data.get("crypto_currency") or "BTC"
+        ).strip().upper()
+
+        if asset not in {"BTC", "ETH"}:
+            raise ValidationError(
+                {"crypto_currency": "Choose BTC or ETH."}
             )
-            .first()
-        )
+
+        funding_wallet = FundingWallet.objects.filter(
+            asset=asset,
+            is_active=True,
+        ).first()
 
         if not funding_wallet:
             raise ValidationError(
-                {
-                    "detail":
-                        "Funding is currently unavailable."
-                }
-            )
-
-        if not funding_wallet.address:
-            raise ValidationError(
-                {
-                    "detail":
-                        "Bitcoin funding is currently unavailable."
-                }
+                {"detail": f"{asset} funding is currently unavailable."}
             )
 
         serializer.save(
             user=self.request.user,
             currency="USD",
-            crypto_currency="BTC",
+            crypto_currency=asset,
             wallet_address=funding_wallet.address,
-            status=(
-                ManualFundingRequest
-                .Status
-                .PENDING
-            ),
+            status=ManualFundingRequest.Status.PENDING,
         )
 
 
-class FundingRequestListView(
-    generics.ListAPIView
-):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+class FundingRequestListView(generics.ListAPIView):
+    """List only the authenticated user's funding requests."""
 
-    serializer_class = (
-        ManualFundingRequestSerializer
-    )
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = ManualFundingRequestSerializer
 
     def get_queryset(self):
         return ManualFundingRequest.objects.filter(
-            user=self.request.user
-        )
+            user=self.request.user,
+        ).order_by("-created_at")
 
 
-class AdminFundingPagination(
-    PageNumberPagination
-):
-    page_size = 20
-    page_size_query_param = "page_size"
-    max_page_size = 50
+class AdminFundingRequestListView(generics.ListAPIView):
+    """List funding requests for administrators."""
 
-
-class AdminFundingRequestListView(
-    generics.ListAPIView
-):
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
-
-    serializer_class = (
-        AdminFundingRequestSerializer
-    )
-
-    pagination_class = (
-        AdminFundingPagination
-    )
+    permission_classes = [permissions.IsAdminUser]
+    serializer_class = AdminFundingRequestSerializer
 
     def get_queryset(self):
-        queryset = (
-            ManualFundingRequest.objects
-            .select_related(
-                "user",
-                "reviewed_by",
-            )
-            .all()
-            .order_by("-created_at")
-        )
+        queryset = ManualFundingRequest.objects.select_related(
+            "user",
+            "reviewed_by",
+        ).order_by("-created_at")
 
-        search = (
-            self.request.query_params
-            .get("search", "")
-            .strip()
-        )
+        request_status = self.request.query_params.get("status")
 
-        status_filter = (
-            self.request.query_params
-            .get("status", "")
-            .strip()
-            .lower()
-        )
+        if request_status:
+            allowed_statuses = {
+                ManualFundingRequest.Status.PENDING,
+                ManualFundingRequest.Status.APPROVED,
+                ManualFundingRequest.Status.REJECTED,
+            }
 
-        if search:
-            queryset = queryset.filter(
-                Q(
-                    reference__icontains=search
+            if request_status not in allowed_statuses:
+                raise ValidationError(
+                    {"status": "Invalid funding request status."}
                 )
-                | Q(
-                    user__email__icontains=search
-                )
-                | Q(
-                    user__username__icontains=search
-                )
-            )
 
-        if status_filter in {
-            ManualFundingRequest.Status.PENDING,
-            ManualFundingRequest.Status.APPROVED,
-            ManualFundingRequest.Status.REJECTED,
-        }:
-            queryset = queryset.filter(
-                status=status_filter
-            )
+            queryset = queryset.filter(status=request_status)
 
         return queryset
 
 
 class FundingRequestApproveView(APIView):
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
+    """
+    Approve a pending request and credit the user's USD wallet.
+
+    Wallet balance, ledger entry, transaction, and request status
+    are updated within one database transaction.
+    """
+
+    permission_classes = [permissions.IsAdminUser]
 
     @transaction.atomic
     def post(self, request, pk):
@@ -207,138 +156,111 @@ class FundingRequestApproveView(APIView):
             pk=pk,
         )
 
-        if (
-            funding_request.status
-            != ManualFundingRequest.Status.PENDING
-        ):
+        if funding_request.status != ManualFundingRequest.Status.PENDING:
             return Response(
-                {
-                    "detail":
-                        "Only pending funding requests can be approved."
-                },
+                {"detail": "Only pending requests can be approved."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        raw_approved_amount = request.data.get(
-            "approved_amount"
+        raw_amount = request.data.get(
+            "approved_amount",
+            funding_request.amount,
         )
-
-        if raw_approved_amount in (
-            None,
-            "",
-        ):
-            return Response(
-                {
-                    "approved_amount":
-                        "Enter the verified amount before approving."
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
 
         try:
-            approved_amount = Decimal(
-                str(raw_approved_amount)
+            approved_amount = Decimal(str(raw_amount))
+        except (InvalidOperation, TypeError, ValueError):
+            raise ValidationError(
+                {"approved_amount": "Enter a valid amount."}
             )
-        except (
-            InvalidOperation,
-            ValueError,
-        ):
-            return Response(
+
+        if not approved_amount.is_finite() or approved_amount <= Decimal("0"):
+            raise ValidationError(
+                {"approved_amount": "Amount must be greater than zero."}
+            )
+
+        if approved_amount.as_tuple().exponent < -2:
+            raise ValidationError(
+                {"approved_amount": "Use no more than two decimal places."}
+            )
+
+        if approved_amount > funding_request.amount:
+            raise ValidationError(
                 {
-                    "approved_amount":
-                        "Enter a valid amount."
-                },
-                status=status.HTTP_400_BAD_REQUEST,
+                    "approved_amount": (
+                        "The approved amount cannot exceed the requested amount."
+                    )
+                }
             )
 
-        if approved_amount <= 0:
-            return Response(
-                {
-                    "approved_amount":
-                        "Approved amount must be greater than zero."
-                },
-                status=status.HTTP_400_BAD_REQUEST,
+        # Wallet has a one-to-one relationship with the user.
+        # Lock it so concurrent approvals cannot overwrite its balance.
+        wallet, _ = Wallet.objects.get_or_create(
+            user=funding_request.user,
+            defaults={"currency": "USD"},
+        )
+        wallet = Wallet.objects.select_for_update().get(pk=wallet.pk)
+
+        if wallet.currency != funding_request.currency:
+            raise ValidationError(
+                {"detail": "Wallet currency does not match the funding currency."}
             )
 
-        wallet = Wallet.objects.select_for_update().get(
-            user=funding_request.user
-        )
+        new_balance = wallet.balance + approved_amount
 
-        wallet.balance += approved_amount
+        wallet.balance = new_balance
+        wallet.save(update_fields=["balance", "updated_at"])
 
-        wallet.save(
-            update_fields=[
-                "balance",
-                "updated_at",
-            ]
-        )
+        admin_note = str(request.data.get("admin_note", ""))
 
-        ledger_reference = (
-            f"FUND-{funding_request.reference}"
-        )
-
+        # LedgerEntry requires both direction and balance_after.
         LedgerEntry.objects.create(
             wallet=wallet,
             currency=funding_request.currency,
-            entry_type=(
-                LedgerEntry.EntryType.DEPOSIT
-            ),
-            direction=(
-                LedgerEntry.Direction.CREDIT
-            ),
+            entry_type=LedgerEntry.EntryType.DEPOSIT,
+            direction=LedgerEntry.Direction.CREDIT,
             amount=approved_amount,
-            balance_after=wallet.balance,
-            reference=ledger_reference,
+            balance_after=new_balance,
+            reference=funding_request.reference,
             description=(
-                "Manual crypto funding"
+                f"Manual {funding_request.crypto_currency} funding "
+                f"approved: {funding_request.reference}"
             ),
         )
 
+        # Transaction has no wallet field; it records the user,
+        # transaction direction, currency, amount and reference.
         Transaction.objects.create(
             user=funding_request.user,
-            transaction_type=(
-                Transaction.TransactionType.DEPOSIT
-            ),
-            status=(
-                Transaction.Status.SUCCESS
-            ),
-            direction=(
-                Transaction.Direction.CREDIT
-            ),
+            transaction_type=Transaction.TransactionType.DEPOSIT,
+            status=Transaction.Status.SUCCESS,
+            direction=Transaction.Direction.CREDIT,
             currency=funding_request.currency,
             amount=approved_amount,
+            approved_amount=approved_amount,
+            destination=funding_request.wallet_address,
+            admin_note=admin_note,
+            reviewed_by=request.user,
+            reviewed_at=timezone.now(),
             reference=funding_request.reference,
             provider="manual_crypto",
-            provider_reference=(
-                funding_request.reference
-            ),
             description=(
-                "Manual crypto funding"
+                f"Manual {funding_request.crypto_currency} funding "
+                f"approved: {funding_request.reference}"
             ),
         )
 
-        funding_request.approved_amount = (
-            approved_amount
-        )
-
-        funding_request.status = (
-            ManualFundingRequest
-            .Status
-            .APPROVED
-        )
-
-        funding_request.reviewed_by = (
-            request.user
-        )
-
-        funding_request.reviewed_at = (
-            timezone.now()
-        )
+        funding_request.approved_amount = approved_amount
+        funding_request.status = ManualFundingRequest.Status.APPROVED
+        funding_request.admin_note = admin_note
+        funding_request.reviewed_by = request.user
+        funding_request.reviewed_at = timezone.now()
 
         funding_request.save(
             update_fields=[
                 "approved_amount",
                 "status",
+                "admin_note",
                 "reviewed_by",
                 "reviewed_at",
                 "updated_at",
@@ -347,25 +269,22 @@ class FundingRequestApproveView(APIView):
 
         return Response(
             {
-                "detail":
-                    "Funding request approved and wallet credited.",
-                "reference":
-                    funding_request.reference,
-                "requested_amount":
-                    str(funding_request.amount),
-                "approved_amount":
-                    str(approved_amount),
-                "wallet_balance":
-                    str(wallet.balance),
+                "detail": "Funding request approved successfully.",
+                "reference": funding_request.reference,
+                "approved_amount": str(approved_amount),
+                "currency": funding_request.currency,
+                "crypto_currency": funding_request.crypto_currency,
+                "status": funding_request.status,
+                "wallet_balance": str(wallet.balance),
             },
             status=status.HTTP_200_OK,
         )
 
 
 class FundingRequestRejectView(APIView):
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
+    """Reject a pending request without crediting the wallet."""
+
+    permission_classes = [permissions.IsAdminUser]
 
     @transaction.atomic
     def post(self, request, pk):
@@ -374,40 +293,16 @@ class FundingRequestRejectView(APIView):
             pk=pk,
         )
 
-        if (
-            funding_request.status
-            != ManualFundingRequest.Status.PENDING
-        ):
+        if funding_request.status != ManualFundingRequest.Status.PENDING:
             return Response(
-                {
-                    "detail":
-                        "Only pending funding requests can be rejected."
-                },
+                {"detail": "Only pending requests can be rejected."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        admin_note = request.data.get(
-            "admin_note",
-            "",
-        )
-
-        funding_request.status = (
-            ManualFundingRequest
-            .Status
-            .REJECTED
-        )
-
-        funding_request.admin_note = (
-            str(admin_note).strip()
-        )
-
-        funding_request.reviewed_by = (
-            request.user
-        )
-
-        funding_request.reviewed_at = (
-            timezone.now()
-        )
+        funding_request.status = ManualFundingRequest.Status.REJECTED
+        funding_request.admin_note = str(request.data.get("admin_note", ""))
+        funding_request.reviewed_by = request.user
+        funding_request.reviewed_at = timezone.now()
 
         funding_request.save(
             update_fields=[
@@ -421,58 +316,47 @@ class FundingRequestRejectView(APIView):
 
         return Response(
             {
-                "detail":
-                    "Funding request rejected.",
-                "reference":
-                    funding_request.reference,
+                "detail": "Funding request rejected.",
+                "reference": funding_request.reference,
+                "status": funding_request.status,
             },
             status=status.HTTP_200_OK,
         )
 
-class AdminFundingWalletListCreateView(
-    generics.ListCreateAPIView
-):
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
 
+class AdminFundingWalletListCreateView(generics.ListCreateAPIView):
+    """List or create BTC and ETH funding addresses."""
+
+    permission_classes = [permissions.IsAdminUser]
     serializer_class = FundingWalletSerializer
 
     def get_queryset(self):
-        return FundingWallet.objects.all().order_by(
-            "-created_at"
-        )
+        return FundingWallet.objects.all().order_by("asset", "-created_at")
 
     @transaction.atomic
     def perform_create(self, serializer):
-        FundingWallet.objects.filter(
-            asset="BTC",
-            is_active=True,
-        ).update(
-            is_active=False
-        )
+        asset = serializer.validated_data["asset"]
 
-        serializer.save(
-            asset="BTC",
-            network="Bitcoin",
-            is_active=True,
-        )
+        if serializer.validated_data.get("is_active", True):
+            FundingWallet.objects.filter(
+                asset=asset,
+                is_active=True,
+            ).update(is_active=False)
 
-class AdminFundingWalletDetailView(
-    generics.RetrieveUpdateDestroyAPIView
-):
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
+        serializer.save()
 
+
+class AdminFundingWalletDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve, update, or delete a funding address."""
+
+    permission_classes = [permissions.IsAdminUser]
     serializer_class = FundingWalletSerializer
-
     queryset = FundingWallet.objects.all()
 
     @transaction.atomic
     def perform_update(self, serializer):
         wallet = serializer.instance
-
+        asset = serializer.validated_data.get("asset", wallet.asset)
         is_active = serializer.validated_data.get(
             "is_active",
             wallet.is_active,
@@ -480,15 +364,8 @@ class AdminFundingWalletDetailView(
 
         if is_active:
             FundingWallet.objects.filter(
-                asset="BTC",
+                asset=asset,
                 is_active=True,
-            ).exclude(
-                pk=wallet.pk
-            ).update(
-                is_active=False
-            )
+            ).exclude(pk=wallet.pk).update(is_active=False)
 
-        serializer.save(
-            asset="BTC",
-            network="Bitcoin",
-        )
+        serializer.save()

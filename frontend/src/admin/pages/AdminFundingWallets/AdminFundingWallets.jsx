@@ -1,3 +1,4 @@
+
 import {
   CheckCircle2,
   Copy,
@@ -8,39 +9,71 @@ import {
   Wallet,
   XCircle,
 } from "lucide-react";
-
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
 import api from "../../../api/api";
-
 import "./AdminFundingWallets.css";
+
+const ASSETS = {
+  BTC: {
+    name: "Bitcoin",
+    network: "Bitcoin",
+    symbol: "₿",
+    placeholder: "Enter your Bitcoin wallet address",
+    instruction: "Only send BTC through the Bitcoin network to this address.",
+  },
+  ETH: {
+    name: "Ethereum",
+    network: "Ethereum Mainnet",
+    symbol: "Ξ",
+    placeholder: "Enter your Ethereum wallet address (0x...)",
+    instruction: "Only send native ETH through Ethereum Mainnet to this address.",
+  },
+};
+
+const getErrorMessage = (error, fallback) => {
+  const data = error?.response?.data;
+
+  if (typeof data?.detail === "string") {
+    return data.detail;
+  }
+
+  if (data && typeof data === "object") {
+    for (const value of Object.values(data)) {
+      if (typeof value === "string") return value;
+
+      if (Array.isArray(value)) {
+        const message = value.find(
+          (item) => typeof item === "string" ||
+            (item && typeof item.toString === "function")
+        );
+
+        if (message) return String(message);
+      }
+    }
+  }
+
+  return fallback;
+};
 
 export default function AdminFundingWallets() {
   const [wallets, setWallets] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
 
   const [showForm, setShowForm] = useState(false);
-  const [editingWallet, setEditingWallet] =
-    useState(null);
-
+  const [editingWallet, setEditingWallet] = useState(null);
+  const [asset, setAsset] = useState("BTC");
   const [address, setAddress] = useState("");
   const [isActive, setIsActive] = useState(true);
 
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState("");
   const [success, setSuccess] = useState("");
-
   const [copiedId, setCopiedId] = useState(null);
 
-  const fetchWallets = async ({
-    showRefresh = false,
-  } = {}) => {
+  const fetchWallets = async ({ showRefresh = false } = {}) => {
     if (showRefresh) {
       setRefreshing(true);
     } else {
@@ -54,16 +87,21 @@ export default function AdminFundingWallets() {
         "/payments/admin/funding-wallets/"
       );
 
-      setWallets(response.data?.results || response.data || []);
-    } catch (requestError) {
-      console.error(
-        "Admin funding wallets error:",
-        requestError
-      );
+      const data = response.data;
+      const items = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.results)
+          ? data.results
+          : [];
 
+      setWallets(items);
+    } catch (requestError) {
+      console.error("Admin funding wallets error:", requestError);
       setError(
-        requestError.response?.data?.detail ||
+        getErrorMessage(
+          requestError,
           "Unable to load funding wallets. Please try again."
+        )
       );
     } finally {
       setLoading(false);
@@ -76,6 +114,7 @@ export default function AdminFundingWallets() {
   }, []);
 
   const resetForm = () => {
+    setAsset("BTC");
     setAddress("");
     setIsActive(true);
     setEditingWallet(null);
@@ -89,7 +128,10 @@ export default function AdminFundingWallets() {
   };
 
   const openEditForm = (wallet) => {
+    const walletAsset = wallet.asset === "ETH" ? "ETH" : "BTC";
+
     setEditingWallet(wallet);
+    setAsset(walletAsset);
     setAddress(wallet.address || "");
     setIsActive(Boolean(wallet.is_active));
     setFormError("");
@@ -98,9 +140,7 @@ export default function AdminFundingWallets() {
   };
 
   const closeForm = () => {
-    if (saving) {
-      return;
-    }
+    if (saving) return;
 
     setShowForm(false);
     resetForm();
@@ -108,7 +148,6 @@ export default function AdminFundingWallets() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setFormError("");
     setSuccess("");
 
@@ -116,7 +155,7 @@ export default function AdminFundingWallets() {
 
     if (!trimmedAddress) {
       setFormError(
-        "Enter the Bitcoin wallet address."
+        `Enter the ${ASSETS[asset].name} wallet address.`
       );
       return;
     }
@@ -134,57 +173,34 @@ export default function AdminFundingWallets() {
         );
 
         setSuccess(
-          "Bitcoin funding wallet updated successfully."
+          `${ASSETS[asset].name} funding wallet updated successfully.`
         );
       } else {
         await api.post(
           "/payments/admin/funding-wallets/",
           {
+            asset,
             address: trimmedAddress,
             is_active: isActive,
           }
         );
 
         setSuccess(
-          "Bitcoin funding wallet added successfully."
+          `${ASSETS[asset].name} funding wallet added successfully.`
         );
       }
 
       setShowForm(false);
       resetForm();
-
       await fetchWallets();
     } catch (requestError) {
-      console.error(
-        "Funding wallet save error:",
-        requestError
-      );
-
-      const responseData =
-        requestError.response?.data;
-
-      if (
-        responseData &&
-        typeof responseData === "object"
-      ) {
-        const firstError =
-          Object.values(responseData)
-            .flat()
-            .find(
-              (message) =>
-                typeof message === "string"
-            );
-
-        setFormError(
-          firstError ||
-            responseData.detail ||
-            "Unable to save the funding wallet."
-        );
-      } else {
-        setFormError(
+      console.error("Funding wallet save error:", requestError);
+      setFormError(
+        getErrorMessage(
+          requestError,
           "Unable to save the funding wallet."
-        );
-      }
+        )
+      );
     } finally {
       setSaving(false);
     }
@@ -194,42 +210,42 @@ export default function AdminFundingWallets() {
     setError("");
     setSuccess("");
 
+    const walletAsset = wallet.asset === "ETH" ? "ETH" : "BTC";
+    const assetName = ASSETS[walletAsset].name;
+
     try {
       await api.patch(
         `/payments/admin/funding-wallets/${wallet.id}/`,
-        {
-          is_active: !wallet.is_active,
-        }
+        { is_active: !wallet.is_active }
       );
 
       setSuccess(
         wallet.is_active
-          ? "Bitcoin funding wallet deactivated."
-          : "Bitcoin funding wallet activated."
+          ? `${assetName} funding wallet deactivated.`
+          : `${assetName} funding wallet activated.`
       );
 
       await fetchWallets();
     } catch (requestError) {
-      console.error(
-        "Funding wallet status error:",
-        requestError
-      );
-
+      console.error("Funding wallet status error:", requestError);
       setError(
-        requestError.response?.data?.detail ||
+        getErrorMessage(
+          requestError,
           "Unable to update wallet status."
+        )
       );
     }
   };
 
   const handleDelete = async (wallet) => {
+    const walletAsset = wallet.asset === "ETH" ? "ETH" : "BTC";
+    const assetName = ASSETS[walletAsset].name;
+
     const confirmed = window.confirm(
-      "Delete this Bitcoin funding wallet? Historical funding requests will keep their recorded wallet address."
+      `Delete this ${assetName} funding wallet? Existing funding requests should retain their recorded wallet address.`
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     setError("");
     setSuccess("");
@@ -239,59 +255,67 @@ export default function AdminFundingWallets() {
         `/payments/admin/funding-wallets/${wallet.id}/`
       );
 
-      setSuccess(
-        "Bitcoin funding wallet deleted successfully."
-      );
-
+      setSuccess(`${assetName} funding wallet deleted successfully.`);
       await fetchWallets();
     } catch (requestError) {
-      console.error(
-        "Funding wallet delete error:",
-        requestError
-      );
-
+      console.error("Funding wallet delete error:", requestError);
       setError(
-        requestError.response?.data?.detail ||
+        getErrorMessage(
+          requestError,
           "Unable to delete the funding wallet."
+        )
       );
     }
   };
 
   const handleCopy = async (wallet) => {
-    if (!wallet.address) {
-      return;
-    }
+    if (!wallet.address) return;
 
     try {
-      await navigator.clipboard.writeText(
-        wallet.address
-      );
-
+      await navigator.clipboard.writeText(wallet.address);
       setCopiedId(wallet.id);
 
-      setTimeout(() => {
-        setCopiedId(null);
+      window.setTimeout(() => {
+        setCopiedId((current) =>
+          current === wallet.id ? null : current
+        );
       }, 2000);
     } catch (copyError) {
-      console.error(
-        "Failed to copy wallet address:",
-        copyError
+      console.error("Failed to copy wallet address:", copyError);
+      setError(
+        "Unable to copy automatically. Select and copy the address manually."
       );
     }
   };
 
+  const btcWallets = wallets.filter((wallet) => wallet.asset === "BTC");
+  const ethWallets = wallets.filter((wallet) => wallet.asset === "ETH");
+  const activeBtc = btcWallets.filter((wallet) => wallet.is_active).length;
+  const activeEth = ethWallets.filter((wallet) => wallet.is_active).length;
+
+  const formatDate = (value) => {
+    if (!value) return "—";
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "—";
+
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }).format(date);
+  };
+
   return (
     <section className="admin-funding-wallets-page">
-      <div className="admin-funding-wallets-header">
+      <header className="admin-funding-wallets-header">
         <div>
           <span className="admin-funding-wallets-eyebrow">
             Administration
           </span>
-
           <h1>Funding Wallets</h1>
-
           <p>
-            Manage the Bitcoin address used for
+            Manage Bitcoin and Ethereum Mainnet addresses used for
             customer account funding.
           </p>
         </div>
@@ -300,27 +324,14 @@ export default function AdminFundingWallets() {
           <button
             type="button"
             className="admin-funding-wallets-refresh"
-            onClick={() =>
-              fetchWallets({
-                showRefresh: true,
-              })
-            }
+            onClick={() => fetchWallets({ showRefresh: true })}
             disabled={refreshing}
           >
             <RefreshCw
               size={17}
-              className={
-                refreshing
-                  ? "admin-funding-wallets-spin"
-                  : ""
-              }
+              className={refreshing ? "admin-funding-wallets-spin" : ""}
             />
-
-            <span>
-              {refreshing
-                ? "Refreshing..."
-                : "Refresh"}
-            </span>
+            <span>{refreshing ? "Refreshing..." : "Refresh"}</span>
           </button>
 
           <button
@@ -329,33 +340,25 @@ export default function AdminFundingWallets() {
             onClick={openAddForm}
           >
             <Plus size={17} />
-
-            <span>Add BTC wallet</span>
+            <span>Add wallet</span>
           </button>
         </div>
-      </div>
+      </header>
 
       {error && (
-        <div className="admin-funding-wallets-error">
+        <div className="admin-funding-wallets-error" role="alert">
           <XCircle size={18} />
-
           <span>{error}</span>
-
-          <button
-            type="button"
-            onClick={() => fetchWallets()}
-          >
+          <button type="button" onClick={() => fetchWallets()}>
             Try again
           </button>
         </div>
       )}
 
       {success && (
-        <div className="admin-funding-wallets-success">
+        <div className="admin-funding-wallets-success" role="status">
           <CheckCircle2 size={18} />
-
           <span>{success}</span>
-
           <button
             type="button"
             onClick={() => setSuccess("")}
@@ -371,21 +374,16 @@ export default function AdminFundingWallets() {
           <div className="admin-funding-wallets-form-header">
             <div>
               <span className="admin-funding-wallets-form-eyebrow">
-                {editingWallet
-                  ? "Edit wallet"
-                  : "New wallet"}
+                {editingWallet ? "Edit wallet" : "New wallet"}
               </span>
-
               <h2>
                 {editingWallet
-                  ? "Update Bitcoin wallet"
-                  : "Add Bitcoin funding wallet"}
+                  ? `Update ${ASSETS[asset].name} wallet`
+                  : "Add funding wallet"}
               </h2>
-
               <p>
-                This address will be shown to
-                customers when they fund their
-                HarvestCoin wallet.
+                Only use an address you control and verify the network
+                carefully before activating it.
               </p>
             </div>
 
@@ -405,34 +403,54 @@ export default function AdminFundingWallets() {
             onSubmit={handleSubmit}
           >
             {formError && (
-              <div className="admin-funding-wallets-form-error">
+              <div className="admin-funding-wallets-form-error" role="alert">
                 <XCircle size={17} />
-
                 <span>{formError}</span>
               </div>
             )}
 
             <div className="admin-funding-wallets-field">
-              <label htmlFor="funding-wallet-address">
-                Bitcoin wallet address
-              </label>
+              <label htmlFor="funding-wallet-asset">Crypto asset</label>
+              <select
+                id="funding-wallet-asset"
+                value={asset}
+                onChange={(event) => setAsset(event.target.value)}
+                disabled={saving || Boolean(editingWallet)}
+              >
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+              </select>
+              {editingWallet && (
+                <span>
+                  The asset cannot be changed when editing an existing
+                  wallet. Add a separate wallet for the other asset.
+                </span>
+              )}
+            </div>
 
+            <div className="admin-funding-wallets-network-preview">
+              <span>Network</span>
+              <strong>{ASSETS[asset].network}</strong>
+              <p>{ASSETS[asset].instruction}</p>
+            </div>
+
+            <div className="admin-funding-wallets-field">
+              <label htmlFor="funding-wallet-address">
+                {ASSETS[asset].name} wallet address
+              </label>
               <input
                 id="funding-wallet-address"
                 type="text"
                 value={address}
-                onChange={(event) =>
-                  setAddress(event.target.value)
-                }
-                placeholder="Enter BTC wallet address"
+                onChange={(event) => setAddress(event.target.value)}
+                placeholder={ASSETS[asset].placeholder}
                 autoComplete="off"
                 spellCheck="false"
                 disabled={saving}
               />
-
               <span>
-                Only send BTC through the Bitcoin
-                network to this address.
+                Customers will be shown this address when funding with{" "}
+                {asset}.
               </span>
             </div>
 
@@ -440,26 +458,16 @@ export default function AdminFundingWallets() {
               <input
                 type="checkbox"
                 checked={isActive}
-                onChange={(event) =>
-                  setIsActive(
-                    event.target.checked
-                  )
-                }
+                onChange={(event) => setIsActive(event.target.checked)}
                 disabled={saving}
               />
-
               <span className="admin-funding-wallets-toggle-box">
                 <CheckCircle2 size={14} />
               </span>
-
               <span>
-                <strong>
-                  Active funding wallet
-                </strong>
-
+                <strong>Active funding wallet</strong>
                 <small>
-                  Customers can use this address
-                  when it is active.
+                  Customers can use this address while it is active.
                 </small>
               </span>
             </label>
@@ -473,7 +481,6 @@ export default function AdminFundingWallets() {
               >
                 Cancel
               </button>
-
               <button
                 type="submit"
                 className="admin-funding-wallets-save"
@@ -492,32 +499,42 @@ export default function AdminFundingWallets() {
 
       <div className="admin-funding-wallets-overview">
         <div className="admin-funding-wallets-overview-item">
-          <span>Asset</span>
+          <span>Bitcoin wallets</span>
+          <strong>
+            <span className="admin-funding-wallets-overview-symbol">₿</span>
+            {btcWallets.length} total
+          </strong>
+          <small>{activeBtc} active</small>
+        </div>
 
+        <div className="admin-funding-wallets-overview-item">
+          <span>Ethereum wallets</span>
+          <strong>
+            <span className="admin-funding-wallets-overview-symbol">Ξ</span>
+            {ethWallets.length} total
+          </strong>
+          <small>{activeEth} active</small>
+        </div>
+
+        <div className="admin-funding-wallets-overview-item">
+          <span>Active addresses</span>
           <strong>
             <Wallet size={15} />
-            Bitcoin
+            {activeBtc + activeEth}
           </strong>
-        </div>
-
-        <div className="admin-funding-wallets-overview-item">
-          <span>Network</span>
-
-          <strong>Bitcoin</strong>
-        </div>
-
-        <div className="admin-funding-wallets-overview-item">
-          <span>Active wallets</span>
-
-          <strong>
-            {wallets.filter(
-              (wallet) => wallet.is_active
-            ).length}
-          </strong>
+          <small>Across both assets</small>
         </div>
       </div>
 
       <div className="admin-funding-wallets-table-card">
+        <div className="admin-funding-wallets-table-heading">
+          <div>
+            <h2>Configured addresses</h2>
+            <p>BTC and ETH addresses are managed separately.</p>
+          </div>
+          <span>{wallets.length} wallet{wallets.length === 1 ? "" : "s"}</span>
+        </div>
+
         <div className="admin-funding-wallets-table-wrap">
           <table className="admin-funding-wallets-table">
             <thead>
@@ -533,190 +550,125 @@ export default function AdminFundingWallets() {
 
             <tbody>
               {loading ? (
-                Array.from({ length: 3 }).map(
-                  (_, index) => (
-                    <tr
-                      key={`wallet-skeleton-${index}`}
-                      className="admin-funding-wallets-skeleton-row"
-                    >
-                      <td>
-                        <div className="admin-funding-wallets-skeleton small" />
-                      </td>
-
-                      <td>
-                        <div className="admin-funding-wallets-skeleton address" />
-                      </td>
-
-                      <td>
-                        <div className="admin-funding-wallets-skeleton small" />
-                      </td>
-
-                      <td>
-                        <div className="admin-funding-wallets-skeleton medium" />
-                      </td>
-
-                      <td>
-                        <div className="admin-funding-wallets-skeleton medium" />
-                      </td>
-
-                      <td>
-                        <div className="admin-funding-wallets-skeleton actions" />
-                      </td>
-                    </tr>
-                  )
-                )
+                Array.from({ length: 3 }).map((_, index) => (
+                  <tr key={`wallet-skeleton-${index}`}>
+                    <td colSpan="6">
+                      <div className="admin-funding-wallets-skeleton-row" />
+                    </td>
+                  </tr>
+                ))
               ) : wallets.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan="6"
-                    className="admin-funding-wallets-empty"
-                  >
+                  <td colSpan="6" className="admin-funding-wallets-empty">
                     <div className="admin-funding-wallets-empty-icon">
                       <Wallet size={22} />
                     </div>
-
-                    <strong>
-                      No funding wallets
-                    </strong>
-
+                    <strong>No funding wallets</strong>
                     <span>
-                      Add a Bitcoin wallet to enable
-                      customer funding.
+                      Add a Bitcoin or Ethereum wallet to enable customer
+                      funding.
                     </span>
-
-                    <button
-                      type="button"
-                      onClick={openAddForm}
-                    >
-                      Add BTC wallet
+                    <button type="button" onClick={openAddForm}>
+                      Add wallet
                     </button>
                   </td>
                 </tr>
               ) : (
-                wallets.map((wallet) => (
-                  <tr key={wallet.id}>
-                    <td>
-                      <div className="admin-funding-wallets-asset">
-                        <div className="admin-funding-wallets-asset-icon">
-                          ₿
+                wallets.map((wallet) => {
+                  const walletAsset =
+                    wallet.asset === "ETH" ? "ETH" : "BTC";
+                  const details = ASSETS[walletAsset];
+
+                  return (
+                    <tr key={wallet.id}>
+                      <td>
+                        <div className="admin-funding-wallets-asset">
+                          <div
+                            className={`admin-funding-wallets-asset-icon ${walletAsset.toLowerCase()}`}
+                          >
+                            {details.symbol}
+                          </div>
+                          <div>
+                            <strong>{walletAsset}</strong>
+                            <span>{details.name}</span>
+                          </div>
                         </div>
+                      </td>
 
-                        <div>
-                          <strong>
-                            {wallet.asset}
-                          </strong>
-
-                          <span>
-                            Bitcoin
+                      <td>
+                        <div className="admin-funding-wallets-address">
+                          <span title={wallet.address}>
+                            {wallet.address}
                           </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy(wallet)}
+                            aria-label={`Copy ${walletAsset} wallet address`}
+                            title="Copy address"
+                          >
+                            {copiedId === wallet.id ? (
+                              <CheckCircle2 size={15} />
+                            ) : (
+                              <Copy size={15} />
+                            )}
+                          </button>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    <td>
-                      <div className="admin-funding-wallets-address">
-                        <span>
-                          {wallet.address}
+                      <td>
+                        <span className="admin-funding-wallets-network">
+                          {wallet.network || details.network}
                         </span>
+                      </td>
 
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleCopy(wallet)
-                          }
-                          aria-label="Copy wallet address"
-                        >
-                          {copiedId ===
-                          wallet.id ? (
-                            <CheckCircle2
-                              size={15}
-                            />
-                          ) : (
-                            <Copy size={15} />
-                          )}
-                        </button>
-                      </div>
-                    </td>
-
-                    <td>
-                      <span className="admin-funding-wallets-network">
-                        {wallet.network}
-                      </span>
-                    </td>
-
-                    <td>
-                      <span
-                        className={
-                          wallet.is_active
-                            ? "admin-funding-wallets-status active"
-                            : "admin-funding-wallets-status inactive"
-                        }
-                      >
-                        <span className="admin-funding-wallets-status-dot" />
-
-                        {wallet.is_active
-                          ? "Active"
-                          : "Inactive"}
-                      </span>
-                    </td>
-
-                    <td>
-                      <span className="admin-funding-wallets-date">
-                        {wallet.updated_at
-                          ? new Intl.DateTimeFormat(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            ).format(
-                              new Date(
-                                wallet.updated_at
-                              )
-                            )
-                          : "—"}
-                      </span>
-                    </td>
-
-                    <td>
-                      <div className="admin-funding-wallets-actions">
-                        <button
-                          type="button"
-                          className="admin-funding-wallets-action-edit"
-                          onClick={() =>
-                            openEditForm(wallet)
+                      <td>
+                        <span
+                          className={
+                            wallet.is_active
+                              ? "admin-funding-wallets-status active"
+                              : "admin-funding-wallets-status inactive"
                           }
                         >
-                          <Edit3 size={14} />
-                          Edit
-                        </button>
+                          <span className="admin-funding-wallets-status-dot" />
+                          {wallet.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </td>
 
-                        <button
-                          type="button"
-                          className="admin-funding-wallets-action-toggle"
-                          onClick={() =>
-                            handleToggle(wallet)
-                          }
-                        >
-                          {wallet.is_active
-                            ? "Deactivate"
-                            : "Activate"}
-                        </button>
+                      <td>
+                        <span className="admin-funding-wallets-date">
+                          {formatDate(wallet.updated_at)}
+                        </span>
+                      </td>
 
-                        <button
-                          type="button"
-                          className="admin-funding-wallets-action-delete"
-                          onClick={() =>
-                            handleDelete(wallet)
-                          }
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                      <td>
+                        <div className="admin-funding-wallets-actions">
+                          <button
+                            type="button"
+                            className="admin-funding-wallets-action-edit"
+                            onClick={() => openEditForm(wallet)}
+                          >
+                            <Edit3 size={14} />
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            className="admin-funding-wallets-action-toggle"
+                            onClick={() => handleToggle(wallet)}
+                          >
+                            {wallet.is_active ? "Deactivate" : "Activate"}
+                          </button>
+                          <button
+                            type="button"
+                            className="admin-funding-wallets-action-delete"
+                            onClick={() => handleDelete(wallet)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -727,16 +679,14 @@ export default function AdminFundingWallets() {
         <div className="admin-funding-wallets-security-icon">
           <ShieldCheck size={18} />
         </div>
-
         <div>
-          <strong>Funding address control</strong>
-
+          <strong>Funding address security</strong>
           <p>
-            Customers only see an active Bitcoin
-            funding address. When an address is
-            changed, existing funding requests keep
-            the address that was recorded when the
-            request was submitted.
+            Verify every address and its network before activating it.
+            Bitcoin and Ethereum Mainnet are different networks; sending
+            funds to the wrong network may result in permanent loss.
+            Funding requests should only credit customer balances after
+            an administrator verifies the payment and approves it.
           </p>
         </div>
       </div>

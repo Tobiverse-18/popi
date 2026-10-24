@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -6,20 +7,87 @@ import {
   Copy,
   ImagePlus,
   Loader2,
+  QrCode,
   ShieldCheck,
   Upload,
+  Wallet,
 } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 
 import api from "../../api/api";
-
 import "./Deposit.css";
+
+const CRYPTO_OPTIONS = {
+  BTC: {
+    label: "Bitcoin",
+    network: "Bitcoin Mainnet",
+    symbol: "₿",
+    warning:
+      "Only send BTC through the Bitcoin network. Sending another cryptocurrency or using the wrong network may result in permanent loss of funds.",
+  },
+  ETH: {
+    label: "Ethereum",
+    network: "Ethereum Mainnet",
+    symbol: "Ξ",
+    warning:
+      "Only send ETH through Ethereum Mainnet. Do not use another network, even if the wallet address looks the same.",
+  },
+};
+
+function getWalletAsset(wallet) {
+  return String(
+    wallet?.asset ||
+      wallet?.crypto_currency ||
+      wallet?.currency ||
+      ""
+  ).toUpperCase();
+}
+
+function getWalletAddress(wallet) {
+  return (
+    wallet?.address ||
+    wallet?.wallet_address ||
+    ""
+  );
+}
+
+function getErrorMessage(error, fallback) {
+  const data = error?.response?.data;
+
+  if (typeof data?.detail === "string") {
+    return data.detail;
+  }
+
+  if (data && typeof data === "object") {
+    for (const value of Object.values(data)) {
+      if (typeof value === "string") {
+        return value;
+      }
+
+      if (Array.isArray(value)) {
+        const message = value.find(
+          (item) => typeof item === "string"
+        );
+
+        if (message) return message;
+      }
+    }
+  }
+
+  return fallback;
+}
 
 export default function Deposit() {
   const fileInputRef = useRef(null);
 
-  const [bitcoinAddress, setBitcoinAddress] = useState("");
+  const [wallets, setWallets] = useState([]);
   const [loadingAddress, setLoadingAddress] = useState(true);
   const [addressError, setAddressError] = useState("");
+
+  const [cryptoCurrency, setCryptoCurrency] =
+    useState("BTC");
+  const [paymentMethod, setPaymentMethod] =
+    useState("qr");
 
   const [amount, setAmount] = useState("");
   const [screenshot, setScreenshot] = useState(null);
@@ -30,11 +98,22 @@ export default function Deposit() {
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
 
+  const selectedCrypto = CRYPTO_OPTIONS[cryptoCurrency];
+
+  const selectedWallet = wallets.find(
+    (wallet) =>
+      getWalletAsset(wallet) === cryptoCurrency &&
+      wallet.is_active !== false &&
+      Boolean(getWalletAddress(wallet))
+  );
+
+  const walletAddress = getWalletAddress(selectedWallet);
+
   useEffect(() => {
-    fetchFundingAddress();
+    fetchFundingWallets();
   }, []);
 
-  const fetchFundingAddress = async () => {
+  const fetchFundingWallets = async () => {
     setLoadingAddress(true);
     setAddressError("");
 
@@ -43,51 +122,65 @@ export default function Deposit() {
         "/payments/funding/config/"
       );
 
-      const address =
-        response.data?.bitcoin_address || "";
+      const data = response.data;
+      let configuredWallets = Array.isArray(data?.wallets)
+        ? data.wallets
+        : [];
 
-      if (!address) {
-        setAddressError(
-          "Bitcoin funding is currently unavailable."
-        );
-        return;
+      // Support the previous BTC-only configuration response.
+      if (
+        configuredWallets.length === 0 &&
+        data?.bitcoin_address
+      ) {
+        configuredWallets = [
+          {
+            asset: "BTC",
+            address: data.bitcoin_address,
+            network: "Bitcoin",
+            is_active: true,
+          },
+        ];
       }
 
-      setBitcoinAddress(address);
+      setWallets(configuredWallets);
     } catch (error) {
       console.error(
-        "Failed to load funding address:",
+        "Failed to load funding wallets:",
         error
       );
 
       setAddressError(
-        error.response?.data?.detail ||
-          "Unable to load the funding address."
+        getErrorMessage(
+          error,
+          "Unable to load funding wallets. Please try again."
+        )
       );
     } finally {
       setLoadingAddress(false);
     }
   };
 
+  const handleCryptoChange = (event) => {
+    setCryptoCurrency(event.target.value);
+    setCopied(false);
+    setSubmitError("");
+    setSubmitSuccess("");
+  };
+
   const handleCopyAddress = async () => {
-    if (!bitcoinAddress) {
-      return;
-    }
+    if (!walletAddress) return;
 
     try {
-      await navigator.clipboard.writeText(
-        bitcoinAddress
-      );
-
+      await navigator.clipboard.writeText(walletAddress);
       setCopied(true);
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         setCopied(false);
       }, 2000);
     } catch (error) {
-      console.error(
-        "Failed to copy Bitcoin address:",
-        error
+      console.error("Failed to copy wallet address:", error);
+      setSubmitError(
+        "Unable to copy the address automatically. Please select and copy it manually."
       );
     }
   };
@@ -95,18 +188,44 @@ export default function Deposit() {
   const handleScreenshotChange = (event) => {
     const file = event.target.files?.[0];
 
-    if (!file) {
+    if (!file) return;
+
+    setSubmitError("");
+    setSubmitSuccess("");
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setSubmitError(
+        "Please upload a JPG, PNG or WEBP image."
+      );
+      event.target.value = "";
       return;
     }
 
-    setSubmitError("");
+    if (file.size > 5 * 1024 * 1024) {
+      setSubmitError(
+        "Your screenshot must be 5MB or smaller."
+      );
+      event.target.value = "";
+      return;
+    }
+
     setScreenshot(file);
   };
 
   const handleAmountChange = (event) => {
     const value = event.target.value;
 
-    if (value === "" || Number(value) >= 0) {
+    if (
+      value === "" ||
+      (/^\d*\.?\d{0,2}$/.test(value) &&
+        Number(value) >= 0)
+    ) {
       setAmount(value);
       setSubmitError("");
       setSubmitSuccess("");
@@ -121,9 +240,20 @@ export default function Deposit() {
 
     const numericAmount = Number(amount);
 
-    if (!amount || numericAmount <= 0) {
+    if (
+      !amount ||
+      !Number.isFinite(numericAmount) ||
+      numericAmount <= 0
+    ) {
       setSubmitError(
-        "Enter the amount you want to add to your wallet."
+        "Enter a valid USD amount greater than zero."
+      );
+      return;
+    }
+
+    if (!walletAddress) {
+      setSubmitError(
+        `Funding with ${cryptoCurrency} is currently unavailable.`
       );
       return;
     }
@@ -136,16 +266,9 @@ export default function Deposit() {
     }
 
     const formData = new FormData();
-
-    formData.append(
-      "amount",
-      amount
-    );
-
-    formData.append(
-      "screenshot",
-      screenshot
-    );
+    formData.append("amount", amount);
+    formData.append("crypto_currency", cryptoCurrency);
+    formData.append("screenshot", screenshot);
 
     setSubmitting(true);
 
@@ -155,18 +278,16 @@ export default function Deposit() {
         formData,
         {
           headers: {
-            "Content-Type":
-              "multipart/form-data",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      const reference =
-        response.data?.reference;
+      const reference = response.data?.reference;
 
       setSubmitSuccess(
         reference
-          ? `Your deposit request has been submitted. Reference: ${reference}`
+          ? `Your ${cryptoCurrency} deposit request has been submitted. Reference: ${reference}`
           : "Your deposit request has been submitted successfully."
       );
 
@@ -182,35 +303,23 @@ export default function Deposit() {
         error
       );
 
-      const responseData =
-        error.response?.data;
-
-      if (
-        responseData &&
-        typeof responseData === "object"
-      ) {
-        const firstError =
-          Object.values(responseData)
-            .flat()
-            .find(
-              (message) =>
-                typeof message === "string"
-            );
-
-        setSubmitError(
-          firstError ||
-            responseData.detail ||
-            "Unable to submit your deposit request."
-        );
-      } else {
-        setSubmitError(
+      setSubmitError(
+        getErrorMessage(
+          error,
           "Unable to submit your deposit request."
-        );
-      }
+        )
+      );
     } finally {
       setSubmitting(false);
     }
   };
+
+  const formattedAmount = amount
+    ? Number(amount).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : "0.00";
 
   return (
     <div className="deposit-page">
@@ -239,9 +348,8 @@ export default function Deposit() {
           <h1>Add funds to your wallet</h1>
 
           <p>
-            Choose how much you want to add,
-            send the required payment to the
-            HarvestCoin Bitcoin address, and upload
+            Choose a cryptocurrency, send your payment
+            using a QR code or wallet address, and upload
             your payment proof for verification.
           </p>
         </section>
@@ -251,14 +359,10 @@ export default function Deposit() {
           onSubmit={handleSubmit}
         >
           <div className="deposit-primary">
-
             <section className="deposit-section">
               <div className="deposit-section-heading">
                 <div>
-                  <span className="deposit-step">
-                    01
-                  </span>
-
+                  <span className="deposit-step">01</span>
                   <h2>Choose amount</h2>
                 </div>
 
@@ -268,13 +372,14 @@ export default function Deposit() {
               </div>
 
               <p className="deposit-section-description">
-                Enter the exact amount you want
-                credited to your HarvestCoin USD wallet.
+                Enter the USD amount you want credited
+                to your HarvestCoin wallet after your
+                payment has been verified.
               </p>
 
               <div className="deposit-field">
                 <label htmlFor="deposit-amount">
-                  Amount to add
+                  Amount to add (USD)
                 </label>
 
                 <div className="deposit-input-wrap">
@@ -285,7 +390,7 @@ export default function Deposit() {
                   <input
                     id="deposit-amount"
                     type="number"
-                    min="0"
+                    min="0.01"
                     step="0.01"
                     placeholder="0.00"
                     value={amount}
@@ -294,9 +399,11 @@ export default function Deposit() {
                 </div>
 
                 <span className="deposit-field-hint">
-                  Your wallet will be credited with
-                  the USD amount you enter, after
-                  your payment has been verified.
+                  This is the USD amount you are
+                  requesting to have credited. Make sure
+                  you understand the payment amount
+                  required in your crypto wallet before
+                  sending funds.
                 </span>
               </div>
             </section>
@@ -304,47 +411,87 @@ export default function Deposit() {
             <section className="deposit-section">
               <div className="deposit-section-heading">
                 <div>
-                  <span className="deposit-step">
-                    02
-                  </span>
-
+                  <span className="deposit-step">02</span>
                   <h2>Send payment</h2>
                 </div>
 
                 <span className="deposit-network">
-                  BTC
+                  {cryptoCurrency}
                 </span>
               </div>
 
               <p className="deposit-section-description">
-                Send the required Bitcoin payment
-                using the address below. The
-                payment is manually verified before
-                your wallet is credited.
+                Select your cryptocurrency and payment
+                method. Always verify the network before
+                sending funds.
               </p>
 
-              <div className="deposit-payment-summary">
-                <span>
-                  Amount to credit
-                </span>
+              <div className="deposit-field">
+                <label htmlFor="deposit-crypto">
+                  Cryptocurrency
+                </label>
 
-                <strong>
-                  $
-                  {amount
-                    ? Number(amount).toLocaleString(
-                        "en-US",
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }
-                      )
-                    : "0.00"}
-                </strong>
+                <select
+                  id="deposit-crypto"
+                  className="deposit-select"
+                  value={cryptoCurrency}
+                  onChange={handleCryptoChange}
+                >
+                  <option value="BTC">
+                    Bitcoin (BTC)
+                  </option>
+                  <option value="ETH">
+                    Ethereum (ETH)
+                  </option>
+                </select>
+              </div>
+
+              <div className="deposit-payment-summary">
+                <span>USD amount requested</span>
+                <strong>${formattedAmount}</strong>
+              </div>
+
+              <div className="deposit-method-heading">
+                <span>Choose payment method</span>
+              </div>
+
+              <div
+                className="deposit-method-switch"
+                role="group"
+                aria-label="Payment method"
+              >
+                <button
+                  type="button"
+                  className={
+                    paymentMethod === "qr"
+                      ? "deposit-method-button deposit-method-active"
+                      : "deposit-method-button"
+                  }
+                  onClick={() => setPaymentMethod("qr")}
+                  aria-pressed={paymentMethod === "qr"}
+                >
+                  <QrCode size={17} />
+                  QR Code
+                </button>
+
+                <button
+                  type="button"
+                  className={
+                    paymentMethod === "address"
+                      ? "deposit-method-button deposit-method-active"
+                      : "deposit-method-button"
+                  }
+                  onClick={() => setPaymentMethod("address")}
+                  aria-pressed={paymentMethod === "address"}
+                >
+                  <Wallet size={17} />
+                  Wallet Address
+                </button>
               </div>
 
               <div className="deposit-address-box">
                 <div className="deposit-address-label">
-                  HarvestCoin BTC payment address
+                  {selectedCrypto.label} payment address
                 </div>
 
                 {loadingAddress ? (
@@ -353,24 +500,82 @@ export default function Deposit() {
                       size={18}
                       className="deposit-spin"
                     />
-                    Loading payment address...
+                    Loading payment wallets...
                   </div>
                 ) : addressError ? (
                   <div className="deposit-address-error">
                     {addressError}
+                    <button
+                      type="button"
+                      className="deposit-retry-button"
+                      onClick={fetchFundingWallets}
+                    >
+                      Try again
+                    </button>
                   </div>
-                ) : (
-                  <>
-                    <div className="deposit-address">
-                      {bitcoinAddress}
+                ) : !walletAddress ? (
+                  <div className="deposit-address-error">
+                    {cryptoCurrency} funding is currently
+                    unavailable. Please choose another
+                    cryptocurrency or contact support.
+                  </div>
+                ) : paymentMethod === "qr" ? (
+                  <div className="deposit-qr-panel">
+                    <div className="deposit-qr-frame">
+                      <QRCodeSVG
+                        value={walletAddress}
+                        size={220}
+                        level="M"
+                        marginSize={2}
+                        title={`${selectedCrypto.label} wallet address QR code`}
+                        bgColor="#ffffff"
+                        fgColor="#080d13"
+                      />
+                    </div>
+
+                    <div className="deposit-qr-title">
+                      Scan to get the wallet address
+                    </div>
+
+                    <p className="deposit-qr-description">
+                      Open a compatible crypto wallet and
+                      scan this QR code. Confirm the
+                      displayed address and network before
+                      sending.
+                    </p>
+
+                    <div className="deposit-qr-address-preview">
+                      {walletAddress}
                     </div>
 
                     <button
                       type="button"
                       className="deposit-copy-button"
-                      onClick={
-                        handleCopyAddress
-                      }
+                      onClick={handleCopyAddress}
+                    >
+                      {copied ? (
+                        <>
+                          <Check size={16} />
+                          Copied
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={16} />
+                          Copy address instead
+                        </>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="deposit-address">
+                      {walletAddress}
+                    </div>
+
+                    <button
+                      type="button"
+                      className="deposit-copy-button"
+                      onClick={handleCopyAddress}
                     >
                       {copied ? (
                         <>
@@ -384,21 +589,49 @@ export default function Deposit() {
                         </>
                       )}
                     </button>
+
+                    <p className="deposit-address-help">
+                      Copy this address and paste it into
+                      your crypto wallet's recipient field.
+                    </p>
                   </>
                 )}
               </div>
+
+              {walletAddress && (
+                <div className="deposit-network-details">
+                  <div>
+                    <span>Asset</span>
+                    <strong>
+                      {selectedCrypto.label} ({cryptoCurrency})
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>Network</span>
+                    <strong>{selectedCrypto.network}</strong>
+                  </div>
+                </div>
+              )}
 
               <div className="deposit-notice">
                 <div className="deposit-notice-icon">
                   <ShieldCheck size={16} />
                 </div>
 
+                <p>{selectedCrypto.warning}</p>
+              </div>
+
+              <div className="deposit-notice deposit-notice-muted">
+                <div className="deposit-notice-icon">
+                  <ShieldCheck size={16} />
+                </div>
+
                 <p>
-                  Only send BTC through the
-                  Bitcoin network to the address
-                  shown above. Check the address
-                  carefully before confirming your
-                  payment.
+                  The QR code contains the wallet address
+                  only. It does not confirm a payment or
+                  calculate the crypto equivalent of your
+                  USD deposit.
                 </p>
               </div>
             </section>
@@ -406,28 +639,31 @@ export default function Deposit() {
             <section className="deposit-section">
               <div className="deposit-section-heading">
                 <div>
-                  <span className="deposit-step">
-                    03
-                  </span>
-
+                  <span className="deposit-step">03</span>
                   <h2>Upload payment proof</h2>
                 </div>
               </div>
 
               <p className="deposit-section-description">
-                After completing your payment,
-                upload a clear screenshot showing
-                the payment confirmation.
+                After completing your payment, upload a
+                clear screenshot showing the transaction
+                details.
               </p>
 
               {submitError && (
-                <div className="deposit-form-message deposit-form-error">
+                <div
+                  className="deposit-form-message deposit-form-error"
+                  role="alert"
+                >
                   {submitError}
                 </div>
               )}
 
               {submitSuccess && (
-                <div className="deposit-form-message deposit-form-success">
+                <div
+                  className="deposit-form-message deposit-form-success"
+                  role="status"
+                >
                   <Check size={17} />
                   <span>{submitSuccess}</span>
                 </div>
@@ -451,9 +687,7 @@ export default function Deposit() {
                     id="deposit-screenshot"
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
-                    onChange={
-                      handleScreenshotChange
-                    }
+                    onChange={handleScreenshotChange}
                   />
 
                   {screenshot ? (
@@ -461,13 +695,9 @@ export default function Deposit() {
                       <Check size={20} />
 
                       <div>
-                        <strong>
-                          {screenshot.name}
-                        </strong>
-
+                        <strong>{screenshot.name}</strong>
                         <span>
-                          Payment screenshot
-                          selected
+                          Payment screenshot selected
                         </span>
                       </div>
                     </>
@@ -477,14 +707,9 @@ export default function Deposit() {
 
                       <div>
                         <strong>
-                          Upload payment
-                          screenshot
+                          Upload payment screenshot
                         </strong>
-
-                        <span>
-                          JPG, PNG or WEBP · Max
-                          5MB
-                        </span>
+                        <span>JPG, PNG or WEBP · Max 5MB</span>
                       </div>
 
                       <Upload size={17} />
@@ -499,7 +724,7 @@ export default function Deposit() {
                 disabled={
                   submitting ||
                   loadingAddress ||
-                  !bitcoinAddress
+                  !walletAddress
                 }
               >
                 {submitting ? (
@@ -511,7 +736,7 @@ export default function Deposit() {
                     Submitting request...
                   </>
                 ) : (
-                  "Submit deposit"
+                  `Submit ${cryptoCurrency} deposit`
                 )}
               </button>
             </section>
@@ -525,15 +750,12 @@ export default function Deposit() {
 
               <div className="deposit-status-row">
                 <span className="deposit-status-dot" />
-
-                <span>
-                  Manual verification
-                </span>
+                <span>Manual verification</span>
               </div>
 
               <p>
-                Your wallet is only credited
-                after the HarvestCoin team confirms
+                Your USD wallet is credited only after
+                the HarvestCoin team confirms receipt of
                 your payment.
               </p>
             </div>
@@ -546,37 +768,30 @@ export default function Deposit() {
               <ol className="deposit-process">
                 <li>
                   <span>01</span>
-
-                  <p>
-                    Enter the USD amount you want
-                    to add.
-                  </p>
+                  <p>Enter the USD amount you want to add.</p>
                 </li>
 
                 <li>
                   <span>02</span>
-
                   <p>
-                    Send the required BTC payment
-                    to the HarvestCoin address.
+                    Select BTC or ETH, then scan the QR
+                    code or copy the wallet address.
                   </p>
                 </li>
 
                 <li>
                   <span>03</span>
-
                   <p>
-                    Upload your payment
-                    screenshot.
+                    Send crypto over the displayed
+                    network and upload your screenshot.
                   </p>
                 </li>
 
                 <li>
                   <span>04</span>
-
                   <p>
-                    Your USD wallet is credited
-                    after verification.
+                    Your USD wallet is credited after
+                    manual verification.
                   </p>
                 </li>
               </ol>
@@ -584,11 +799,14 @@ export default function Deposit() {
 
             <div className="deposit-sidebar-block deposit-security">
               <span className="deposit-sidebar-label">
-                IMPORTANT 
+                IMPORTANT
               </span>
 
               <p>
-                Check the address carefully before confirming your payment.
+                Never send funds to an unverified
+                address. Check the asset and network
+                carefully before confirming your
+                transaction.
               </p>
             </div>
           </aside>

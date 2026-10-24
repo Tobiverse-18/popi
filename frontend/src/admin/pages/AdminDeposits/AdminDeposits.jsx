@@ -72,17 +72,24 @@ export default function AdminDeposits() {
           `/payments/admin/funding/?${params.toString()}`
         );
 
-        setDeposits(response.data.results || []);
+        const data = response.data;
 
-        const count = response.data.count || 0;
+        const depositList = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.results)
+            ? data.results
+            : [];
+
+        const count = Array.isArray(data)
+          ? data.length
+          : Number(data?.count ?? depositList.length);
+
+        setDeposits(depositList);
 
         const pageSize = 20;
 
         setTotalPages(
-          Math.max(
-            1,
-            Math.ceil(count / pageSize)
-          )
+          Math.max(1, Math.ceil(count / pageSize))
         );
       } catch (error) {
         console.error(
